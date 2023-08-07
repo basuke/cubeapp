@@ -8,14 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
+    let cube = Cube2D()
+
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Spacer()
+            HStack {
+                Spacer()
+                Cube2DView(cube: cube)
+                Spacer()
+            }
+            Spacer()
         }
-        .padding()
+        .background(
+            LinearGradient(gradient: Gradient(colors: [Color(UIColor.white), Color(UIColor.lightGray)]), startPoint: .top, endPoint: .bottom)
+        )
     }
 }
 
