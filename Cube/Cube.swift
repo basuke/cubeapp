@@ -37,6 +37,47 @@ struct Vector {
     }
 }
 
+enum Rotation {
+    case clockwise, counterClockwise, flip
+    
+    var angle: Float {
+        switch self {
+        case .clockwise: -.pi / 2
+        case .counterClockwise: .pi / 2
+        case .flip: .pi
+        }
+    }
+}
+
+extension Vector {
+    func rotate(on axis: Vector, by angle: Rotation) -> Vector {
+        func cleanup(_ value: Float) -> Float {
+            return roundf(value * 2) / 2 // because value can be one of (0, 1, -1, 1.5, -1.5)
+        }
+        
+        func rotate2d(_ x: Float, _ y: Float, _ rotation: Rotation) -> (Float, Float) {
+            let sin_t = sin(rotation.angle)
+            let cos_t = cos(rotation.angle)
+            return (cleanup(x * cos_t - y * sin_t), cleanup(x * sin_t + y * cos_t))
+        }
+
+        var (x, y, z) = values
+        if axis.x != 0 {
+            assert(axis.y == 0 && axis.z == 0, "Invalid axis")
+            (y, z) = rotate2d(y, z, angle)
+        } else if axis.y != 0 {
+            assert(axis.x == 0 && axis.z == 0, "Invalid axis")
+            (z, x) = rotate2d(z, x, angle)
+        } else if axis.z != 0 {
+            assert(axis.x == 0 && axis.y == 0, "Invalid axis")
+            (x, y) = rotate2d(x, y, angle)
+        } else {
+            assert(false, "Invalid axis")
+        }
+        return Self(x: x, y: y, z: z)
+    }
+}
+
 struct Axis {
     static let X = Vector(x: 1, y: 0, z:0)
     static let Y = Vector(x: 0, y: 1, z:0)
@@ -63,6 +104,12 @@ struct Sticker {
         } else {
             assert(false, "Invalid geometry")
         }
+    }
+    
+    func rotate(on axis: Vector, by angle: Rotation) -> Sticker {
+        var rotated = self
+        rotated.position = position.rotate(on: axis, by: angle)
+        return rotated
     }
 }
 
@@ -114,5 +161,20 @@ extension Cube {
         for sticker in stickers {
             print("  \(sticker)")
         }
+    }
+}
+
+// Test data
+
+struct Cube_TestData {
+    static var cube: Cube {
+        Cube()
+    }
+
+    static var turnedCube: Cube {
+        cube
+            .apply(move:.U)
+            .apply(move:.R)
+            .apply(move:.F)
     }
 }

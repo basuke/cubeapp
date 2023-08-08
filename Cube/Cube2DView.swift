@@ -72,7 +72,7 @@ struct Cube2DView: View {
 }
 
 #Preview {
-    Cube2DView(cube: Cube2D())
+    Cube2DView(cube: Cube_TestData.turnedCube.as2D())
         .padding()
         .background(.gray)
 }
