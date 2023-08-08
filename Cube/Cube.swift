@@ -31,6 +31,10 @@ struct Vector {
     var x: Float
     var y: Float
     var z: Float
+    
+    var values: (Float, Float, Float) {
+        (x, y, z)
+    }
 }
 
 struct Axis {
@@ -42,6 +46,24 @@ struct Axis {
 struct Sticker {
     var color: Color
     var position: Vector
+    
+    var face: Face {
+        if position.y == onFace {
+            return .up
+        } else if position.y == -onFace {
+            return .down
+        } else if position.x == onFace {
+            return .right
+        } else if position.x == -onFace {
+            return .left
+        } else if position.z == onFace {
+            return .front
+        } else if position.z == -onFace {
+            return .back
+        } else {
+            assert(false, "Invalid geometry")
+        }
+    }
 }
 
 struct Cube {
@@ -76,7 +98,7 @@ struct Cube {
 
 extension Sticker: CustomStringConvertible {
     var description: String {
-        return "\(color):\(position)"
+        return "\(face):\(color):\(position)"
     }
 }
 

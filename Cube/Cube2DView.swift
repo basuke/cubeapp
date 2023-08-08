@@ -98,13 +98,41 @@ struct Cube2D {
     func color(of face: Face, index: Int) -> Color {
         colors[self.index(of: face, index: index)]
     }
+
+    mutating func setColor(of face: Face, index: Int, color: Color) {
+        colors[self.index(of: face, index: index)] = color
+    }
 }
 
 extension Cube {
     func as2D() -> Cube2D {
         var cube = Cube2D()
 
+        for sticker in stickers {
+            let face = sticker.face
+            cube.setColor(of: face, index: sticker.index, color: sticker.color)
+        }
+
         return cube
+    }
+}
+
+extension Sticker {
+    var index: Int {
+        let (x, y, z) = position.values
+        
+        func indexOf(_ x: Float, _ y: Float) -> Int {
+            return (Int(y) + 1) * 3 + (Int(x) + 1)
+        }
+        
+        switch face {
+        case .up: return indexOf(x, z)
+        case .down: return indexOf(x, -z)
+        case .front: return indexOf(x, -y)
+        case .back: return indexOf(-x, -y)
+        case .right: return indexOf(-z, -y)
+        case .left: return indexOf(z, -y)
+        }
     }
 }
 
