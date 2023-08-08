@@ -48,12 +48,22 @@ struct Cube {
     var stickers: [Sticker] = []
     
     init() {
+        func stickerPosition(_ x: Float, _ y: Float, face: Face) -> Vector {
+            switch face {
+            case .right: Vector(x: onFace, y: y, z: x)
+            case .left: Vector(x: -onFace, y: y, z: x)
+            case .up: Vector(x: y, y: onFace, z: x)
+            case .down: Vector(x: y, y: -onFace, z: x)
+            case .front: Vector(x: x, y: y, z: onFace)
+            case .back: Vector(x: x, y: y, z: -onFace)
+            }
+        }
+
         for (face, color) in zip(Face.allCases, Color.allCases) {
             let positions: [Float] = [-1.0, 0, 1.0]
             for y in positions {
                 for x in positions {
-                    // somehow create position for each stickers
-                    let position = Vector(x: x, y: y, z: 1.5)
+                    let position = stickerPosition(x, y, face: face)
                     let sticker = Sticker(color: color, position: position)
                     stickers.append(sticker)
                 }
@@ -63,6 +73,12 @@ struct Cube {
 }
 
 // Debug
+
+extension Sticker: CustomStringConvertible {
+    var description: String {
+        return "\(color):\(position)"
+    }
+}
 
 extension Vector: CustomStringConvertible {
     var description: String {
