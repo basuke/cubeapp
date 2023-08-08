@@ -100,6 +100,14 @@ struct Cube2D {
     }
 }
 
+extension Cube {
+    func as2D() -> Cube2D {
+        var cube = Cube2D()
+
+        return cube
+    }
+}
+
 extension Color {
     var uiColor: UIColor {
         switch self {

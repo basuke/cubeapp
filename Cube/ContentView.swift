@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    let cube = Cube2D()
+    let cube = Cube()
 
     var body: some View {
         VStack {
             Spacer()
             HStack {
                 Spacer()
-                Cube2DView(cube: cube)
+                Cube2DView(cube: cube.as2D())
                 Spacer()
             }
             Spacer()
