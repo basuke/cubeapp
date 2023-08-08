@@ -11,18 +11,18 @@ struct Cube2DView: View {
     let cube: Cube2D
 
     struct Cell: View {
-        let color: Cube2D.Color
+        let color: Color
         
         var body: some View {
             Rectangle()
-                .fill(Color(uiColor: color.uiColor))
+                .fill(SwiftUI.Color(uiColor: color.uiColor))
                 .frame(width: 30, height: 30)
         }
     }
 
     struct FaceCell: View {
         let cube: Cube2D
-        let face: Cube2D.Face
+        let face: Face
 
         var body: some View {
             Grid(horizontalSpacing: 1, verticalSpacing: 1) {
@@ -44,7 +44,7 @@ struct Cube2DView: View {
             }
         }
         
-        func color(_ index: Int) -> Cube2D.Color {
+        func color(_ index: Int) -> Color {
             cube.color(of: face, index: index)
         }
     }
@@ -77,7 +77,7 @@ struct Cube2DView: View {
         .background(.gray)
 }
 
-extension Cube2D.Color {
+extension Color {
     var uiColor: UIColor {
         switch self {
         case .blue: .blue

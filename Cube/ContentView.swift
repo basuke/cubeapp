@@ -21,7 +21,7 @@ struct ContentView: View {
             Spacer()
         }
         .background(
-            LinearGradient(gradient: Gradient(colors: [Color(UIColor.white), Color(UIColor.lightGray)]), startPoint: .top, endPoint: .bottom)
+            LinearGradient(gradient: Gradient(colors: [SwiftUI.Color(UIColor.white), SwiftUI.Color(UIColor.lightGray)]), startPoint: .top, endPoint: .bottom)
         )
     }
 }

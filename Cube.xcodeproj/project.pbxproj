@@ -11,8 +11,8 @@
 		EB96D4CE2A80BC6100CF0ED0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4CD2A80BC6100CF0ED0 /* ContentView.swift */; };
 		EB96D4D02A80BC6400CF0ED0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB96D4CF2A80BC6400CF0ED0 /* Assets.xcassets */; };
 		EB96D4D32A80BC6400CF0ED0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB96D4D22A80BC6400CF0ED0 /* Preview Assets.xcassets */; };
-		EB96D4DA2A80BED000CF0ED0 /* Cube2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4D92A80BED000CF0ED0 /* Cube2D.swift */; };
 		EB96D4DC2A817BF500CF0ED0 /* Cube2DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4DB2A817BF500CF0ED0 /* Cube2DView.swift */; };
+		EB96D4DE2A81BA1D00CF0ED0 /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,8 +21,8 @@
 		EB96D4CD2A80BC6100CF0ED0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		EB96D4CF2A80BC6400CF0ED0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EB96D4D22A80BC6400CF0ED0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		EB96D4D92A80BED000CF0ED0 /* Cube2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube2D.swift; sourceTree = "<group>"; };
 		EB96D4DB2A817BF500CF0ED0 /* Cube2DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube2DView.swift; sourceTree = "<group>"; };
+		EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,9 +56,9 @@
 			isa = PBXGroup;
 			children = (
 				EB96D4CB2A80BC6100CF0ED0 /* CubeApp.swift */,
+				EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */,
 				EB96D4CD2A80BC6100CF0ED0 /* ContentView.swift */,
 				EB96D4DB2A817BF500CF0ED0 /* Cube2DView.swift */,
-				EB96D4D92A80BED000CF0ED0 /* Cube2D.swift */,
 				EB96D4CF2A80BC6400CF0ED0 /* Assets.xcassets */,
 				EB96D4D12A80BC6400CF0ED0 /* Preview Content */,
 			);
@@ -144,8 +144,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB96D4CE2A80BC6100CF0ED0 /* ContentView.swift in Sources */,
+				EB96D4DE2A81BA1D00CF0ED0 /* Cube.swift in Sources */,
 				EB96D4CC2A80BC6100CF0ED0 /* CubeApp.swift in Sources */,
-				EB96D4DA2A80BED000CF0ED0 /* Cube2D.swift in Sources */,
 				EB96D4DC2A817BF500CF0ED0 /* Cube2DView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
