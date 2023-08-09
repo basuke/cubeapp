@@ -43,7 +43,7 @@ struct Vector {
 
 enum Rotation {
     case clockwise, counterClockwise, flip
-
+    
     var reversed: Self {
         switch self {
         case .clockwise: return .counterClockwise
@@ -59,7 +59,7 @@ enum Rotation {
         case .flip: return 0
         }
     }
-
+    
     var cos: Float {
         switch self {
         case .clockwise, .counterClockwise: return 0
@@ -73,7 +73,7 @@ extension Vector {
         func cleanup(_ value: Float) -> Float {
             return roundf(value * 2) / 2 // because value can be one of (0, 1, -1, 1.5, -1.5)
         }
-
+        
         func rotate2d(_ x: Float, _ y: Float, _ angle: Rotation, flipped: Bool) -> (Float, Float) {
             let actualAngle = flipped ? angle.reversed : angle
             let sin_t = actualAngle.sin
@@ -192,17 +192,6 @@ struct Cube_TestData {
     }
 
     static var turnedCube: Cube {
-        cube
-            .apply(moves: [
-                Move(.U),
-                Move(.x),
-                Move(.R),
-                Move(.y, prime: true),
-                Move(.F, prime: true),
-                Move(.D, twice: true),
-                Move(.z, twice: true),
-                Move(.L),
-                Move(.B),
-            ])
+        cube.apply(moves: "U x R y' F' D2 z2 L B")
     }
 }

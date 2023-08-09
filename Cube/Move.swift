@@ -57,17 +57,68 @@ struct Move {
     let move: PrimitiveMove
     let prime: Bool
     let twice: Bool
-    
+
     init(_ move: PrimitiveMove, prime: Bool = false, twice: Bool = false) {
         self.move = move
         self.prime = prime
         self.twice = twice
     }
-    
+
+    enum ParseError: Error {
+        case invalidMoveString(String)
+    }
+
     var reversed: Move {
         return Self(move, prime: !prime, twice: twice)
     }
+
+    static func parse(_ movesStr: String) throws -> [Move] {
+        return movesStr.components(separatedBy: " ").reduce([]) { $0 + [allMoves[$1]!] }
+    }
+
+    static func from(string str: String) -> Move? {
+        return allMoves[str]
+    }
 }
+
+let allMoves: Dictionary<String, Move> = [
+    // face turn
+
+    "U": Move(.U),
+    "D": Move(.D),
+    "F": Move(.F),
+    "B": Move(.B),
+    "R": Move(.R),
+    "L": Move(.L),
+
+    "U'": Move(.U, prime: true),
+    "D'": Move(.D, prime: true),
+    "F'": Move(.F, prime: true),
+    "B'": Move(.B, prime: true),
+    "R'": Move(.R, prime: true),
+    "L'": Move(.L, prime: true),
+    
+    "U2": Move(.U, twice: true),
+    "D2": Move(.D, twice: true),
+    "F2": Move(.F, twice: true),
+    "B2": Move(.B, twice: true),
+    "R2": Move(.R, twice: true),
+    "L2": Move(.L, twice: true),
+
+    // cube rotation
+
+    "x": Move(.x),
+    "y": Move(.y),
+    "z": Move(.z),
+
+    "x'": Move(.x, prime: true),
+    "y'": Move(.y, prime: true),
+    "z'": Move(.z, prime: true),
+
+    "x2": Move(.x, twice: true),
+    "y2": Move(.y, twice: true),
+    "z2": Move(.z, twice: true),
+]
 
 extension Cube {
     func apply(move: PrimitiveMove, prime: Bool = false, twice: Bool = false) -> Self {
@@ -83,12 +134,25 @@ extension Cube {
         newCube.stickers = moved + notMoved
         return newCube
     }
-    
+
     func apply(move: Move) -> Self {
         apply(move: move.move, prime: move.prime, twice: move.twice)
     }
-    
+
     func apply(moves: [Move]) -> Self {
         moves.reduce(self) { $0.apply(move: $1) }
+    }
+
+    func apply(moves moveStr: String) -> Self {
+        do {
+            let moves = try Move.parse(moveStr)
+            return apply(moves: moves)
+        } catch Move.ParseError.invalidMoveString(let str) {
+            print("format error: \(str)")
+            return self
+        } catch {
+            print("unknown error")
+            return self
+        }
     }
 }
