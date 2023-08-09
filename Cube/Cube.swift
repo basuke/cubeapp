@@ -32,6 +32,10 @@ struct Vector {
     var y: Float
     var z: Float
     
+    var negative: Self {
+        Self(x: -x, y: -y, z: -z)
+    }
+    
     var values: (Float, Float, Float) {
         (x, y, z)
     }
@@ -39,7 +43,15 @@ struct Vector {
 
 enum Rotation {
     case clockwise, counterClockwise, flip
-    
+
+    var reversed: Self {
+        switch self {
+        case .clockwise: return .counterClockwise
+        case .counterClockwise: return .clockwise
+        case .flip: return self
+        }
+    }
+
     var angle: Float {
         switch self {
         case .clockwise: -.pi / 2
@@ -54,8 +66,9 @@ extension Vector {
         func cleanup(_ value: Float) -> Float {
             return roundf(value * 2) / 2 // because value can be one of (0, 1, -1, 1.5, -1.5)
         }
-        
-        func rotate2d(_ x: Float, _ y: Float, _ rotation: Rotation) -> (Float, Float) {
+
+        func rotate2d(_ x: Float, _ y: Float, _ rotation: Rotation, flipped: Bool) -> (Float, Float) {
+            let rotation = flipped ? rotation.reversed : angle
             let sin_t = sin(rotation.angle)
             let cos_t = cos(rotation.angle)
             return (cleanup(x * cos_t - y * sin_t), cleanup(x * sin_t + y * cos_t))
@@ -64,13 +77,13 @@ extension Vector {
         var (x, y, z) = values
         if axis.x != 0 {
             assert(axis.y == 0 && axis.z == 0, "Invalid axis")
-            (y, z) = rotate2d(y, z, angle)
+            (y, z) = rotate2d(y, z, angle, flipped: axis.x < 0)
         } else if axis.y != 0 {
             assert(axis.x == 0 && axis.z == 0, "Invalid axis")
-            (z, x) = rotate2d(z, x, angle)
+            (z, x) = rotate2d(z, x, angle, flipped: axis.y < 0)
         } else if axis.z != 0 {
             assert(axis.x == 0 && axis.y == 0, "Invalid axis")
-            (x, y) = rotate2d(x, y, angle)
+            (x, y) = rotate2d(x, y, angle, flipped: axis.z < 0)
         } else {
             assert(false, "Invalid axis")
         }
@@ -176,5 +189,8 @@ struct Cube_TestData {
             .apply(move:.U)
             .apply(move:.R)
             .apply(move:.F)
+            .apply(move:.D)
+            .apply(move:.L)
+            .apply(move:.B)
     }
 }

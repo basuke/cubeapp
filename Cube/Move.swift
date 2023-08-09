@@ -11,16 +11,25 @@ import Foundation
 
 enum Move: Character, CaseIterable {
     case U = "U"
+    case D = "D"
     case F = "F"
+    case B = "B"
     case R = "R"
+    case L = "L"
 
     var axis: Vector {
         if [.R].contains(self) {
             return Axis.X
+        } else if [.L].contains(self) {
+            return Axis.X.negative
         } else if [.U].contains(self) {
             return Axis.Y
+        } else if [.D].contains(self) {
+            return Axis.Y.negative
         } else if [.F].contains(self) {
             return Axis.Z
+        } else if [.B].contains(self) {
+            return Axis.Z.negative
         } else {
             assert(false)
         }
@@ -29,8 +38,11 @@ enum Move: Character, CaseIterable {
     var filter: (Sticker) -> Bool {
         switch self {
         case .R: return { $0.position.x > 0 }
+        case .L: return { $0.position.x < 0 }
         case .U: return { $0.position.y > 0 }
+        case .D: return { $0.position.y < 0 }
         case .F: return { $0.position.z > 0 }
+        case .B: return { $0.position.z < 0 }
         }
     }
 }
