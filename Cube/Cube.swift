@@ -186,11 +186,13 @@ struct Cube_TestData {
 
     static var turnedCube: Cube {
         cube
-            .apply(move:.U)
-            .apply(move:.R)
-            .apply(move:.F)
-            .apply(move:.D)
-            .apply(move:.L)
-            .apply(move:.B)
+            .apply(moves: [
+                Move(.U),
+                Move(.R),
+                Move(.F, prime: true),
+                Move(.D, twice: true),
+                Move(.L),
+                Move(.B),
+            ])
     }
 }

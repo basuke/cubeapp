@@ -9,7 +9,7 @@ import Foundation
 
 // Define moves
 
-enum Move: Character, CaseIterable {
+enum PrimitiveMove: Character, CaseIterable {
     case U = "U"
     case D = "D"
     case F = "F"
@@ -47,8 +47,24 @@ enum Move: Character, CaseIterable {
     }
 }
 
+struct Move {
+    let move: PrimitiveMove
+    let prime: Bool
+    let twice: Bool
+    
+    init(_ move: PrimitiveMove, prime: Bool = false, twice: Bool = false) {
+        self.move = move
+        self.prime = prime
+        self.twice = twice
+    }
+    
+    var reversed: Move {
+        return Self(move, prime: !prime, twice: twice)
+    }
+}
+
 extension Cube {
-    func apply(move: Move, prime: Bool = false, twice: Bool = false) -> Self {
+    func apply(move: PrimitiveMove, prime: Bool = false, twice: Bool = false) -> Self {
         let predicate = move.filter
         let angle: Rotation = twice ? .flip : prime ? .counterClockwise : .clockwise
         let axis = move.axis
@@ -60,5 +76,13 @@ extension Cube {
         var newCube = Self()
         newCube.stickers = moved + notMoved
         return newCube
+    }
+    
+    func apply(move: Move) -> Self {
+        apply(move: move.move, prime: move.prime, twice: move.twice)
+    }
+    
+    func apply(moves: [Move]) -> Self {
+        moves.reduce(self) { $0.apply(move: $1) }
     }
 }
