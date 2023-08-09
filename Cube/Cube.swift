@@ -188,9 +188,12 @@ struct Cube_TestData {
         cube
             .apply(moves: [
                 Move(.U),
+                Move(.x),
                 Move(.R),
+                Move(.y, prime: true),
                 Move(.F, prime: true),
                 Move(.D, twice: true),
+                Move(.z, twice: true),
                 Move(.L),
                 Move(.B),
             ])

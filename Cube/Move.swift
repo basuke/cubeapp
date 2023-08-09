@@ -16,17 +16,20 @@ enum PrimitiveMove: Character, CaseIterable {
     case B = "B"
     case R = "R"
     case L = "L"
+    case x = "x"
+    case y = "y"
+    case z = "z"
 
     var axis: Vector {
-        if [.R].contains(self) {
+        if [.R, .x].contains(self) {
             return Axis.X
         } else if [.L].contains(self) {
             return Axis.X.negative
-        } else if [.U].contains(self) {
+        } else if [.U, .y].contains(self) {
             return Axis.Y
         } else if [.D].contains(self) {
             return Axis.Y.negative
-        } else if [.F].contains(self) {
+        } else if [.F, .z].contains(self) {
             return Axis.Z
         } else if [.B].contains(self) {
             return Axis.Z.negative
@@ -43,6 +46,9 @@ enum PrimitiveMove: Character, CaseIterable {
         case .D: return { $0.position.y < 0 }
         case .F: return { $0.position.z > 0 }
         case .B: return { $0.position.z < 0 }
+        case .x: return { _ in true }
+        case .y: return { _ in true }
+        case .z: return { _ in true }
         }
     }
 }
