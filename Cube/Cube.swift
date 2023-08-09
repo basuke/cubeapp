@@ -52,11 +52,18 @@ enum Rotation {
         }
     }
 
-    var angle: Float {
+    var sin: Float {
         switch self {
-        case .clockwise: -.pi / 2
-        case .counterClockwise: .pi / 2
-        case .flip: .pi
+        case .clockwise: return -1
+        case .counterClockwise: return 1
+        case .flip: return 0
+        }
+    }
+
+    var cos: Float {
+        switch self {
+        case .clockwise, .counterClockwise: return 0
+        case .flip: return -1
         }
     }
 }
@@ -67,10 +74,10 @@ extension Vector {
             return roundf(value * 2) / 2 // because value can be one of (0, 1, -1, 1.5, -1.5)
         }
 
-        func rotate2d(_ x: Float, _ y: Float, _ rotation: Rotation, flipped: Bool) -> (Float, Float) {
-            let rotation = flipped ? rotation.reversed : angle
-            let sin_t = sin(rotation.angle)
-            let cos_t = cos(rotation.angle)
+        func rotate2d(_ x: Float, _ y: Float, _ angle: Rotation, flipped: Bool) -> (Float, Float) {
+            let actualAngle = flipped ? angle.reversed : angle
+            let sin_t = actualAngle.sin
+            let cos_t = actualAngle.cos
             return (cleanup(x * cos_t - y * sin_t), cleanup(x * sin_t + y * cos_t))
         }
 
