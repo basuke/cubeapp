@@ -27,15 +27,15 @@ enum Face: Int, CaseIterable {
     case down = 5
 }
 
-struct Vector {
+struct Vector: Equatable {
     var x: Float
     var y: Float
     var z: Float
-    
+
     var negative: Self {
         Self(x: -x, y: -y, z: -z)
     }
-    
+
     var values: (Float, Float, Float) {
         (x, y, z)
     }
@@ -43,55 +43,54 @@ struct Vector {
 
 enum Rotation {
     case clockwise, counterClockwise, flip
-    
+
     var reversed: Self {
         switch self {
-        case .clockwise: return .counterClockwise
-        case .counterClockwise: return .clockwise
-        case .flip: return self
+        case .clockwise: .counterClockwise
+        case .counterClockwise: .clockwise
+        case .flip: self
         }
     }
 
     var sin: Float {
         switch self {
-        case .clockwise: return -1
-        case .counterClockwise: return 1
-        case .flip: return 0
+        case .clockwise: -1
+        case .counterClockwise: 1
+        case .flip: 0
         }
     }
-    
+
     var cos: Float {
         switch self {
-        case .clockwise, .counterClockwise: return 0
-        case .flip: return -1
+        case .clockwise, .counterClockwise: 0
+        case .flip: -1
         }
     }
 }
 
 extension Vector {
     func rotate(on axis: Vector, by angle: Rotation) -> Vector {
+        var (x, y, z) = values
+
         func cleanup(_ value: Float) -> Float {
             return roundf(value * 2) / 2 // because value can be one of (0, 1, -1, 1.5, -1.5)
         }
-        
-        func rotate2d(_ x: Float, _ y: Float, _ angle: Rotation, flipped: Bool) -> (Float, Float) {
-            let actualAngle = flipped ? angle.reversed : angle
-            let sin_t = actualAngle.sin
-            let cos_t = actualAngle.cos
+
+        func rotate2d(_ x: Float, _ y: Float, _ rotation: Rotation, flipped: Bool) -> (Float, Float) {
+            let rotation = flipped ? rotation.reversed : rotation
+            let sin_t = rotation.sin
+            let cos_t = rotation.cos
             return (cleanup(x * cos_t - y * sin_t), cleanup(x * sin_t + y * cos_t))
         }
 
-        var (x, y, z) = values
-        if axis.x != 0 {
-            assert(axis.y == 0 && axis.z == 0, "Invalid axis")
+        switch axis {
+        case Axis.X, Axis.X.negative:
             (y, z) = rotate2d(y, z, angle, flipped: axis.x < 0)
-        } else if axis.y != 0 {
-            assert(axis.x == 0 && axis.z == 0, "Invalid axis")
+        case Axis.Y, Axis.Y.negative:
             (z, x) = rotate2d(z, x, angle, flipped: axis.y < 0)
-        } else if axis.z != 0 {
-            assert(axis.x == 0 && axis.y == 0, "Invalid axis")
+        case Axis.Z, Axis.Z.negative:
             (x, y) = rotate2d(x, y, angle, flipped: axis.z < 0)
-        } else {
+        default:
             assert(false, "Invalid axis")
         }
         return Self(x: x, y: y, z: z)
@@ -107,7 +106,7 @@ struct Axis {
 struct Sticker {
     var color: Color
     var position: Vector
-    
+
     var face: Face {
         if position.y == onFace {
             return .up
@@ -125,7 +124,7 @@ struct Sticker {
             assert(false, "Invalid geometry")
         }
     }
-    
+
     func rotate(on axis: Vector, by angle: Rotation) -> Sticker {
         var rotated = self
         rotated.position = position.rotate(on: axis, by: angle)
@@ -135,7 +134,7 @@ struct Sticker {
 
 struct Cube {
     var stickers: [Sticker] = []
-    
+
     init() {
         func stickerPosition(_ x: Float, _ y: Float, face: Face) -> Vector {
             switch face {

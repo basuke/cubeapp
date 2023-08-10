@@ -21,23 +21,22 @@ enum PrimitiveMove: Character, CaseIterable {
     case z = "z"
 
     var axis: Vector {
-        if [.R, .x].contains(self) {
-            return Axis.X
-        } else if [.L].contains(self) {
-            return Axis.X.negative
-        } else if [.U, .y].contains(self) {
-            return Axis.Y
-        } else if [.D].contains(self) {
-            return Axis.Y.negative
-        } else if [.F, .z].contains(self) {
-            return Axis.Z
-        } else if [.B].contains(self) {
-            return Axis.Z.negative
-        } else {
-            assert(false)
+        switch self {
+        case .R, .x:
+            Axis.X
+        case .L:
+            Axis.X.negative
+        case .U, .y:
+            Axis.Y
+        case .D:
+            Axis.Y.negative
+        case .F, .z:
+            Axis.Z
+        case .B:
+            Axis.Z.negative
         }
     }
-    
+
     var filter: (Sticker) -> Bool {
         switch self {
         case .R: return { $0.position.x > 0 }
@@ -73,7 +72,12 @@ struct Move {
     }
 
     static func parse(_ movesStr: String) throws -> [Move] {
-        return movesStr.components(separatedBy: " ").reduce([]) { $0 + [allMoves[$1]!] }
+        try movesStr.components(separatedBy: " ").map { str in
+            guard let move = self.from(string: str) else {
+                throw ParseError.invalidMoveString(str)
+            }
+            return move
+        }
     }
 
     static func from(string str: String) -> Move? {
@@ -81,7 +85,7 @@ struct Move {
     }
 }
 
-let allMoves: Dictionary<String, Move> = [
+let allMoves: [String:Move] = [
     // face turn
 
     "U": Move(.U),
@@ -97,7 +101,7 @@ let allMoves: Dictionary<String, Move> = [
     "B'": Move(.B, prime: true),
     "R'": Move(.R, prime: true),
     "L'": Move(.L, prime: true),
-    
+
     "U2": Move(.U, twice: true),
     "D2": Move(.D, twice: true),
     "F2": Move(.F, twice: true),
