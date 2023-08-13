@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    let cube = Cube()
+    @State private var cube = Cube()
+        .apply(moves: "U L F B2 y x M S")
 
     var body: some View {
         VStack {
@@ -18,6 +19,10 @@ struct ContentView: View {
                 Cube2DView(cube: cube.as2D())
                 Spacer()
             }
+            MoveController() { move in
+                cube = cube.apply(move: move)
+            }
+                .padding()
             Spacer()
         }
         .background(
