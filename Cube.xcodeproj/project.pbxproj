@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EB6C73902A88B493008DD244 /* MoveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6C738F2A88B493008DD244 /* MoveController.swift */; };
+		EB6C73922A899B6F008DD244 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6C73912A899B6F008DD244 /* DataStore.swift */; };
 		EB96D4CC2A80BC6100CF0ED0 /* CubeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4CB2A80BC6100CF0ED0 /* CubeApp.swift */; };
 		EB96D4CE2A80BC6100CF0ED0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4CD2A80BC6100CF0ED0 /* ContentView.swift */; };
 		EB96D4D02A80BC6400CF0ED0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB96D4CF2A80BC6400CF0ED0 /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		EB6C738F2A88B493008DD244 /* MoveController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveController.swift; sourceTree = "<group>"; };
+		EB6C73912A899B6F008DD244 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		EB96D4C82A80BC6100CF0ED0 /* Cube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB96D4CB2A80BC6100CF0ED0 /* CubeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubeApp.swift; sourceTree = "<group>"; };
 		EB96D4CD2A80BC6100CF0ED0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 			isa = PBXGroup;
 			children = (
 				EB96D4CB2A80BC6100CF0ED0 /* CubeApp.swift */,
+				EB6C73912A899B6F008DD244 /* DataStore.swift */,
 				EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */,
 				EB96D4E12A82C18700CF0ED0 /* Move.swift */,
 				EB96D4CD2A80BC6100CF0ED0 /* ContentView.swift */,
@@ -149,6 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB6C73922A899B6F008DD244 /* DataStore.swift in Sources */,
 				EB6C73902A88B493008DD244 /* MoveController.swift in Sources */,
 				EB96D4CE2A80BC6100CF0ED0 /* ContentView.swift in Sources */,
 				EB96D4DE2A81BA1D00CF0ED0 /* Cube.swift in Sources */,

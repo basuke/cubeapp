@@ -9,7 +9,7 @@ import Foundation
 
 let onFace: Float = 1.5
 
-enum Color: Character, CaseIterable {
+enum Color: Character, CaseIterable, Codable {
     case white = "W"
     case orange = "O"
     case green = "G"
@@ -68,7 +68,7 @@ enum Rotation {
     }
 }
 
-extension Vector {
+extension Vector: Codable {
     func rotate(on axis: Vector, by angle: Rotation) -> Vector {
         var (x, y, z) = values
 
@@ -103,7 +103,7 @@ struct Axis {
     static let Z = Vector(x: 0, y: 0, z:1)
 }
 
-struct Sticker {
+struct Sticker: Codable {
     var color: Color
     var position: Vector
 
@@ -132,7 +132,7 @@ struct Sticker {
     }
 }
 
-struct Cube {
+struct Cube: Codable {
     var stickers: [Sticker] = []
 
     init() {
