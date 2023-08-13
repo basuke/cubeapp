@@ -50,10 +50,45 @@ struct MoveController: View {
         }
     }
 
+    func pair(_ label: String, layout: Layout, primeFirst: Bool) -> some View {
+        HStack {
+            if layout == .vertical {
+                VStack {
+                    if primeFirst {
+                        button(label, prime: true)
+                    }
+                    button(label)
+                    if !primeFirst {
+                        button(label, prime: true)
+                    }
+                }
+            } else {
+                if primeFirst {
+                    button(label, prime: true)
+                }
+                button(label)
+                if !primeFirst {
+                    button(label, prime: true)
+                }
+            }
+        }
+    }
+
     var body: some View {
         HStack {
-            button("U")
-            button("U", prime: true)
+            VStack {
+                HStack {
+                    pair("L", layout: .vertical, primeFirst: false)
+                    VStack {
+                        pair("U", layout: .horizontal, primeFirst: true)
+                        pair("F", layout: .horizontal, primeFirst: true)
+                        pair("D", layout: .horizontal, primeFirst: false)
+                    }
+                    pair("R", layout: .vertical, primeFirst: true)
+                }
+                Divider().frame(width:80)
+                pair("B", layout: .horizontal, primeFirst: false)
+            }
         }
         .buttonStyle(.bordered)
         .padding()
