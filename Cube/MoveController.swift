@@ -22,16 +22,26 @@ struct MoveController: View {
             Button(move) {
                 action()
             }
-            .keyboardShortcut(shortcutKey, modifiers: [])
+            .keyboardShortcut(shortcutKey, modifiers: modifiers)
         }
 
         var shortcutKey: KeyEquivalent {
             KeyEquivalent(move[move.startIndex])
         }
+
+        var modifiers: EventModifiers {
+            isPrime ? [.shift] : []
+        }
+
+        var isPrime: Bool {
+            move.hasSuffix("'")
+        }
     }
 
-    func button(_ label: String) -> MoveButton {
-        MoveButton(move: label) {
+    func button(_ label: String, prime: Bool = false) -> MoveButton {
+        let label = prime ? "\(label)'" : label
+
+        return MoveButton(move: label) {
             if let move =  Move.from(string: label) {
                 callback(move)
             } else {
@@ -43,6 +53,7 @@ struct MoveController: View {
     var body: some View {
         HStack {
             button("U")
+            button("U", prime: true)
         }
         .buttonStyle(.bordered)
         .padding()
