@@ -15,7 +15,7 @@ struct CubeApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(cube: $store.cube)
-            .onChange(of: scenePhase) { phase in
+            .onChange(of: scenePhase) { _, phase in
                 if phase == .inactive {
                     do {
                         try store.save()
