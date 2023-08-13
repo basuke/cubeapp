@@ -7,8 +7,8 @@
 
 import Foundation
 
-class DataStore {
-    var cube: Cube = Cube()
+class DataStore: ObservableObject {
+    @Published var cube: Cube = Cube()
 
     func save() throws {
         let data = try JSONEncoder().encode(cube)

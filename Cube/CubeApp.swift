@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct CubeApp: App {
+    @StateObject private var store = DataStore()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(cube: $store.cube)
         }
     }
 }

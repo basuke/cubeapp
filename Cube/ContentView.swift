@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var cube = Cube()
-        .apply(moves: "U L F B2 y x M S")
+    @Binding var cube: Cube
 
     var body: some View {
         VStack {
@@ -32,5 +31,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(cube: .constant(Cube()))
 }
