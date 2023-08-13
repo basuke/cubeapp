@@ -74,21 +74,51 @@ struct MoveController: View {
         }
     }
 
+    var turnButtons: some View {
+        VStack {
+            HStack {
+                pair("L", layout: .vertical, primeFirst: false)
+                VStack {
+                    pair("U", layout: .horizontal, primeFirst: true)
+                    pair("F", layout: .horizontal, primeFirst: true)
+                    pair("D", layout: .horizontal, primeFirst: false)
+                }
+                pair("R", layout: .vertical, primeFirst: true)
+            }
+            Divider().frame(width:80)
+            pair("B", layout: .horizontal, primeFirst: false)
+        }
+    }
+
+    var extraButtons: some View {
+        HStack {
+            pair("E", layout: .vertical, primeFirst: false)
+            pair("M", layout: .vertical, primeFirst: false)
+            pair("S", layout: .vertical, primeFirst: false)
+        }
+    }
+
+    var rotateButtons: some View {
+        HStack {
+            pair("z", layout: .vertical, primeFirst: false)
+            Divider().frame(height:80)
+            VStack {
+                button("x", prime: false)
+                pair("y", layout: .horizontal, primeFirst: false)
+                button("x", prime: true)
+            }
+        }
+    }
+
     var body: some View {
         HStack {
             VStack {
-                HStack {
-                    pair("L", layout: .vertical, primeFirst: false)
-                    VStack {
-                        pair("U", layout: .horizontal, primeFirst: true)
-                        pair("F", layout: .horizontal, primeFirst: true)
-                        pair("D", layout: .horizontal, primeFirst: false)
-                    }
-                    pair("R", layout: .vertical, primeFirst: true)
-                }
-                Divider().frame(width:80)
-                pair("B", layout: .horizontal, primeFirst: false)
+                rotateButtons
+                Divider().frame(width:120)
+                extraButtons
             }
+            Spacer()
+            turnButtons
         }
         .buttonStyle(.bordered)
         .padding()
