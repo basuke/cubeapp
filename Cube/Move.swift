@@ -9,7 +9,7 @@ import Foundation
 
 // Define moves
 
-enum PrimitiveMove: Character, CaseIterable {
+enum PrimitiveMove: Character, CaseIterable, Codable {
     case U = "U"
     case D = "D"
     case F = "F"
@@ -70,7 +70,7 @@ enum PrimitiveMove: Character, CaseIterable {
     }
 }
 
-struct Move {
+struct Move: Codable {
     let move: PrimitiveMove
     let prime: Bool
     let twice: Bool
