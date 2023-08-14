@@ -12,8 +12,8 @@ struct MoveController: View {
         case vertical, horizontal
     }
 
+    @Binding var moves: [Move]
     let callback: (Move) -> Void
-    @State private var moves: [Move] = []
 
     struct MoveButton: View {
         let move: String
@@ -141,7 +141,7 @@ struct MoveController: View {
 }
 
 #Preview {
-    MoveController { move in
+    MoveController(moves: .constant([])) { move in
         print(move)
     }
 }

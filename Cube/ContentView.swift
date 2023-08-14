@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Binding var cube: Cube
+    @Binding var moves: [Move]
 
     var body: some View {
         VStack {
@@ -18,7 +19,7 @@ struct ContentView: View {
                 Cube2DView(cube: cube.as2D())
                 Spacer()
             }
-            MoveController() { move in
+            MoveController(moves: $moves) { move in
                 cube = cube.apply(move: move)
             }
                 .padding()
@@ -31,5 +32,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView(cube: .constant(Cube()))
+    ContentView(cube: .constant(Cube()), moves: .constant([]))
 }

@@ -9,6 +9,7 @@ import Foundation
 
 class DataStore: ObservableObject {
     @Published var cube: Cube = Cube()
+    @Published var moves: [Move] = []
 
     func save() throws {
         let data = try JSONEncoder().encode(cube)

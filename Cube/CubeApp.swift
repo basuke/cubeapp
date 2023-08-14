@@ -14,7 +14,7 @@ struct CubeApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(cube: $store.cube)
+            ContentView(cube: $store.cube, moves: $store.moves)
             .onChange(of: scenePhase) { _, phase in
                 if phase == .inactive {
                     do {
