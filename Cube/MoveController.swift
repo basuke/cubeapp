@@ -13,6 +13,7 @@ struct MoveController: View {
     }
 
     let callback: (Move) -> Void
+    @State private var moves: [Move] = []
 
     struct MoveButton: View {
         let move: String
@@ -38,12 +39,19 @@ struct MoveController: View {
         }
     }
 
+    func undo() {
+        if let move = moves.popLast() {
+            callback(move.reversed)
+        }
+    }
+
     func button(_ label: String, prime: Bool = false) -> MoveButton {
         let label = prime ? "\(label)'" : label
 
         return MoveButton(move: label) {
             if let move =  Move.from(string: label) {
                 callback(move)
+                moves.append(move)
             } else {
                 print("Invalid move string \(label)")
             }
@@ -118,7 +126,14 @@ struct MoveController: View {
                 extraButtons
             }
             Spacer()
-            turnButtons
+            VStack {
+                turnButtons
+                Divider().frame(width: 80)
+                Button("Undo") {
+                    undo()
+                }
+                .disabled(moves.isEmpty)
+            }
         }
         .buttonStyle(.bordered)
         .padding()
