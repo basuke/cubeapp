@@ -12,6 +12,7 @@ struct Cube3D {
     let scene = SCNScene()
     let cubeNode = SCNNode()
     let pieceNodes: [SCNNode]
+    let cameraNode = SCNNode()
 
     init(with cube: Cube) {
         // Add the box node to the scene
@@ -64,6 +65,15 @@ struct Cube3D {
             }
         }
         pieceNodes = nodes
+
+        let camera = SCNCamera()
+        camera.fieldOfView = 15.0
+        camera.projectionDirection = .horizontal
+
+        cameraNode.camera = camera
+        cameraNode.position = SCNVector3(8, 8, 24)
+        cameraNode.constraints = [SCNLookAtConstraint(target: cubeNode)]
+        scene.rootNode.addChildNode(cameraNode)
     }
 }
 
