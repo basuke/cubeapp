@@ -62,12 +62,8 @@
 			isa = PBXGroup;
 			children = (
 				EB96D4CB2A80BC6100CF0ED0 /* CubeApp.swift */,
-				EB6C73912A899B6F008DD244 /* DataStore.swift */,
-				EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */,
-				EB96D4E12A82C18700CF0ED0 /* Move.swift */,
-				EB96D4CD2A80BC6100CF0ED0 /* ContentView.swift */,
-				EB96D4DB2A817BF500CF0ED0 /* Cube2DView.swift */,
-				EB6C738F2A88B493008DD244 /* MoveController.swift */,
+				EBED01F32A8AFB5C006FBF1B /* Models */,
+				EBED01F42A8AFB68006FBF1B /* Views */,
 				EB96D4CF2A80BC6400CF0ED0 /* Assets.xcassets */,
 				EB96D4D12A80BC6400CF0ED0 /* Preview Content */,
 			);
@@ -80,6 +76,26 @@
 				EB96D4D22A80BC6400CF0ED0 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		EBED01F32A8AFB5C006FBF1B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EB6C73912A899B6F008DD244 /* DataStore.swift */,
+				EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */,
+				EB96D4E12A82C18700CF0ED0 /* Move.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		EBED01F42A8AFB68006FBF1B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EB96D4CD2A80BC6100CF0ED0 /* ContentView.swift */,
+				EB96D4DB2A817BF500CF0ED0 /* Cube2DView.swift */,
+				EB6C738F2A88B493008DD244 /* MoveController.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
