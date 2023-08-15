@@ -32,8 +32,14 @@ struct Vector: Equatable, Codable {
     var y: Float
     var z: Float
 
+    init(_ x: Float, _ y: Float, _ z: Float) {
+        self.x = x
+        self.y = y
+        self.z = z
+    }
+
     var negative: Self {
-        Self(x: -x, y: -y, z: -z)
+        Self(-x, -y, -z)
     }
 
     var values: (Float, Float, Float) {
@@ -93,14 +99,14 @@ extension Vector {
         default:
             assert(false, "Invalid axis")
         }
-        return Self(x: x, y: y, z: z)
+        return Self(x, y, z)
     }
 }
 
 struct Axis {
-    static let X = Vector(x: 1, y: 0, z:0)
-    static let Y = Vector(x: 0, y: 1, z:0)
-    static let Z = Vector(x: 0, y: 0, z:1)
+    static let X = Vector(1, 0, 0)
+    static let Y = Vector(0, 1, 0)
+    static let Z = Vector(0, 0, 1)
 }
 
 struct Sticker: Codable {
@@ -138,12 +144,12 @@ struct Cube: Codable {
     init() {
         func stickerPosition(_ x: Float, _ y: Float, face: Face) -> Vector {
             switch face {
-            case .right: Vector(x: onFace, y: y, z: x)
-            case .left: Vector(x: -onFace, y: y, z: x)
-            case .up: Vector(x: y, y: onFace, z: x)
-            case .down: Vector(x: y, y: -onFace, z: x)
-            case .front: Vector(x: x, y: y, z: onFace)
-            case .back: Vector(x: x, y: y, z: -onFace)
+            case .right: Vector(onFace, y, x)
+            case .left: Vector(-onFace, y, x)
+            case .up: Vector(y, onFace, x)
+            case .down: Vector(y, -onFace, x)
+            case .front: Vector(x, y, onFace)
+            case .back: Vector(x, y, -onFace)
             }
         }
 
