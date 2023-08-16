@@ -15,22 +15,22 @@ struct CubeApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(cube: $store.cube, moves: $store.moves)
-            .onChange(of: scenePhase) { _, phase in
-                if phase == .inactive {
+                .onChange(of: scenePhase) { _, phase in
+                    if phase == .inactive {
+                        do {
+                            try store.save()
+                        } catch {
+                            fatalError(error.localizedDescription)
+                        }
+                    }
+                }
+                .task {
                     do {
-                        try store.save()
+                        try store.load()
                     } catch {
                         fatalError(error.localizedDescription)
                     }
                 }
-            }
-            .task {
-                do {
-                    try store.load()
-                } catch {
-                    fatalError(error.localizedDescription)
-                }
-            }
         }
     }
 }

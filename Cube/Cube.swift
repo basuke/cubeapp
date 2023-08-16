@@ -27,7 +27,7 @@ enum Face: Int, CaseIterable {
     case down = 5
 }
 
-struct Vector: Equatable {
+struct Vector: Equatable, Codable {
     var x: Float
     var y: Float
     var z: Float
@@ -68,7 +68,7 @@ enum Rotation {
     }
 }
 
-extension Vector: Codable {
+extension Vector {
     func rotate(on axis: Vector, by angle: Rotation) -> Vector {
         var (x, y, z) = values
 
