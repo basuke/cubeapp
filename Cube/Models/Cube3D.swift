@@ -8,12 +8,15 @@
 import Foundation
 import SceneKit
 
-struct Cube3D {
+class Cube3D {
     let scene = SCNScene()
     let cubeNode = SCNNode()
     let pieceNodes: [SCNNode]
     let cameraNode = SCNNode()
     let rotationNode = SCNNode()
+
+    var running: Bool = false
+    var requests: [Move] = []
 
     init(with cube: Cube) {
         // Add the box node to the scene
@@ -80,8 +83,28 @@ struct Cube3D {
     }
 
     func apply(move: Move) {
-        let predicate = move.filter
+        guard !running else {
+            requests.append(move)
+            return
+        }
 
+        running = true
+        run(move: move)
+    }
+
+    private func run(move: Move) {
+        movePiecesIntoRotation(for: move)
+
+        let action = SCNAction.rotate(by: CGFloat(move.angle), around: SCNVector3(move.axis), duration: 0.3)
+        rotationNode.runAction(action) {
+            DispatchQueue.main.async {
+                self.afterAction()
+            }
+        }
+    }
+
+    private func movePiecesIntoRotation(for move: Move) {
+        let predicate = move.filter
         let targetPieces = pieceNodes.filter { predicate(Vector($0.position)) }
 
         targetPieces.forEach { piece in
@@ -89,16 +112,28 @@ struct Cube3D {
             piece.transform = cubeNode.convertTransform(piece.transform, to: rotationNode)
             rotationNode.addChildNode(piece)
         }
+    }
 
-        let action = SCNAction.rotate(by: CGFloat(move.angle), around: SCNVector3(move.axis), duration: 0.1)
-        rotationNode.runAction(action) {
-            rotationNode.childNodes.forEach { piece in
-                piece.removeFromParentNode()
-                piece.transform = cubeNode.convertTransform(piece.transform, from: rotationNode)
-                cubeNode.addChildNode(piece)
+    private func movePiecesBackFromRotation() {
+        let targetPieces = rotationNode.childNodes
 
-                piece.position = SCNVector3(Vector(piece.position).rounded)
-            }
+        targetPieces.forEach { piece in
+            piece.removeFromParentNode()
+            piece.transform = cubeNode.convertTransform(piece.transform, from: rotationNode)
+            cubeNode.addChildNode(piece)
+
+            piece.position = SCNVector3(Vector(piece.position).rounded)
+        }
+    }
+
+    private func afterAction() {
+        movePiecesBackFromRotation()
+
+        if requests.isEmpty {
+            running = false
+        } else {
+            let move = requests.removeFirst()
+            run(move: move)
         }
     }
 }
