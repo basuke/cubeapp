@@ -18,7 +18,7 @@ struct CubeApp: App {
                 .onChange(of: scenePhase) { _, phase in
                     if phase == .inactive {
                         do {
-//                            try store.save()
+                            try play.save()
                         } catch {
                             fatalError(error.localizedDescription)
                         }
@@ -26,7 +26,7 @@ struct CubeApp: App {
                 }
                 .task {
                     do {
-//                        try store.load()
+                        try play.load()
                     } catch {
                         fatalError(error.localizedDescription)
                     }

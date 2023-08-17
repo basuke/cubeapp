@@ -37,6 +37,21 @@ class Play: ObservableObject {
         // Add the box node to the scene
         scene.rootNode.addChildNode(cubeNode)
 
+        let camera = SCNCamera()
+        camera.fieldOfView = 15.0
+        camera.projectionDirection = .horizontal
+
+        cameraNode.camera = camera
+        cameraNode.position = SCNVector3(8, 8, 24)
+        cameraNode.constraints = [SCNLookAtConstraint(target: cubeNode)]
+        scene.rootNode.addChildNode(cameraNode)
+
+        cubeNode.addChildNode(rotationNode)
+
+        rebuild()
+    }
+
+    func rebuild() {
         func createPiece(_ vec: Vector) -> SCNNode {
             let base = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0.1)
             base.firstMaterial?.diffuse.contents = UIColor(white: 0.1, alpha: 1.0)
@@ -69,6 +84,9 @@ class Play: ObservableObject {
             return piece
         }
 
+        pieceNodes.forEach { $0.removeFromParentNode() }
+        pieceNodes = []
+
         // Create each piece
         let centers: [Float] = [-1, 0, 1]
         for z in centers {
@@ -82,17 +100,6 @@ class Play: ObservableObject {
                 }
             }
         }
-
-        let camera = SCNCamera()
-        camera.fieldOfView = 15.0
-        camera.projectionDirection = .horizontal
-
-        cameraNode.camera = camera
-        cameraNode.position = SCNVector3(8, 8, 24)
-        cameraNode.constraints = [SCNLookAtConstraint(target: cubeNode)]
-        scene.rootNode.addChildNode(cameraNode)
-
-        cubeNode.addChildNode(rotationNode)
     }
 
     func apply(move: Move) {
