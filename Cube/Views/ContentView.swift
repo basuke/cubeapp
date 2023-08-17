@@ -11,21 +11,22 @@ import SceneKit
 struct ContentView: View {
     @Binding var cube: Cube
     @Binding var moves: [Move]
-    let cube3D = Cube3D(with: Cube())
+    @State var cube3D = Cube3D(with: Cube())
 
     var body: some View {
         VStack {
             HStack {
                 SceneView(scene: cube3D.scene)
             }
-            HStack {
-                Spacer()
-                Cube2DView(cube: cube.as2D())
-                Spacer()
-            }
-            .padding(.vertical, 8)
+//            HStack {
+//                Spacer()
+//                Cube2DView(cube: cube.as2D())
+//                Spacer()
+//            }
+//            .padding(.vertical, 8)
             MoveController(moves: $moves) { move in
                 cube = cube.apply(move: move)
+                cube3D.apply(move: move)
             }
         }
         .background(

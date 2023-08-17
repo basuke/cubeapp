@@ -46,26 +46,26 @@ enum PrimitiveMove: Character, CaseIterable, Codable {
         }
     }
 
-    var filter: (Sticker) -> Bool {
+    var filter: (Vector) -> Bool {
         switch self {
-        case .R: return { $0.position.x > 0 }
-        case .L: return { $0.position.x < 0 }
-        case .U: return { $0.position.y > 0 }
-        case .D: return { $0.position.y < 0 }
-        case .F: return { $0.position.z > 0 }
-        case .B: return { $0.position.z < 0 }
-        case .Rw: return { $0.position.x >= 0 }
-        case .Lw: return { $0.position.x <= 0 }
-        case .Uw: return { $0.position.y >= 0 }
-        case .Dw: return { $0.position.y <= 0 }
-        case .Fw: return { $0.position.z >= 0 }
-        case .Bw: return { $0.position.z <= 0 }
+        case .R: return { $0.x > 0 }
+        case .L: return { $0.x < 0 }
+        case .U: return { $0.y > 0 }
+        case .D: return { $0.y < 0 }
+        case .F: return { $0.z > 0 }
+        case .B: return { $0.z < 0 }
+        case .Rw: return { $0.x >= 0 }
+        case .Lw: return { $0.x <= 0 }
+        case .Uw: return { $0.y >= 0 }
+        case .Dw: return { $0.y <= 0 }
+        case .Fw: return { $0.z >= 0 }
+        case .Bw: return { $0.z <= 0 }
         case .x: return { _ in true }
         case .y: return { _ in true }
         case .z: return { _ in true }
-        case .M: return { $0.position.x == 0 }
-        case .E: return { $0.position.y == 0 }
-        case .S: return { $0.position.z == 0 }
+        case .M: return { $0.x == 0 }
+        case .E: return { $0.y == 0 }
+        case .S: return { $0.z == 0 }
         }
     }
 }
@@ -87,6 +87,18 @@ struct Move: Codable {
 
     var reversed: Move {
         return Self(move, prime: !prime, twice: twice)
+    }
+
+    var filter: (Vector) -> Bool {
+        move.filter
+    }
+
+    var axis: Vector {
+        move.axis
+    }
+
+    var angle: Float {
+        .pi * (twice ? 1.0 : 0.5) * (prime ? 1.0 : -1.0)
     }
 
     static func parse(_ movesStr: String) throws -> [Move] {
@@ -208,9 +220,9 @@ extension Cube {
         let angle: Rotation = twice ? .flip : prime ? .counterClockwise : .clockwise
         let axis = move.axis
 
-        let target = stickers.filter { predicate($0) }
+        let target = stickers.filter { predicate($0.position) }
         let moved = target.map { $0.rotate(on: axis, by: angle)}
-        let notMoved = stickers.filter { !predicate($0) }
+        let notMoved = stickers.filter { !predicate($0.position) }
 
         var newCube = Self()
         newCube.stickers = moved + notMoved

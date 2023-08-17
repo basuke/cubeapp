@@ -13,6 +13,7 @@ struct Cube3D {
     let cubeNode = SCNNode()
     let pieceNodes: [SCNNode]
     let cameraNode = SCNNode()
+    let rotationNode = SCNNode()
 
     init(with cube: Cube) {
         // Add the box node to the scene
@@ -74,6 +75,31 @@ struct Cube3D {
         cameraNode.position = SCNVector3(8, 8, 24)
         cameraNode.constraints = [SCNLookAtConstraint(target: cubeNode)]
         scene.rootNode.addChildNode(cameraNode)
+
+        cubeNode.addChildNode(rotationNode)
+    }
+
+    func apply(move: Move) {
+        let predicate = move.filter
+
+        let targetPieces = pieceNodes.filter { predicate(Vector($0.position)) }
+
+        targetPieces.forEach { piece in
+            piece.removeFromParentNode()
+            piece.transform = cubeNode.convertTransform(piece.transform, to: rotationNode)
+            rotationNode.addChildNode(piece)
+        }
+
+        let action = SCNAction.rotate(by: CGFloat(move.angle), around: SCNVector3(move.axis), duration: 0.1)
+        rotationNode.runAction(action) {
+            rotationNode.childNodes.forEach { piece in
+                piece.removeFromParentNode()
+                piece.transform = cubeNode.convertTransform(piece.transform, from: rotationNode)
+                cubeNode.addChildNode(piece)
+
+                piece.position = SCNVector3(Vector(piece.position).rounded)
+            }
+        }
     }
 }
 
@@ -84,6 +110,10 @@ extension SCNVector3 {
 }
 
 extension Vector {
+    init(_ vec: SCNVector3) {
+        self.init(vec.x, vec.y, vec.z)
+    }
+
     // To check the sticker position is on the piece position
     func on(piece: Self) -> Bool {
         func onFace(_ a: Float, _ b: Float) -> Bool {
@@ -100,5 +130,9 @@ extension Vector {
             return onFace(piece.y, self.y)
         }
         return false
+    }
+
+    var rounded: Self {
+        Self(round(x), round(y), round(z))
     }
 }
