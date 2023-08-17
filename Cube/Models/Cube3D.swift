@@ -8,6 +8,18 @@
 import Foundation
 import SceneKit
 
+enum TurnSpeed {
+    case normal
+    case quick
+
+    var duration: TimeInterval {
+        switch self {
+        case .normal: 0.3
+        case .quick: 0.1
+        }
+    }
+}
+
 class Cube3D {
     let scene = SCNScene()
     let cubeNode = SCNNode()
@@ -92,10 +104,10 @@ class Cube3D {
         run(move: move)
     }
 
-    private func run(move: Move) {
+    private func run(move: Move, speed: TurnSpeed = .normal) {
         movePiecesIntoRotation(for: move)
 
-        let action = SCNAction.rotate(by: CGFloat(move.angle), around: SCNVector3(move.axis), duration: 0.3)
+        let action = SCNAction.rotate(by: CGFloat(move.angle), around: SCNVector3(move.axis), duration: speed.duration)
         rotationNode.runAction(action) {
             DispatchQueue.main.async {
                 self.afterAction()
@@ -133,7 +145,7 @@ class Cube3D {
             running = false
         } else {
             let move = requests.removeFirst()
-            run(move: move)
+            run(move: move, speed: .quick)
         }
     }
 }
@@ -171,3 +183,4 @@ extension Vector {
         Self(round(x), round(y), round(z))
     }
 }
+
