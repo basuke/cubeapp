@@ -20,17 +20,20 @@ enum TurnSpeed {
     }
 }
 
-class Cube3D {
+class Play: ObservableObject {
+    @Published var cube: Cube = Cube()
+    @Published var moves: [Move] = []
+
     let scene = SCNScene()
     let cubeNode = SCNNode()
-    let pieceNodes: [SCNNode]
     let cameraNode = SCNNode()
     let rotationNode = SCNNode()
 
     var running: Bool = false
     var requests: [Move] = []
+    var pieceNodes: [SCNNode] = []
 
-    init(with cube: Cube) {
+    init() {
         // Add the box node to the scene
         scene.rootNode.addChildNode(cubeNode)
 
@@ -68,19 +71,17 @@ class Cube3D {
 
         // Create each piece
         let centers: [Float] = [-1, 0, 1]
-        var nodes: [SCNNode] = []
         for z in centers {
             for y in centers {
                 for x in centers {
                     if x != 0 || y != 0 || z != 0 {
                         let pieceNode = createPiece(Vector(x, y, z))
-                        nodes.append(pieceNode)
+                        pieceNodes.append(pieceNode)
                         cubeNode.addChildNode(pieceNode)
                     }
                 }
             }
         }
-        pieceNodes = nodes
 
         let camera = SCNCamera()
         camera.fieldOfView = 15.0
@@ -105,9 +106,12 @@ class Cube3D {
     }
 
     private func run(move: Move, speed: TurnSpeed = .normal) {
+        cube = cube.apply(move: move)
+
         movePiecesIntoRotation(for: move)
 
         let action = SCNAction.rotate(by: CGFloat(move.angle), around: SCNVector3(move.axis), duration: speed.duration)
+        action.timingMode = .easeOut
         rotationNode.runAction(action) {
             DispatchQueue.main.async {
                 self.afterAction()

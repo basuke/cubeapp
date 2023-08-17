@@ -9,24 +9,21 @@ import SwiftUI
 import SceneKit
 
 struct ContentView: View {
-    @Binding var cube: Cube
-    @Binding var moves: [Move]
-    @State var cube3D = Cube3D(with: Cube())
+    @ObservedObject var play: Play
 
     var body: some View {
         VStack {
             HStack {
-                SceneView(scene: cube3D.scene)
+                SceneView(scene: play.scene)
             }
-//            HStack {
-//                Spacer()
-//                Cube2DView(cube: cube.as2D())
-//                Spacer()
-//            }
-//            .padding(.vertical, 8)
-            MoveController(moves: $moves) { move in
-                cube = cube.apply(move: move)
-                cube3D.apply(move: move)
+            HStack {
+                Spacer()
+                Cube2DView(cube: play.cube.as2D())
+                Spacer()
+            }
+            .padding(.vertical, 8)
+            MoveController(moves: $play.moves) { move in
+                play.apply(move: move)
             }
         }
         .background(
@@ -36,5 +33,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView(cube: .constant(Cube()), moves: .constant([]))
+    ContentView(play: Play())
 }
