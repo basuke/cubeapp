@@ -15,9 +15,7 @@ struct Cube3DView: View {
         @ObservedObject var play: Play
 
         func makeUIView(context: Context) -> some UIView {
-            let view = SCNView(frame: .zero)
-            view.scene = play.scene
-            return view
+            play.view
         }
 
         func updateUIView(_ uiView: UIViewType, context: Context) {

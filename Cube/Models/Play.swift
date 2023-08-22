@@ -24,6 +24,7 @@ class Play: ObservableObject {
     @Published var cube: Cube = Cube()
     @Published var moves: [Move] = []
 
+    let view = SCNView(frame: .zero)
     let scene = SCNScene()
     let cubeNode = SCNNode()
     let cameraNode = SCNNode()
@@ -34,6 +35,8 @@ class Play: ObservableObject {
     var pieceNodes: [SCNNode] = []
 
     init() {
+        view.scene = scene
+
         // Add the box node to the scene
         scene.rootNode.addChildNode(cubeNode)
 
