@@ -11,10 +11,21 @@ import SceneKit
 struct ContentView: View {
     @ObservedObject var play: Play
 
+    var dragGesture: some Gesture {
+        DragGesture(minimumDistance: 0)
+            .onChanged { value in
+                print("Changed: \(value)")
+            }
+            .onEnded { value in
+                print("Ended: \(value)")
+            }
+    }
+
     var body: some View {
         VStack {
             HStack {
                 SceneView(scene: play.scene)
+                    .gesture(dragGesture)
             }
             HStack {
                 Spacer()
