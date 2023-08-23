@@ -11,23 +11,29 @@ import SceneKit
 struct ContentView: View {
     @ObservedObject var play: Play
 
+    let gradientColors: [UIColor] = [
+        UIColor.lightGray,
+        UIColor.white,
+        UIColor.lightGray,
+    ]
+
     var body: some View {
         VStack {
-            HStack {
-                Cube3DView(play: play)
-            }
             HStack {
                 Spacer()
                 Cube2DView(cube: play.cube.as2D())
                 Spacer()
             }
             .padding(.vertical, 8)
+            HStack {
+                Cube3DView(play: play)
+            }
             MoveController(moves: $play.moves) { move in
                 play.apply(move: move)
             }
         }
         .background(
-            LinearGradient(gradient: Gradient(colors: [SwiftUI.Color(UIColor.white), SwiftUI.Color(UIColor.lightGray)]), startPoint: .top, endPoint: .bottom)
+            LinearGradient(gradient: Gradient(colors: gradientColors.map { SwiftUI.Color($0) }), startPoint: .top, endPoint: .bottom)
         )
     }
 }

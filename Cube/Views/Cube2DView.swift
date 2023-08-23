@@ -16,7 +16,7 @@ struct Cube2DView: View {
         var body: some View {
             Rectangle()
                 .fill(SwiftUI.Color(uiColor: color.uiColor))
-                .frame(width: 30, height: 30)
+                .frame(width: 15, height: 15)
         }
     }
 
@@ -51,7 +51,7 @@ struct Cube2DView: View {
 
     var body: some View {
         VStack {
-            Grid(horizontalSpacing: 3, verticalSpacing: 3) {
+            Grid(horizontalSpacing: 2, verticalSpacing: 2) {
                 GridRow {
                     Text("")
                     FaceCell(cube: cube, face: .up)
