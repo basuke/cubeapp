@@ -34,6 +34,8 @@ class Play: ObservableObject {
     var requests: [Move] = []
     var pieceNodes: [SCNNode] = []
 
+    var dragging: Dragging? = nil
+
     init() {
         view.scene = scene
 

@@ -25,10 +25,10 @@ struct Cube3DView: View {
     var dragGesture: some Gesture {
         DragGesture(minimumDistance: 0)
             .onChanged { value in
-                print("Changed: \(value)")
+                play.updateDragging(at: value.location)
             }
             .onEnded { value in
-                print("Ended: \(value)")
+                play.endDragging(at: value.location)
             }
     }
 
