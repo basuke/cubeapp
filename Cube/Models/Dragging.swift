@@ -20,7 +20,7 @@ class TurnDragging: Dragging {
     let hitCoordinates: SCNVector3
     let hitNormal: SCNVector3
 
-    let pointNode = SCNNode()
+    let pointNode: SCNNode
 
     init(at location: CGPoint, play: Play, result: SCNHitTestResult) {
         self.play = play
@@ -29,25 +29,7 @@ class TurnDragging: Dragging {
         self.hitCoordinates = result.localCoordinates
         self.hitNormal = result.localNormal
 
-        let ball = SCNSphere(radius: 0.05)
-        ball.firstMaterial?.diffuse.contents = UIColor.purple
-        let length: Float = 1.5
-
-        func createBall(_ ratio: Float) -> SCNNode {
-            let node = SCNNode(geometry: ball)
-            node.opacity = CGFloat(1.0 - ratio)
-            node.position = SCNVector3(
-                hitNormal.x * length * ratio,
-                hitNormal.y * length * ratio,
-                hitNormal.z * length * ratio
-            )
-            return node
-        }
-
-        for ratio in stride(from: 0.0, through: 1.0, by: 0.05) {
-            pointNode.addChildNode(createBall(Float(ratio)))
-        }
-
+        pointNode = SceneKitUtils.ballArrayNode(direction: hitNormal, length: 1.5, step: 20, color: .purple)
         pointNode.position = hitCoordinates
         hitNode.addChildNode(pointNode)
 
