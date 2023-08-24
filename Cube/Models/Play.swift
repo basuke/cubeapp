@@ -43,11 +43,11 @@ class Play: ObservableObject {
         scene.rootNode.addChildNode(cubeNode)
 
         let camera = SCNCamera()
-        camera.fieldOfView = 15.0
+        camera.fieldOfView = 24.0
         camera.projectionDirection = .horizontal
 
         cameraNode.camera = camera
-        cameraNode.position = SCNVector3(8, 8, 24)
+        cameraNode.position = SCNVector3(2.8, 8, 8)
         cameraNode.constraints = [SCNLookAtConstraint(target: cubeNode)]
         scene.rootNode.addChildNode(cameraNode)
 

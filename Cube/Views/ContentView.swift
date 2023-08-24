@@ -19,13 +19,8 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-            HStack {
-                Spacer()
+            ZStack(alignment: .bottom) {
                 Cube2DView(cube: play.cube.as2D())
-                Spacer()
-            }
-            .padding(.vertical, 8)
-            HStack {
                 Cube3DView(play: play)
             }
             MoveController(moves: $play.moves) { move in

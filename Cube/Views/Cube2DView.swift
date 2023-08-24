@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+let cellLength: CGFloat = 8
+let cellGap: CGFloat = 1
+let faceGap: CGFloat = 2
+
 struct Cube2DView: View {
     let cube: Cube2D
 
@@ -16,7 +20,7 @@ struct Cube2DView: View {
         var body: some View {
             Rectangle()
                 .fill(SwiftUI.Color(uiColor: color.uiColor))
-                .frame(width: 15, height: 15)
+                .frame(width: cellLength, height: cellLength)
         }
     }
 
@@ -25,7 +29,7 @@ struct Cube2DView: View {
         let face: Face
 
         var body: some View {
-            Grid(horizontalSpacing: 1, verticalSpacing: 1) {
+            Grid(horizontalSpacing: cellGap, verticalSpacing: cellGap) {
                 GridRow {
                     Cell(color: color(0))
                     Cell(color: color(1))
@@ -51,7 +55,7 @@ struct Cube2DView: View {
 
     var body: some View {
         VStack {
-            Grid(horizontalSpacing: 2, verticalSpacing: 2) {
+            Grid(horizontalSpacing: faceGap, verticalSpacing: faceGap) {
                 GridRow {
                     Text("")
                     FaceCell(cube: cube, face: .up)
