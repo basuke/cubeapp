@@ -38,6 +38,7 @@ class Play: ObservableObject {
 
     init() {
         view.scene = scene
+        view.backgroundColor = .clear
 
         // Add the box node to the scene
         scene.rootNode.addChildNode(cubeNode)
