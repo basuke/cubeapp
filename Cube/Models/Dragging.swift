@@ -8,12 +8,26 @@
 import Foundation
 import SceneKit
 
-class Dragging {
-    let play: Play
+protocol Dragging {
+    func update(at location: CGPoint)
+    func end(at location: CGPoint)
+}
 
-    init(at location: CGPoint, play: Play) {
+class TurnDragging: Dragging {
+    let play: Play
+    let startLocation: CGPoint
+    let hitNode: SCNNode
+    let hitCoordinates: SCNVector3
+    let hitNormal: SCNVector3
+
+    init(at location: CGPoint, play: Play, result: SCNHitTestResult) {
         self.play = play
-        print("begin at \(location)")
+        self.startLocation = location
+        self.hitNode = result.node
+        self.hitCoordinates = result.localCoordinates
+        self.hitNormal = result.localNormal
+
+        print("begin at \(self)")
     }
 
     func update(at location: CGPoint) {
@@ -25,13 +39,38 @@ class Dragging {
     }
 }
 
+class VoidDragging: Dragging {
+    init() {
+    }
+
+    func update(at location: CGPoint) {
+    }
+
+    func end(at location: CGPoint) {
+    }
+}
+
 extension Play {
+    func hitTest(at location: CGPoint) -> SCNHitTestResult? {
+        let options: [SCNHitTestOption : Any] = [
+            .searchMode: SCNHitTestSearchMode.closest.rawValue,
+        ]
+
+        return view.hitTest(location, options: options).first
+    }
+
     func updateDragging(at location: CGPoint) {
         if let dragging {
             dragging.update(at: location)
-        } else {
-            dragging = Dragging(at: location, play: self)
+            return
         }
+
+        guard let result = hitTest(at: location) else {
+            dragging = VoidDragging()
+            return
+        }
+
+        dragging = TurnDragging(at: location, play: self, result: result)
     }
 
     func endDragging(at location: CGPoint) {
