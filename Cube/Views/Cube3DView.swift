@@ -6,12 +6,11 @@
 //
 
 import SwiftUI
-import SceneKit
 
 struct Cube3DView: View {
     @ObservedObject var play: Play
 
-    struct SCNViewContainer: UIViewRepresentable {
+    struct PlayViewContainer: UIViewRepresentable {
         @ObservedObject var play: Play
 
         func makeUIView(context: Context) -> some UIView {
@@ -33,7 +32,7 @@ struct Cube3DView: View {
     }
 
     var body: some View {
-        SCNViewContainer(play: play)
+        PlayViewContainer(play: play)
             .gesture(dragGesture)
     }
 }
