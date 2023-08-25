@@ -38,8 +38,18 @@ struct SceneKitUtils {
 }
 
 extension SCNVector3 {
+    init(_ vec: Vector) {
+        self.init(vec.x, vec.y, vec.z)
+    }
+
     static func *(vec: Self, scale: Double) -> Self {
         let scale = Float(scale)
         return SCNVector3(vec.x * scale, vec.y * scale, vec.z * scale)
+    }
+}
+
+extension Vector {
+    init(_ vec: SCNVector3) {
+        self.init(vec.x, vec.y, vec.z)
     }
 }

@@ -167,17 +167,7 @@ class Play: ObservableObject {
     }
 }
 
-extension SCNVector3 {
-    init(_ vec: Vector) {
-        self.init(vec.x, vec.y, vec.z)
-    }
-}
-
 extension Vector {
-    init(_ vec: SCNVector3) {
-        self.init(vec.x, vec.y, vec.z)
-    }
-
     // To check the sticker position is on the piece position
     func on(piece: Self) -> Bool {
         func onFace(_ a: Float, _ b: Float) -> Bool {
