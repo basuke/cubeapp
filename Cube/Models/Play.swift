@@ -30,6 +30,7 @@ class Play: ObservableObject {
     let yawNode = SCNNode()
     let pitchNode = SCNNode()
     let cameraNode = SCNNode()
+    let controllerNode = SCNNode()
     let rotationNode = SCNNode()
 
     var running: Bool = false
@@ -45,6 +46,7 @@ class Play: ObservableObject {
         cubeNode.addChildNode(rotationNode)
 
         setupCamera()
+        setupController()
         rebuild()
     }
 
