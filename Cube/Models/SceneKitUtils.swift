@@ -37,6 +37,42 @@ struct SceneKitUtils {
     }
 }
 
+class ButtonNode: SCNNode {
+    let action: () -> Void
+
+    init(label: String, action: @escaping () -> Void) {
+        self.action = action
+
+        super.init()
+
+        let text = SCNText(string: label, extrusionDepth: 0.24)
+
+        let textNode = SCNNode(geometry: text)
+        let min = text.boundingBox.min
+        let max = text.boundingBox.max
+        let dx = (max.x - min.x) / 2
+        let dy = (max.y - min.y) / 2
+        let scale = Float(1.0) / 12 * 0.9
+        textNode.scale = SCNVector3(scale, scale, 1.0)
+        textNode.position = SCNVector3(-(dx + min.x) * scale, -(dy + min.y) * scale, 0.0)
+
+        let base = SCNCylinder(radius: 0.5, height: 0.2)
+        base.firstMaterial?.diffuse.contents = UIColor.darkGray
+        let baseNode = SCNNode(geometry: base)
+
+        // Because circle is facing up by default,
+        // we need to rotate the node by 90 degrees around X axis
+        baseNode.eulerAngles = SCNVector3(Angle.degree(90).value, 0, 0)
+
+        addChildNode(textNode)
+        addChildNode(baseNode)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 extension SCNVector3 {
     init(_ vec: Vector) {
         self.init(vec.x, vec.y, vec.z)
