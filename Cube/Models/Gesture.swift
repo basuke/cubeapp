@@ -166,9 +166,34 @@ extension Play {
         return view.hitTest(location, options: options).first
     }
 
+    func hitTestForButtons(at location: CGPoint) -> ButtonNode? {
+        let options: [SCNHitTestOption : Any] = [
+            .rootNode: controllerNode,
+        ]
+
+        for result in view.hitTest(location, options: options) {
+            var node = result.node
+            while node != controllerNode {
+                if let node = node as? ButtonNode {
+                    return node
+                }
+                guard let parent = node.parent else {
+                    return nil
+                }
+                node = parent
+            }
+        }
+        return nil
+    }
+
     private func beginDragging(at location: CGPoint) -> Dragging? {
         guard let result = hitTest(at: location) else {
             return nil
+        }
+
+        if let button = hitTestForButtons(at: location) {
+            button.action()
+            return VoidDragging()
         }
 
         let normal = Vector(cubeNode.convertVector(result.worldNormal, from: nil)).rounded
@@ -186,7 +211,7 @@ extension Play {
             return
         }
 
-        dragging = beginDragging(at: location) ?? VoidDragging()
+        dragging = beginDragging(at: location)
     }
 
     func endDragging(at location: CGPoint) {

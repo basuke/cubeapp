@@ -17,6 +17,12 @@ extension Play {
                 }
 
                 self.apply(move: move)
+
+                if label == "y" || label == "z'" {
+                    self.camera(from: .right)
+                } else if label == "y'" || label == "z" {
+                    self.camera(from: .left)
+                }
             }
             button.position = SCNVector3(x, y, 0)
             self.controllerNode.addChildNode(button)

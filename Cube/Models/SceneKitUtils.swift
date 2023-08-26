@@ -62,7 +62,7 @@ class ButtonNode: SCNNode {
 
         // Because circle is facing up by default,
         // we need to rotate the node by 90 degrees around X axis
-        baseNode.eulerAngles = SCNVector3(Angle.degree(90).value, 0, 0)
+        baseNode.eulerAngles = SCNVector3(.degree(90), 0, 0)
 
         addChildNode(textNode)
         addChildNode(baseNode)

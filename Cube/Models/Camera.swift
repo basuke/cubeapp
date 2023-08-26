@@ -32,4 +32,15 @@ extension Play {
         cameraNode.constraints = [SCNLookAtConstraint(target: cubeNode)]
         scene.rootNode.addChildNode(cameraNode)
     }
+
+    enum Direction {
+        case left, right
+    }
+
+    func camera(from direction: Direction) {
+        SCNTransaction.animationDuration = TurnSpeed.normal.duration * 3
+
+        let angle = direction == .right ? initialYaw : -initialYaw
+        yawNode.eulerAngles = SCNVector3(0.0, angle, 0.0)
+    }
 }
