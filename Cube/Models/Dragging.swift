@@ -15,6 +15,14 @@ protocol Dragging {
 
 enum Direction: String {
     case up, down, left, right
+
+    var horizontal: Bool {
+        self == .left || self == .right
+    }
+
+    var vertical: Bool {
+        !horizontal
+    }
 }
 
 protocol DirectionDetectable {
@@ -113,20 +121,12 @@ class TurnDragging: Dragging {
     func end(at location: CGPoint) {
         detector.update(location: location, at: Date.now)
 
-        guard let direction = detector.direction else {
-            return
-        }
+        guard let direction = detector.direction,
+              let moveStr = sticker.identifyMove(for: direction),
+              let move = Move.from(string: moveStr)
+                else { return }
 
-        let move = switch direction {
-        case .up: "R"
-        case .down: "R'"
-        case .left: "U"
-        case .right: "U'"
-        }
-
-        if let move = Move.from(string: move) {
-            play.apply(move: move)
-        }
+        play.apply(move: move, speed: .quick)
     }
 }
 
@@ -185,6 +185,76 @@ extension Play {
 
         let position = Vector(pieceNode.position).rounded + (normal * 0.5)
         return cube.stickers.first { $0.position == position }
+    }
+}
+
+extension Sticker {
+    func identifyMove(for direction: Direction) -> String? {
+        let (x, y, z) = position.values
+        let face = face
+
+        // center piece
+        if x == 0.0 && y == 0.0 {
+            return switch direction {
+            case .up: "x"
+            case .down: "x'"
+            case .left: "y"
+            case .right: "y'"
+            }
+        } else if y == 0.0 && z == 0.0 {
+            return switch direction {
+            case .up: "z'"
+            case .down: "z"
+            case .left: "y"
+            case .right: "y'"
+            }
+        } else if z == 0.0 && x == 0.0 {
+            return switch direction {
+            case .up: "x"
+            case .down: "x'"
+            case .left: "z'"
+            case .right: "z"
+            }
+        }
+
+        if direction.horizontal {
+            if face == .front || face == .right {
+                if y == 1.0 {
+                    return direction == .left ? "U" : "U'"
+                } else if y == -1.0 {
+                    return direction == .right ? "D" : "D'"
+                } else {
+                    return direction == .right ? "E" : "E'"
+                }
+            } else if face == .up {
+                if z == 1.0 {
+                    return direction == .right ? "F" : "F'"
+                } else if z == -1.0 {
+                    return direction == .left ? "B" : "B'"
+                } else {
+                    return direction == .right ? "S" : "S'"
+                }
+            }
+        } else {
+            if face == .front || face == .up {
+                if x == 1.0 {
+                    return direction == .up ? "R" : "R'"
+                } else if x == -1.0 {
+                    return direction == .down ? "L" : "L'"
+                } else {
+                    return direction == .down ? "M" : "M'"
+                }
+            } else if face == .right {
+                if z == 1.0 {
+                    return direction == .down ? "F" : "F'"
+                } else if z == -1.0 {
+                    return direction == .up ? "B" : "B'"
+                } else {
+                    return direction == .down ? "S" : "S'"
+                }
+            }
+        }
+        return nil
     }
 }
 
