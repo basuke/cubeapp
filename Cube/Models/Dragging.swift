@@ -95,11 +95,13 @@ class DirectionDetector: DirectionDetectable, CustomDebugStringConvertible {
 
 class TurnDragging: Dragging {
     let play: Play
+    let sticker: Sticker
 
     let detector: DirectionDetectable = DirectionDetector()
 
-    init(at location: CGPoint, play: Play) {
+    init(at location: CGPoint, play: Play, sticker: Sticker) {
         self.play = play
+        self.sticker = sticker
 
         detector.update(location: location, at: Date.now)
     }
@@ -149,13 +151,17 @@ extension Play {
     }
 
     private func beginDragging(at location: CGPoint) -> Dragging? {
-        if let result = hitTest(at: location) {
-            if let kind = result.node.kind, kind == .sticker {
-                return TurnDragging(at: location, play: self)
-            }
+        guard let result = hitTest(at: location) else {
+            return nil
         }
 
-        return nil
+        let normal = Vector(cubeNode.convertVector(result.worldNormal, from: nil)).rounded
+
+        guard let sticker = identifySticker(from: result.node, normal: normal) else {
+            return nil
+        }
+
+        return TurnDragging(at: location, play: self, sticker: sticker)
     }
 
     func updateDragging(at location: CGPoint) {
@@ -170,6 +176,15 @@ extension Play {
     func endDragging(at location: CGPoint) {
         dragging?.end(at: location)
         dragging = nil
+    }
+
+    func identifySticker(from node: SCNNode, normal: Vector) -> Sticker? {
+        guard let pieceNode = node.parent, node.kind == .sticker else {
+            return nil
+        }
+
+        let position = Vector(pieceNode.position).rounded + (normal * 0.5)
+        return cube.stickers.first { $0.position == position }
     }
 }
 
