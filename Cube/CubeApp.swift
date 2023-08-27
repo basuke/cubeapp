@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+let debug = false
+
 @main
 struct CubeApp: App {
     @StateObject private var play = Play()

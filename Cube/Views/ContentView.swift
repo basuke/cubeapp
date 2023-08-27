@@ -23,8 +23,12 @@ struct ContentView: View {
                 Cube2DView(cube: play.cube.as2D())
                 Cube3DView(play: play)
             }
-            MoveController(moves: $play.moves) { move in
-                play.apply(move: move)
+            MoveController(canUndo: !play.moves.isEmpty) { move in
+                if let move {
+                    play.apply(move: move)
+                } else {
+                    play.undo()
+                }
             }
         }
         .background(

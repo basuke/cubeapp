@@ -106,16 +106,32 @@ class Play: ObservableObject {
             return
         }
 
-        running = true
+        moves.append(move)
         run(move: move, speed: speed)
+    }
+
+    func undo() {
+        if requests.isEmpty {
+            if let move = moves.popLast() {
+                if running {
+                    requests.append(move.reversed)
+                } else {
+                    run(move: move.reversed, speed: .quick)
+                }
+            }
+        } else {
+            _ = requests.popLast()
+        }
     }
 
     private func run(move: Move, speed: TurnSpeed) {
         cube = cube.apply(move: move)
+        running = true
 
         movePiecesIntoRotation(for: move)
 
-        let action = SCNAction.rotate(by: CGFloat(move.angle), around: SCNVector3(move.axis), duration: speed.duration)
+        let duration = speed.duration * (debug ? 10.0 : 1.0)
+        let action = SCNAction.rotate(by: CGFloat(move.angle), around: SCNVector3(move.axis), duration: duration)
         action.timingMode = .easeOut
         rotationNode.runAction(action) {
             DispatchQueue.main.async {

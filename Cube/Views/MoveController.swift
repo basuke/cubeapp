@@ -12,8 +12,8 @@ struct MoveController: View {
         case vertical, horizontal
     }
 
-    @Binding var moves: [Move]
-    let callback: (Move) -> Void
+    let canUndo: Bool
+    let callback: (Move?) -> Void
 
     struct MoveButton: View {
         let move: String
@@ -40,9 +40,7 @@ struct MoveController: View {
     }
 
     func undo() {
-        if let move = moves.popLast() {
-            callback(move.reversed)
-        }
+        callback(nil)
     }
 
     func button(_ label: String, prime: Bool = false) -> MoveButton {
@@ -51,7 +49,6 @@ struct MoveController: View {
         return MoveButton(move: label) {
             if let move =  Move.from(string: label) {
                 callback(move)
-                moves.append(move)
             } else {
                 print("Invalid move string \(label)")
             }
@@ -132,7 +129,7 @@ struct MoveController: View {
                 Button("Undo") {
                     undo()
                 }
-                .disabled(moves.isEmpty)
+                .disabled(!canUndo)
             }
         }
         .buttonStyle(.bordered)
@@ -141,7 +138,7 @@ struct MoveController: View {
 }
 
 #Preview {
-    MoveController(moves: .constant([])) { move in
+    MoveController(canUndo: false) { move in
         print(move)
     }
 }
