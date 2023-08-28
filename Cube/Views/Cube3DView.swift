@@ -9,15 +9,19 @@ import SwiftUI
 
 struct Cube3DView: View {
     @ObservedObject var play: Play
+    @Binding var yawRatio: Float
 
     struct PlayViewContainer: UIViewRepresentable {
         @ObservedObject var play: Play
+        @Binding var yawRatio: Float
 
         func makeUIView(context: Context) -> some UIView {
-            play.view
+            play.setCameraYaw(ratio: yawRatio)
+            return play.view
         }
 
         func updateUIView(_ uiView: UIViewType, context: Context) {
+            play.setCameraYaw(ratio: yawRatio)
         }
     }
 
@@ -32,11 +36,11 @@ struct Cube3DView: View {
     }
 
     var body: some View {
-        PlayViewContainer(play: play)
+        PlayViewContainer(play: play, yawRatio: $yawRatio)
             .gesture(dragGesture)
     }
 }
 
 #Preview {
-    Cube3DView(play: Play())
+    Cube3DView(play: Play(), yawRatio: .constant(1.0))
 }

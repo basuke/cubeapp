@@ -10,6 +10,7 @@ import SceneKit
 
 struct ContentView: View {
     @ObservedObject var play: Play
+    @State private var yawRatio: Float = 1.0
 
     let gradientColors: [UIColor] = [
         UIColor.lightGray,
@@ -20,8 +21,18 @@ struct ContentView: View {
     var body: some View {
         VStack {
             ZStack(alignment: .bottom) {
-                Cube2DView(cube: play.cube.as2D())
-                Cube3DView(play: play)
+                Cube3DView(play: play, yawRatio: $yawRatio)
+                HStack {
+                    Spacer()
+                    Cube2DView(cube: play.cube.as2D())
+                    Spacer()
+                    Slider(
+                        value: $yawRatio,
+                        in: -3.0...3.0
+                    )
+                        .frame(width: 120)
+                    Spacer()
+                }
             }
             MoveController(canUndo: !play.moves.isEmpty) { move in
                 if let move {

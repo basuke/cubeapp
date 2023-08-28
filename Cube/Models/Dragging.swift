@@ -39,9 +39,10 @@ class DirectionDetector: DirectionDetectable, CustomDebugStringConvertible {
     var oldestUpdate: Date? = nil
     var lastUpdate: Date? = nil
 
-    let tilted: Bool
+    enum Tilted { case none, left, right }
+    let tilted: Tilted
 
-    init(tilted: Bool = false) {
+    init(tilted: Tilted = .none) {
         self.tilted = tilted
     }
 
@@ -57,17 +58,24 @@ class DirectionDetector: DirectionDetectable, CustomDebugStringConvertible {
             return nil
         }
 
-        if tilted {
+        switch tilted {
+        case .none:
+            if abs(Float(translation.x)) >= abs(Float(translation.y)) {
+                return translation.x >= 0.0 ? .right : .left
+            } else {
+                return translation.y >= 0.0 ? .down : .up
+            }
+        case .left:
             if translation.x >= 0.0 {
                 return translation.y >= 0.0 ? .down : .right
             } else {
                 return translation.y >= 0.0 ? .left : .up
             }
-        } else {
-            if abs(Float(translation.x)) >= abs(Float(translation.y)) {
-                return translation.x >= 0.0 ? .right : .left
+        case .right:
+            if translation.x >= 0.0 {
+                return translation.y >= 0.0 ? .right : .up
             } else {
-                return translation.y >= 0.0 ? .down : .up
+                return translation.y >= 0.0 ? .down : .left
             }
         }
     }
@@ -125,7 +133,12 @@ class TurnDragging: Dragging {
         self.play = play
         self.sticker = sticker
 
-        self.detector = DirectionDetector(tilted: sticker.face == .right)
+        let tilted: DirectionDetector.Tilted = switch sticker.face {
+        case .right: .left
+        case .left: .right
+        default: .none
+        }
+        self.detector = DirectionDetector(tilted: tilted)
 
         detector.update(location: location, at: Date.now)
     }
@@ -218,11 +231,20 @@ extension Sticker {
             case .right: "y'"
             }
         } else if y == 0.0 && z == 0.0 {
-            return switch direction {
-            case .up: "z'"
-            case .down: "z"
-            case .left: "y"
-            case .right: "y'"
+            if x > 0 {
+                return switch direction {
+                case .up: "z'"
+                case .down: "z"
+                case .left: "y"
+                case .right: "y'"
+                }
+            } else {
+                return switch direction {
+                case .up: "z"
+                case .down: "z'"
+                case .left: "y"
+                case .right: "y'"
+                }
             }
         } else if z == 0.0 && x == 0.0 {
             return switch direction {
@@ -234,7 +256,7 @@ extension Sticker {
         }
 
         if direction.horizontal {
-            if face == .front || face == .right {
+            if face == .front || face == .right || face == .left {
                 if y == 1.0 {
                     return direction == .left ? "U" : "U'"
                 } else if y == -1.0 {
@@ -267,6 +289,14 @@ extension Sticker {
                     return direction == .up ? "B" : "B'"
                 } else {
                     return direction == .down ? "S" : "S'"
+                }
+            } else if face == .left {
+                if z == 1.0 {
+                    return direction == .up ? "F" : "F'"
+                } else if z == -1.0 {
+                    return direction == .down ? "B" : "B'"
+                } else {
+                    return direction == .up ? "S" : "S'"
                 }
             }
         }

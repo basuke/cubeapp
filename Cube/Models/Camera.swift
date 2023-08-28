@@ -32,4 +32,9 @@ extension Play {
         cameraNode.constraints = [SCNLookAtConstraint(target: cubeNode)]
         scene.rootNode.addChildNode(cameraNode)
     }
+
+    func setCameraYaw(ratio: Float) {
+        let yaw = initialYaw.value * ratio
+        yawNode.eulerAngles = SCNVector3(0.0, yaw, 0.0)
+    }
 }
