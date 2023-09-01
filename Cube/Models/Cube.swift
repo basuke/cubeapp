@@ -59,6 +59,10 @@ struct Vector: Equatable, Codable {
 enum Rotation {
     case clockwise, counterClockwise, flip
 
+    init(from value: Double) {
+        self = value > 0.0 ? .counterClockwise : .clockwise
+    }
+
     var reversed: Self {
         switch self {
         case .clockwise: .counterClockwise

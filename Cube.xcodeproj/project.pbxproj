@@ -20,6 +20,7 @@
 		EB96D4DC2A817BF500CF0ED0 /* Cube2DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4DB2A817BF500CF0ED0 /* Cube2DView.swift */; };
 		EB96D4DE2A81BA1D00CF0ED0 /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */; };
 		EB96D4E22A82C18700CF0ED0 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4E12A82C18700CF0ED0 /* Move.swift */; };
+		EBE62BA32AA067FF00C518FC /* DeviceMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE62BA22AA067FF00C518FC /* DeviceMotion.swift */; };
 		EBED01F62A8AFD86006FBF1B /* Play.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBED01F52A8AFD86006FBF1B /* Play.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +39,7 @@
 		EB96D4DB2A817BF500CF0ED0 /* Cube2DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube2DView.swift; sourceTree = "<group>"; };
 		EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube.swift; sourceTree = "<group>"; };
 		EB96D4E12A82C18700CF0ED0 /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
+		EBE62BA22AA067FF00C518FC /* DeviceMotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceMotion.swift; sourceTree = "<group>"; };
 		EBED01F52A8AFD86006FBF1B /* Play.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Play.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,6 +100,7 @@
 				EB27673B2A95592C00464B06 /* Dragging.swift */,
 				EB6C73912A899B6F008DD244 /* Persistence.swift */,
 				EB595E132A97C24A003000D6 /* SceneKitUtils.swift */,
+				EBE62BA22AA067FF00C518FC /* DeviceMotion.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -186,6 +189,7 @@
 				EB27673A2A95160B00464B06 /* Cube3DView.swift in Sources */,
 				EB6C73922A899B6F008DD244 /* Persistence.swift in Sources */,
 				EB6C73902A88B493008DD244 /* MoveController.swift in Sources */,
+				EBE62BA32AA067FF00C518FC /* DeviceMotion.swift in Sources */,
 				EB96D4CE2A80BC6100CF0ED0 /* ContentView.swift in Sources */,
 				EB96D4DE2A81BA1D00CF0ED0 /* Cube.swift in Sources */,
 				EB96D4CC2A80BC6100CF0ED0 /* CubeApp.swift in Sources */,
