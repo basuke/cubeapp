@@ -171,9 +171,7 @@ class CameraDragging: Dragging {
     init(at location: CGPoint, play: Play) {
         self.play = play
 
-        let size = play.view.bounds.size
-        let location = CGPointMake(location.x - size.width / 2, location.y - size.height / 2)
-        setCameraPosition(to: DirectionDetector.direction(of: location))
+        setCameraPosition(to: DirectionDetector.direction(of: play.view.screenSpaceCoordinates(of: location)))
     }
 
     func update(at location: CGPoint) {
@@ -327,5 +325,13 @@ extension Sticker {
 extension CGPoint {
     var length: Float {
         sqrtf(powf(Float(x), 2) + powf(Float(y), 2))
+    }
+}
+
+extension UIView {
+    func screenSpaceCoordinates(of location: CGPoint) -> CGPoint {
+        let width = bounds.size.width
+        let height = bounds.size.height
+        return CGPointMake((location.x - width / 2.0) / width, (location.y - height / 2.0) / height)
     }
 }
