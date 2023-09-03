@@ -57,19 +57,7 @@ class DirectionDetector: DirectionDetectable, CustomDebugStringConvertible {
             return nil
         }
 
-        if tilted {
-            if translation.x >= 0.0 {
-                return translation.y >= 0.0 ? .down : .right
-            } else {
-                return translation.y >= 0.0 ? .left : .up
-            }
-        } else {
-            if abs(Float(translation.x)) >= abs(Float(translation.y)) {
-                return translation.x >= 0.0 ? .right : .left
-            } else {
-                return translation.y >= 0.0 ? .down : .up
-            }
-        }
+        return Self.direction(of: translation, tilted: tilted)
     }
 
     var speed: Float {
@@ -105,6 +93,22 @@ class DirectionDetector: DirectionDetectable, CustomDebugStringConvertible {
 
         if oldestUpdate == nil {
             oldestUpdate = timestamp
+        }
+    }
+
+    static func direction(of translation: CGPoint, tilted: Bool = false) -> Direction {
+        if tilted {
+            if translation.x >= 0.0 {
+                return translation.y >= 0.0 ? .down : .right
+            } else {
+                return translation.y >= 0.0 ? .left : .up
+            }
+        } else {
+            if abs(Float(translation.x)) >= abs(Float(translation.y)) {
+                return translation.x >= 0.0 ? .right : .left
+            } else {
+                return translation.y >= 0.0 ? .down : .up
+            }
         }
     }
 
@@ -146,6 +150,29 @@ class TurnDragging: Dragging {
     }
 }
 
+class CameraDragging: Dragging {
+    let play: Play
+
+    init(at location: CGPoint, play: Play) {
+        self.play = play
+
+        let size = play.view.bounds.size
+        let location = CGPointMake(location.x - size.width / 2, location.y - size.height / 2)
+        setCameraPosition(to: DirectionDetector.direction(of: location))
+    }
+
+    func update(at location: CGPoint) {
+    }
+
+    func end(at location: CGPoint) {
+        play.resetCamera()
+    }
+
+    private func setCameraPosition(to newDirection: Direction) {
+        play.positionCamera(to: newDirection)
+    }
+}
+
 class VoidDragging: Dragging {
     init() {
     }
@@ -168,7 +195,7 @@ extension Play {
 
     private func beginDragging(at location: CGPoint) -> Dragging? {
         guard let result = hitTest(at: location) else {
-            return nil
+            return CameraDragging(at: location, play: self)
         }
 
         let normal = Vector(cubeNode.convertVector(result.worldNormal, from: nil)).rounded

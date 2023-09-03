@@ -32,4 +32,26 @@ extension Play {
         cameraNode.constraints = [SCNLookAtConstraint(target: cubeNode)]
         scene.rootNode.addChildNode(cameraNode)
     }
+
+    func positionCamera(to direction: Direction) {
+
+        switch direction {
+        case .left, .right:
+            SCNTransaction.animationDuration = 0.1
+            let angle = (direction == .left ? -1 : 1) * initialYaw.value * 2
+            yawNode.eulerAngles = SCNVector3(0.0, angle, 0.0)
+        case .up, .down:
+            SCNTransaction.animationDuration = 0.2
+            let angle = initialPitch.value + (direction == .down ? -1 : 1) * .pi / 2 * 0.8
+            pitchNode.eulerAngles = SCNVector3(angle, 0.0, 0.0)
+        }
+    }
+
+    func resetCamera() {
+        SCNTransaction.animationDuration = 0.3
+        pitchNode.eulerAngles = SCNVector3(initialPitch.value, 0.0, 0.0)
+
+        let angle = yawNode.eulerAngles.y < 0 ? initialYaw.value : -initialYaw.value
+        yawNode.eulerAngles = SCNVector3(0.0, angle, 0.0)
+    }
 }
