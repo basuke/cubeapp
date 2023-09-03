@@ -139,6 +139,10 @@ struct MoveController: View {
 
 #Preview {
     MoveController(canUndo: false) { move in
-        print(move)
+        if let move {
+            print(move)
+        } else {
+            print("Undo")
+        }
     }
 }
