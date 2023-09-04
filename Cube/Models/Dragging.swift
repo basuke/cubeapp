@@ -23,6 +23,15 @@ enum Direction: String {
     var vertical: Bool {
         !horizontal
     }
+
+    var opposite: Self {
+        switch self {
+        case .up: .down
+        case .down: .up
+        case .left: .right
+        case .right: .left
+        }
+    }
 }
 
 protocol DirectionDetectable {
@@ -34,22 +43,26 @@ let minimumDistance: Float = 3.0
 let minimumSpeed: Float = 500.0
 let maximumIdle: TimeInterval = 0.1
 
-class DirectionDetector: DirectionDetectable, CustomDebugStringConvertible {
-    var locations: [CGPoint] = []
-    var oldestUpdate: Date? = nil
-    var lastUpdate: Date? = nil
+enum Tilted {
+    case left, right, none
+}
 
-    enum Tilted {
-        case left, right, none
-    }
+class QuickSwipeDetector: DirectionDetectable, CustomDebugStringConvertible {
+    private var locations: [CGPoint] = []
+    private var oldestUpdate: Date? = nil
+    private var lastUpdate: Date? = nil
 
     let tilted: Tilted
 
-    init(for face: Face) {
-        self.tilted = switch face {
-        case .right: .left
-        case .left: .right
-        default: .none
+    init(for face: Face? = nil) {
+        if let face {
+            self.tilted = switch face {
+            case .right: .left
+            case .left: .right
+            default: .none
+            }
+        } else {
+            tilted = .none
         }
     }
 
@@ -65,7 +78,7 @@ class DirectionDetector: DirectionDetectable, CustomDebugStringConvertible {
             return nil
         }
 
-        return Self.direction(of: translation, tilted: tilted)
+        return getDirection(of: translation, tilted: tilted)
     }
 
     var speed: Float {
@@ -104,33 +117,60 @@ class DirectionDetector: DirectionDetectable, CustomDebugStringConvertible {
         }
     }
 
-    static func direction(of translation: CGPoint, tilted: Tilted = .none) -> Direction {
-        switch tilted {
-        case .left:
-            if translation.x >= 0.0 {
-                return translation.y >= 0.0 ? .down : .right
-            } else {
-                return translation.y >= 0.0 ? .left : .up
-            }
-        case .right:
-            if translation.x >= 0.0 {
-                return translation.y >= 0.0 ? .right : .up
-            } else {
-                return translation.y >= 0.0 ? .down : .left
-            }
-        case .none:
-            if abs(Float(translation.x)) >= abs(Float(translation.y)) {
-                return translation.x >= 0.0 ? .right : .left
-            } else {
-                return translation.y >= 0.0 ? .down : .up
-            }
-        }
-    }
-
     var debugDescription: String {
         let speed = String(format: "%.2f", speed)
         let direction = if let direction { direction.rawValue } else { "-" }
         return "Direction: \(direction) Speed: \(speed) Translation: \(translation)"
+    }
+}
+
+
+func getDirection(of translation: CGPoint, tilted: Tilted = .none) -> Direction {
+    switch tilted {
+    case .left:
+        if translation.x >= 0.0 {
+            return translation.y >= 0.0 ? .down : .right
+        } else {
+            return translation.y >= 0.0 ? .left : .up
+        }
+    case .right:
+        if translation.x >= 0.0 {
+            return translation.y >= 0.0 ? .right : .up
+        } else {
+            return translation.y >= 0.0 ? .down : .left
+        }
+    case .none:
+        if abs(Float(translation.x)) >= abs(Float(translation.y)) {
+            return translation.x >= 0.0 ? .right : .left
+        } else {
+            return translation.y >= 0.0 ? .down : .up
+        }
+    }
+}
+
+class JoyStick: DirectionDetectable {
+    let startLocation: CGPoint
+    let minimumDistance: Float
+    var location: CGPoint
+
+    init(center location: CGPoint, minimumDistance: Float) {
+        startLocation = location
+        self.minimumDistance = minimumDistance
+        self.location = location
+    }
+
+    var direction: Direction? {
+        let translation = CGPointMake(location.x - startLocation.x, location.y - startLocation.y)
+
+        guard translation.length >= minimumDistance else {
+            return nil
+        }
+
+        return getDirection(of: translation)
+    }
+
+    func update(location: CGPoint, at _: Date) {
+        self.location = location
     }
 }
 
@@ -144,7 +184,7 @@ class TurnDragging: Dragging {
         self.play = play
         self.sticker = sticker
 
-        self.detector = DirectionDetector(for: sticker.face)
+        self.detector = QuickSwipeDetector(for: sticker.face)
 
         detector.update(location: location, at: Date.now)
     }
@@ -168,13 +208,22 @@ class TurnDragging: Dragging {
 class CameraDragging: Dragging {
     let play: Play
 
+    let detector: DirectionDetectable
+
     init(at location: CGPoint, play: Play) {
         self.play = play
 
-        setCameraPosition(to: DirectionDetector.direction(of: play.view.screenSpaceCoordinates(of: location)))
+        detector = JoyStick(center: location, minimumDistance: 6.0)
+
+        setCameraPosition(to: getDirection(of: play.view.screenSpaceCoordinates(of: location)))
     }
 
     func update(at location: CGPoint) {
+        detector.update(location: location, at: Date.now)
+
+        if let direction = detector.direction {
+            setCameraPosition(to: direction.opposite)
+        }
     }
 
     func end(at location: CGPoint) {
