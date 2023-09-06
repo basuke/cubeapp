@@ -7,6 +7,7 @@
 
 import Foundation
 import SceneKit
+import RealityKit
 
 let initialPitch = Float.degree(45)
 let initialYaw = Float.degree(-12)
@@ -36,5 +37,27 @@ extension SceneKitModel {
     func setCameraYaw(ratio: Float) {
         let yaw = initialYaw * ratio
         yawNode.eulerAngles = SCNVector3(0.0, yaw, 0.0)
+    }
+}
+
+extension ARKitModel {
+    func setupCamera() {
+        // Add the box node to the scene
+        pitchEntity.addChild(cubeEntity)
+        yawEntity.addChild(pitchEntity)
+
+        pitchEntity.transform = Transform(pitch: initialPitch.value, yaw: 0.0, roll: 0.0)
+        yawEntity.transform = Transform(pitch: 0.0, yaw: initialYaw.value, roll: 0.0)
+
+//        let camera = SCNCamera()
+//        camera.fieldOfView = cameraFOV
+//        camera.projectionDirection = .horizontal
+
+        
+//        cameraNode.camera = camera
+        yawEntity.position = simd_float3(0, 0, -cameraDistance)
+        cameraAnchor.addChild(yawEntity)
+
+        arView.scene.anchors.append(cameraAnchor)
     }
 }

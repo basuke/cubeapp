@@ -32,7 +32,7 @@ class Play: ObservableObject {
     @Published var cube: Cube = Cube()
     @Published var moves: [Move] = []
 
-    let model: Model = SceneKitModel()
+    let model: Model = ARKitModel()
 
     var running: Bool = false
     var requests: [Move] = []

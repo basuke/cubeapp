@@ -9,7 +9,7 @@ import Foundation
 import SceneKit
 
 class SceneKitModel: Model {
-    let view = SCNView(frame: .zero)
+    let sceneKitView = SCNView(frame: .zero)
     let scene = SCNScene()
     let cubeNode = SCNNode()
     let yawNode = SCNNode()
@@ -18,11 +18,13 @@ class SceneKitModel: Model {
     let rotationNode = SCNNode()
     
     var pieceNodes: [SCNNode] = []
-    
+
+    var view: UIView { sceneKitView }
+
     init() {
-        view.scene = scene
-        view.backgroundColor = .clear
-        
+        sceneKitView.scene = scene
+        sceneKitView.backgroundColor = .clear
+
         cubeNode.addChildNode(rotationNode)
         
         setupCamera()
@@ -121,7 +123,7 @@ class SceneKitModel: Model {
             .searchMode: SCNHitTestSearchMode.closest.rawValue,
         ]
 
-        guard let result = view.hitTest(location, options: options).first else {
+        guard let result = sceneKitView.hitTest(location, options: options).first else {
             return nil
         }
 

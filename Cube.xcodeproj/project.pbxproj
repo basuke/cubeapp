@@ -21,6 +21,7 @@
 		EB96D4DE2A81BA1D00CF0ED0 /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */; };
 		EB96D4E22A82C18700CF0ED0 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4E12A82C18700CF0ED0 /* Move.swift */; };
 		EBB59AC62AA7E07F005AE35F /* SceneKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB59AC52AA7E07F005AE35F /* SceneKitModel.swift */; };
+		EBB59AC82AA7F983005AE35F /* ARKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB59AC72AA7F983005AE35F /* ARKitModel.swift */; };
 		EBED01F62A8AFD86006FBF1B /* Play.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBED01F52A8AFD86006FBF1B /* Play.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +41,7 @@
 		EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube.swift; sourceTree = "<group>"; };
 		EB96D4E12A82C18700CF0ED0 /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 		EBB59AC52AA7E07F005AE35F /* SceneKitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitModel.swift; sourceTree = "<group>"; };
+		EBB59AC72AA7F983005AE35F /* ARKitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARKitModel.swift; sourceTree = "<group>"; };
 		EBED01F52A8AFD86006FBF1B /* Play.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Play.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +92,23 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		EBB59AC92AA7F991005AE35F /* SceneKit */ = {
+			isa = PBXGroup;
+			children = (
+				EBB59AC52AA7E07F005AE35F /* SceneKitModel.swift */,
+				EB595E132A97C24A003000D6 /* SceneKitUtils.swift */,
+			);
+			path = SceneKit;
+			sourceTree = "<group>";
+		};
+		EBB59ACA2AA7F9A3005AE35F /* ARKit */ = {
+			isa = PBXGroup;
+			children = (
+				EBB59AC72AA7F983005AE35F /* ARKitModel.swift */,
+			);
+			path = ARKit;
+			sourceTree = "<group>";
+		};
 		EBED01F32A8AFB5C006FBF1B /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -99,8 +118,8 @@
 				EB595E152A9907D5003000D6 /* Camera.swift */,
 				EB27673B2A95592C00464B06 /* Dragging.swift */,
 				EB6C73912A899B6F008DD244 /* Persistence.swift */,
-				EBB59AC52AA7E07F005AE35F /* SceneKitModel.swift */,
-				EB595E132A97C24A003000D6 /* SceneKitUtils.swift */,
+				EBB59AC92AA7F991005AE35F /* SceneKit */,
+				EBB59ACA2AA7F9A3005AE35F /* ARKit */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -191,6 +210,7 @@
 				EB6C73902A88B493008DD244 /* MoveController.swift in Sources */,
 				EB96D4CE2A80BC6100CF0ED0 /* ContentView.swift in Sources */,
 				EB96D4DE2A81BA1D00CF0ED0 /* Cube.swift in Sources */,
+				EBB59AC82AA7F983005AE35F /* ARKitModel.swift in Sources */,
 				EBB59AC62AA7E07F005AE35F /* SceneKitModel.swift in Sources */,
 				EB96D4CC2A80BC6100CF0ED0 /* CubeApp.swift in Sources */,
 				EBED01F62A8AFD86006FBF1B /* Play.swift in Sources */,
