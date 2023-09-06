@@ -175,6 +175,43 @@ struct Cube: Codable {
     }
 }
 
+// Piece
+
+struct Piece {
+    let position: Vector
+    let stickers: [Sticker]
+
+    init(_ position: Vector, stickers: [Sticker]) {
+        self.position = position
+        self.stickers = stickers
+    }
+}
+
+extension Cube {
+    var pieces: [Piece] {
+        var pieces: [Piece] = []
+        
+        // Create each piece
+        let centers: [Float] = [-1, 0, 1]
+        for z in centers {
+            for y in centers {
+                for x in centers {
+                    if x != 0 || y != 0 || z != 0 {
+                        let position = Vector(x, y, z)
+                        let stickers = stickers(on: position)
+                        let piece = Piece(position, stickers: stickers)
+                        pieces.append(piece)
+                    }
+                }
+            }
+        }
+        return pieces
+    }
+
+    func stickers(on vector: Vector) -> [Sticker] {
+        stickers.filter { $0.position.on(piece: vector) }
+    }
+}
 // Debug
 
 extension Sticker: CustomStringConvertible {

@@ -31,19 +31,17 @@ class SceneKitModel: Model {
     }
 
     func rebuild(with cube: Cube) {
-        func createPiece(_ vec: Vector) -> SCNNode {
+        func createPiece(_ piece: Piece) -> SCNNode {
             let base = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0.1)
             base.firstMaterial?.diffuse.contents = UIColor(white: 0.1, alpha: 1.0)
             
             let node = SCNNode(geometry: base)
             
-            cube.stickers.filter { sticker in
-                sticker.position.on(piece: vec)
-            }.forEach { sticker in
+            piece.stickers.forEach { sticker in
                 node.addChildNode(createSticker(on: sticker.face, color: sticker.color))
             }
-            
-            node.position = SCNVector3(vec)
+
+            node.position = SCNVector3(piece.position)
             node.setKind(.piece)
             return node
         }
@@ -66,19 +64,11 @@ class SceneKitModel: Model {
         
         pieceNodes.forEach { $0.removeFromParentNode() }
         pieceNodes = []
-        
-        // Create each piece
-        let centers: [Float] = [-1, 0, 1]
-        for z in centers {
-            for y in centers {
-                for x in centers {
-                    if x != 0 || y != 0 || z != 0 {
-                        let pieceNode = createPiece(Vector(x, y, z))
-                        pieceNodes.append(pieceNode)
-                        cubeNode.addChildNode(pieceNode)
-                    }
-                }
-            }
+
+        cube.pieces.forEach { piece in
+            let pieceNode = createPiece(piece)
+            pieceNodes.append(pieceNode)
+            cubeNode.addChildNode(pieceNode)
         }
     }
 
