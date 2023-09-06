@@ -54,6 +54,7 @@ class ARKitModel: Model {
 
             let entity = ModelEntity(mesh: mesh, materials: [material])
             entity.transform = transform(for: face)
+            entity.generateCollisionShapes(recursive: false)
             return entity
         }
 
@@ -124,10 +125,23 @@ class ARKitModel: Model {
         }
     }
 
-    func hitTest(at: CGPoint, cube: Cube) -> Sticker? {
-        return nil
+    func hitTest(at location: CGPoint, cube: Cube) -> Sticker? {
+        guard let result = arView.hitTest(location, query: .nearest).first else {
+            return nil
+        }
+
+        let stickerEntity = result.entity
+        guard let pieceEntity = stickerEntity.parent else {
+            return nil
+        }
+
+        let stickerPosition = Vector(pieceEntity.convert(position: stickerEntity.position, to: cubeEntity))
+
+        let position = (stickerPosition * 2).rounded * 0.5
+
+        return cube.stickers.first { $0.position == position }
     }
-    
+
     var view: UIView { arView }
 }
 
