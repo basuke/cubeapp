@@ -33,7 +33,11 @@ class Play: ObservableObject {
     @Published var cube: Cube = Cube()
     @Published var moves: [Move] = []
 
-    let model: Model
+    var model: Model? {
+        didSet {
+            rebuild()
+        }
+    }
 
     var running: Bool = false
     var requests: [Move] = []
@@ -41,16 +45,18 @@ class Play: ObservableObject {
     var dragging: Dragging? = nil
 
     var view: UIView {
-        model.view
+        guard let model else { return UIView(frame: .zero) }
+        return model.view
     }
 
-    init(model: Model) {
+    init(model: Model? = nil) {
         self.model = model
 
         rebuild()
     }
 
     func rebuild() {
+        guard let model else { return }
         model.rebuild(with: cube)
     }
 
@@ -79,6 +85,8 @@ class Play: ObservableObject {
     }
 
     private func run(move: Move, speed: TurnSpeed) {
+        guard let model else { return }
+
         cube = cube.apply(move: move)
         running = true
 

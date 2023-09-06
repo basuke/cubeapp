@@ -40,9 +40,7 @@ extension SceneKitModel {
     }
 }
 
-let kYawScaleFactorForARKit: Float = 1.7
-let kDistanceForARKit: Float = 0.3
-let kScaleForARKit: Float = 0.4
+let kYawScaleFactorForRealityKit: Float = 1.7
 
 extension RealityKitContent {
     func setupCamera() {
@@ -51,19 +49,28 @@ extension RealityKitContent {
         yawEntity.addChild(pitchEntity)
 
         pitchEntity.transform = Transform(pitch: initialPitch, yaw: 0.0, roll: 0.0)
-        yawEntity.transform = Transform(pitch: 0.0, yaw: initialYaw * kYawScaleFactorForARKit, roll: 0.0)
+        yawEntity.transform = Transform(pitch: 0.0, yaw: initialYaw * kYawScaleFactorForRealityKit, roll: 0.0)
+    }
 
+    func setCameraYaw(ratio: Float) {
+        let yaw = initialYaw * ratio
+        yawEntity.transform = Transform(pitch: 0.0, yaw: yaw * kYawScaleFactorForRealityKit, roll: 0.0)
+    }
+}
+
+#if !os(xrOS)
+
+let kDistanceForARKit: Float = 0.3
+let kScaleForARKit: Float = 0.4
+
+extension ARKitModel {
+    func adjustCamera() {
         let adjustEntity = Entity()
         adjustEntity.addChild(yawEntity)
         adjustEntity.position = simd_float3(0, 0, -kDistanceForARKit)
         adjustEntity.scale = simd_float3(kScaleForARKit, kScaleForARKit, kScaleForARKit)
         cameraAnchor.addChild(adjustEntity)
-
-        scene.anchors.append(cameraAnchor)
-    }
-
-    func setCameraYaw(ratio: Float) {
-        let yaw = initialYaw * ratio
-        yawEntity.transform = Transform(pitch: 0.0, yaw: yaw * kYawScaleFactorForARKit, roll: 0.0)
     }
 }
+
+#endif

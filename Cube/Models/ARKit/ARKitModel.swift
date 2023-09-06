@@ -14,9 +14,37 @@ import Combine
 
 class ARKitModel: RealityKitContent, Model {
     let arView = ARView(frame: .zero)
+    let scene: Scene
+
+    let cameraAnchor = AnchorEntity()
+
+    class SceneActionRunner: ActionRunner {
+        var animationCompletion: AnyCancellable? = nil
+        var action: Action? = nil
+
+        init(scene: Scene) {
+            animationCompletion = scene.publisher(for: AnimationEvents.PlaybackCompleted.self)
+                .sink(receiveValue: { event in
+                    guard let action = self.action else { return }
+                    action()
+                })
+        }
+
+        func register(action: @escaping Action) {
+            self.action = action
+        }
+    }
+
+    let actionRunner: ActionRunner
 
     init() {
-        super.init(scene: arView.scene)
+        scene = arView.scene
+        actionRunner = SceneActionRunner(scene: scene)
+
+        super.init(runner: actionRunner)
+
+        adjustCamera()
+        scene.anchors.append(cameraAnchor)
     }
 
     func hitTest(at location: CGPoint, cube: Cube) -> Sticker? {

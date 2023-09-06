@@ -16,12 +16,12 @@ struct Cube3DView: View {
         @Binding var yawRatio: Float
 
         func makeUIView(context: Context) -> some UIView {
-            play.model.setCameraYaw(ratio: yawRatio)
+            play.model?.setCameraYaw(ratio: yawRatio)
             return play.view
         }
 
         func updateUIView(_ uiView: UIViewType, context: Context) {
-            play.model.setCameraYaw(ratio: yawRatio)
+            play.model?.setCameraYaw(ratio: yawRatio)
         }
     }
 

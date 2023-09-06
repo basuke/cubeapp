@@ -10,23 +10,27 @@ import RealityKit
 import UIKit
 import Combine
 
+typealias Action = () -> Void
+
+protocol ActionRunner {
+    func register(action: @escaping Action)
+}
+
 class RealityKitContent {
-    let scene: Scene
     let cubeEntity = Entity()
 
     let yawEntity = Entity()
     let pitchEntity = Entity()
     let rotationEntity = Entity()
 
-    let cameraAnchor = AnchorEntity()
-
     var pieceEntities: [Entity] = []
-    var animationCompletion: Cancellable? = nil
 
     let thickness: Float = 0.1
 
-    init(scene: Scene) {
-        self.scene = scene
+    let runner: ActionRunner
+
+    init(runner: ActionRunner) {
+        self.runner = runner
         cubeEntity.addChild(rotationEntity)
 
         setupCamera()
@@ -100,15 +104,18 @@ class RealityKitContent {
         movePiecesIntoRotation(for: move)
         let transform: Transform = .turn(move: move)
 
-        let controller = rotationEntity.move(to: transform, relativeTo: rotationEntity.parent, duration: duration, timingFunction: .easeOut)
-
-        animationCompletion = scene.publisher(for: AnimationEvents.PlaybackCompleted.self)
-            .filter { $0.playbackController == controller }
-            .sink(receiveValue: { event in
-                self.movePiecesBackFromRotation()
-                self.animationCompletion = nil
-                afterAction()
-            })
+        rotationEntity.move(to: transform, relativeTo: rotationEntity.parent, duration: duration, timingFunction: .easeOut)
+        runner.register {
+            self.movePiecesBackFromRotation()
+            afterAction()
+        }
+//        animationCompletion = scene.publisher(for: AnimationEvents.PlaybackCompleted.self)
+//            .filter { $0.playbackController == controller }
+//            .sink(receiveValue: { event in
+//                self.movePiecesBackFromRotation()
+//                self.animationCompletion = nil
+//                afterAction()
+//            })
     }
 
     private func movePiecesIntoRotation(for move: Move) {

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SceneKit
+import RealityKit
 
 struct ContentView: View {
     @ObservedObject var play: Play
@@ -21,7 +22,15 @@ struct ContentView: View {
     var body: some View {
         VStack {
             ZStack(alignment: .bottom) {
+                #if os(xrOS)
+                RealityView { scene in
+
+                } update: { content in
+                }
+                #else
                 Cube3DView(play: play, yawRatio: $yawRatio)
+                #endif
+
                 HStack {
                     Spacer()
                     Cube2DView(cube: play.cube.as2D())
