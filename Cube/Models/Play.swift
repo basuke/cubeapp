@@ -33,7 +33,7 @@ class Play: ObservableObject {
     @Published var cube: Cube = Cube_TestData.turnedCube
     @Published var moves: [Move] = []
 
-    let model: Model = SceneKitModel()
+    let model: Model = RealityKitModel()
 
     var running: Bool = false
     var requests: [Move] = []

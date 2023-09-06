@@ -12,6 +12,7 @@
 		EB30294C2ABF4C7500D01AF7 /* StickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB30294B2ABF4C7500D01AF7 /* StickerTests.swift */; };
 		EB3029542AC00D0E00D01AF7 /* PieceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3029532AC00D0E00D01AF7 /* PieceTests.swift */; };
 		EB3029602AC93BAD00D01AF7 /* SceneKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB30295F2AC93BAD00D01AF7 /* SceneKitModel.swift */; };
+		EB4037CB2ACBA38B00602707 /* RealityKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4037CA2ACBA38B00602707 /* RealityKitModel.swift */; };
 		EB595E142A97C24A003000D6 /* SceneKitUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB595E132A97C24A003000D6 /* SceneKitUtils.swift */; };
 		EB595E162A9907D5003000D6 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB595E152A9907D5003000D6 /* Camera.swift */; };
 		EB6C73902A88B493008DD244 /* MoveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6C738F2A88B493008DD244 /* MoveController.swift */; };
@@ -45,6 +46,7 @@
 		EB30294B2ABF4C7500D01AF7 /* StickerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerTests.swift; sourceTree = "<group>"; };
 		EB3029532AC00D0E00D01AF7 /* PieceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieceTests.swift; sourceTree = "<group>"; };
 		EB30295F2AC93BAD00D01AF7 /* SceneKitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitModel.swift; sourceTree = "<group>"; };
+		EB4037CA2ACBA38B00602707 /* RealityKitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityKitModel.swift; sourceTree = "<group>"; };
 		EB595E132A97C24A003000D6 /* SceneKitUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitUtils.swift; sourceTree = "<group>"; };
 		EB595E152A9907D5003000D6 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		EB6C738F2A88B493008DD244 /* MoveController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveController.swift; sourceTree = "<group>"; };
@@ -89,6 +91,23 @@
 				EBFFEFE32AC8E8290032A2AE /* FaceTests.swift */,
 			);
 			path = CubeTests;
+			sourceTree = "<group>";
+		};
+		EB4037C82ACBA34900602707 /* SceneKit */ = {
+			isa = PBXGroup;
+			children = (
+				EB30295F2AC93BAD00D01AF7 /* SceneKitModel.swift */,
+				EB595E132A97C24A003000D6 /* SceneKitUtils.swift */,
+			);
+			path = SceneKit;
+			sourceTree = "<group>";
+		};
+		EB4037C92ACBA35A00602707 /* RealityKit */ = {
+			isa = PBXGroup;
+			children = (
+				EB4037CA2ACBA38B00602707 /* RealityKitModel.swift */,
+			);
+			path = RealityKit;
 			sourceTree = "<group>";
 		};
 		EB96D4BF2A80BC6100CF0ED0 = {
@@ -138,8 +157,8 @@
 				EB595E152A9907D5003000D6 /* Camera.swift */,
 				EB27673B2A95592C00464B06 /* Dragging.swift */,
 				EB6C73912A899B6F008DD244 /* Persistence.swift */,
-				EB595E132A97C24A003000D6 /* SceneKitUtils.swift */,
-				EB30295F2AC93BAD00D01AF7 /* SceneKitModel.swift */,
+				EB4037C82ACBA34900602707 /* SceneKit */,
+				EB4037C92ACBA35A00602707 /* RealityKit */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -277,6 +296,7 @@
 				EB595E162A9907D5003000D6 /* Camera.swift in Sources */,
 				EB96D4DC2A817BF500CF0ED0 /* Cube2DView.swift in Sources */,
 				EB595E142A97C24A003000D6 /* SceneKitUtils.swift in Sources */,
+				EB4037CB2ACBA38B00602707 /* RealityKitModel.swift in Sources */,
 				EB3029602AC93BAD00D01AF7 /* SceneKitModel.swift in Sources */,
 				EB27673C2A95592C00464B06 /* Dragging.swift in Sources */,
 			);
