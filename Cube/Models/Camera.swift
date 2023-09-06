@@ -40,6 +40,10 @@ extension SceneKitModel {
     }
 }
 
+let kYawScaleFactorForARKit: Float = 1.7
+let kDistanceForARKit: Float = 0.3
+let kScaleForARKit: Float = 0.4
+
 extension ARKitModel {
     func setupCamera() {
         // Add the box node to the scene
@@ -47,17 +51,19 @@ extension ARKitModel {
         yawEntity.addChild(pitchEntity)
 
         pitchEntity.transform = Transform(pitch: initialPitch.value, yaw: 0.0, roll: 0.0)
-        yawEntity.transform = Transform(pitch: 0.0, yaw: initialYaw.value, roll: 0.0)
+        yawEntity.transform = Transform(pitch: 0.0, yaw: initialYaw.value * kYawScaleFactorForARKit, roll: 0.0)
 
-//        let camera = SCNCamera()
-//        camera.fieldOfView = cameraFOV
-//        camera.projectionDirection = .horizontal
-
-        
-//        cameraNode.camera = camera
-        yawEntity.position = simd_float3(0, 0, -cameraDistance)
-        cameraAnchor.addChild(yawEntity)
+        let adjustEntity = Entity()
+        adjustEntity.addChild(yawEntity)
+        adjustEntity.position = simd_float3(0, 0, -kDistanceForARKit)
+        adjustEntity.scale = simd_float3(kScaleForARKit, kScaleForARKit, kScaleForARKit)
+        cameraAnchor.addChild(adjustEntity)
 
         arView.scene.anchors.append(cameraAnchor)
+    }
+
+    func setCameraYaw(ratio: Float) {
+        let yaw = initialYaw.value * ratio
+        yawEntity.transform = Transform(pitch: 0.0, yaw: yaw * kYawScaleFactorForARKit, roll: 0.0)
     }
 }

@@ -32,7 +32,7 @@ class ARKitModel: Model {
     }
 
     func rebuild(with: Cube) {
-        let mesh = MeshResource.generateBox(size: 1.0, cornerRadius: 0.1)
+        let mesh = MeshResource.generateBox(size: 3.0, cornerRadius: 0.1)
         let material = SimpleMaterial(color: .red, isMetallic: true)
 
         let model = ModelEntity(mesh: mesh, materials: [material])

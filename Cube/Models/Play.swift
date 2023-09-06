@@ -24,6 +24,7 @@ protocol Model {
     func rebuild(with: Cube)
     func run(move: Move, duration: Double, afterAction: @escaping () -> Void)
     func hitTest(at: CGPoint, cube: Cube) -> Sticker?
+    func setCameraYaw(ratio: Float)
 
     var view: UIView { get }
 }
