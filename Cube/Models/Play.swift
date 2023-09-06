@@ -20,11 +20,19 @@ enum TurnSpeed {
     }
 }
 
+protocol Model {
+    func rebuild(with: Cube)
+    func run(move: Move, duration: Double, afterAction: @escaping () -> Void)
+    func hitTest(at: CGPoint, cube: Cube) -> Sticker?
+
+    var view: UIView { get }
+}
+
 class Play: ObservableObject {
     @Published var cube: Cube = Cube()
     @Published var moves: [Move] = []
 
-    let model = SceneKitModel()
+    let model: Model = SceneKitModel()
 
     var running: Bool = false
     var requests: [Move] = []
