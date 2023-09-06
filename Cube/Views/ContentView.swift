@@ -49,5 +49,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView(play: Play())
+    ContentView(play: Play(model: SceneKitModel()))
 }

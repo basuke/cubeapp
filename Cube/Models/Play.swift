@@ -33,7 +33,7 @@ class Play: ObservableObject {
     @Published var cube: Cube = Cube()
     @Published var moves: [Move] = []
 
-    let model: Model = ARKitModel()
+    let model: Model
 
     var running: Bool = false
     var requests: [Move] = []
@@ -44,7 +44,9 @@ class Play: ObservableObject {
         model.view
     }
 
-    init() {
+    init(model: Model) {
+        self.model = model
+
         rebuild()
     }
 

@@ -11,7 +11,19 @@ let debug = false
 
 @main
 struct CubeApp: App {
-    @StateObject private var play = Play()
+    static func generateModel() -> Model {
+        #if os(iOS)
+        SceneKitModel()
+        #else
+        ARKitModel()
+        #endif
+    }
+
+    static func generatePlay() -> Play {
+        Play(model: generateModel())
+    }
+
+    @StateObject private var play = generatePlay()
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {

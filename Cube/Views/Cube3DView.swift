@@ -42,5 +42,5 @@ struct Cube3DView: View {
 }
 
 #Preview {
-    Cube3DView(play: Play(), yawRatio: .constant(1.0))
+    Cube3DView(play: Play(model: ARKitModel()), yawRatio: .constant(1.0))
 }
