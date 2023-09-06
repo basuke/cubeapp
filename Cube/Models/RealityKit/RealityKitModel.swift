@@ -31,12 +31,49 @@ class RealityKitModel: Model {
         setupCamera()
     }
 
-    func rebuild(with: Cube) {
-        let mesh = MeshResource.generateBox(size: 3.0, cornerRadius: 0.1)
-        let material = SimpleMaterial(color: .red, isMetallic: true)
+    func rebuild(with cube: Cube) {
+        let mesh = MeshResource.generateBox(size: 1.0, cornerRadius: 0.1)
+        let material = SimpleMaterial(color: .init(white: 0.1, alpha: 1.0), isMetallic: false)
 
-        let model = ModelEntity(mesh: mesh, materials: [material])
-        cubeEntity.addChild(model)
+        let thickness: Float = 0.1
+
+        func createPiece(_ piece: Piece) -> Entity {
+            let entity = ModelEntity(mesh: mesh, materials: [material])
+
+            for (face, color) in piece.colors {
+                entity.addChild(createSticker(on: face, color: color))
+            }
+
+            entity.position = piece.position.simd3
+            return entity
+        }
+
+        func createSticker(on face: Face, color: Color) -> Entity {
+            let mesh = MeshResource.generateBox(width: 0.8, height: 0.8, depth: thickness, cornerRadius: 0.1)
+            let material = SimpleMaterial(color: color.uiColor, isMetallic: false)
+
+            let entity = ModelEntity(mesh: mesh, materials: [material])
+            entity.transform = stickerTransform(for: face)
+            return entity
+        }
+
+        func stickerTransform(for face: Face) -> Transform {
+            var transform: Transform = switch face {
+            case .front, .back: Transform()
+            case .up, .down: Transform(pitch: .pi / 2, yaw: 0, roll: 0)
+            case .right, .left: Transform(pitch: 0, yaw: .pi / 2, roll: 0)
+            }
+
+            let d = 0.5 - Double(thickness) / 3
+            let position = face.axis * d
+
+            transform.translation = position.simd3
+            return transform
+        }
+
+        pieceEntities.forEach { $0.removeFromParent() }
+        pieceEntities = cube.pieces.map { createPiece($0) }
+        pieceEntities.forEach { cubeEntity.addChild($0) }
     }
 
     func run(move: Move, duration: Double, afterAction: @escaping () -> Void) {
@@ -47,4 +84,10 @@ class RealityKitModel: Model {
     }
 
     var view: UIView { arView }
+}
+
+extension Vector {
+    var simd3: SIMD3<Float> {
+        simd_float3(x, y, z)
+    }
 }
