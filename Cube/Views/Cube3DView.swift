@@ -40,7 +40,3 @@ struct Cube3DView: View {
             .gesture(dragGesture)
     }
 }
-
-#Preview {
-    Cube3DView(play: Play(model: ARKitModel()), yawRatio: .constant(1.0))
-}

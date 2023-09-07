@@ -11,9 +11,11 @@ let debug = false
 
 @main
 struct CubeApp: App {
-    static func generateModel() -> Model {
+    static func generateModel() -> Model? {
         #if targetEnvironment(macCatalyst)
         ARKitModel()
+        #elseif os(xrOS)
+        nil
         #else
         SceneKitModel()
         #endif

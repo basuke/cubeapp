@@ -8,6 +8,7 @@
 import SwiftUI
 import SceneKit
 import RealityKit
+import Combine
 
 struct ContentView: View {
     @ObservedObject var play: Play
@@ -19,13 +20,37 @@ struct ContentView: View {
         UIColor.lightGray,
     ]
 
+    class RealityViewActionRunner: ActionRunner {
+        var subscription: EventSubscription? = nil
+        var action: Action? = nil
+
+        init(content: RealityViewContent) {
+            subscription = content.subscribe(to: AnimationEvents.PlaybackCompleted.self) { _ in
+                guard let action = self.action else { return }
+                action()
+            }
+        }
+
+        func register(action: @escaping Action) {
+            self.action = action
+        }
+    }
+
     var body: some View {
         VStack {
             ZStack(alignment: .bottom) {
                 #if os(xrOS)
-                RealityView { scene in
+                RealityView { content in
+                    if play.model == nil {
+                        let runner = RealityViewActionRunner(content: content)
+                        play.model = RealityKitModel(runner: runner)
+                    }
 
+                    if let model = play.model as? RealityKitModel {
+                        content.add(model.entity)
+                    }
                 } update: { content in
+                    play.model?.setCameraYaw(ratio: yawRatio)
                 }
                 #else
                 Cube3DView(play: play, yawRatio: $yawRatio)

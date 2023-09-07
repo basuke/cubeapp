@@ -9,6 +9,8 @@ import Foundation
 import RealityKit
 import UIKit
 
+#if os(xrOS)
+
 class RealityKitModel: RealityKitContent, Model {
     var view: UIView {
         UIView(frame:.zero)
@@ -18,3 +20,6 @@ class RealityKitModel: RealityKitContent, Model {
         return nil
     }
 }
+
+#endif
+

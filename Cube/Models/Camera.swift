@@ -58,7 +58,22 @@ extension RealityKitContent {
     }
 }
 
-#if !os(xrOS)
+#if os(xrOS)
+
+let kDistanceForRealityKit: Float = 0.3
+let kScaleForRealityKit: Float = 0.06
+
+extension RealityKitModel {
+    var entity: Entity {
+        let adjustEntity = Entity()
+        adjustEntity.addChild(yawEntity)
+        adjustEntity.position = simd_float3(0, 0, 0)
+        adjustEntity.scale = simd_float3(kScaleForRealityKit, kScaleForRealityKit, kScaleForRealityKit)
+        return adjustEntity
+    }
+}
+
+#else
 
 let kDistanceForARKit: Float = 0.3
 let kScaleForARKit: Float = 0.4
