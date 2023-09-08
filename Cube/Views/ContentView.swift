@@ -44,7 +44,7 @@ struct ContentView: View {
                         content.add(model.entity)
                     }
                 } update: { content in
-                    play.model?.setCameraYaw(ratio: yawRatio)
+                    play.model?.setCameraYaw(ratio: -yawRatio)
                 }
 
                 HStack {
