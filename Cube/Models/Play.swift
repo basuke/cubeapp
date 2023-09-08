@@ -43,7 +43,7 @@ class Play: ObservableObject {
     @Published var cube: Cube = Cube()
     @Published var moves: [Move] = []
 
-    let model: Model
+    let models: [Model]
     var coordinator: Coordinator? {
         didSet {
             rebuild()
@@ -61,7 +61,7 @@ class Play: ObservableObject {
     }
 
     init(model: Model, coordinator: Coordinator? = nil) {
-        self.model = model
+        self.models = [model]
         self.coordinator = coordinator
 
         rebuild()
@@ -72,7 +72,7 @@ class Play: ObservableObject {
     }
 
     func rebuild() {
-        model.rebuild(with: cube)
+        models.forEach { $0.rebuild(with: cube) }
     }
 
     func apply(move: Move, speed: TurnSpeed = .normal) {
@@ -103,10 +103,10 @@ class Play: ObservableObject {
         cube = cube.apply(move: move)
 
         let duration = speed.duration * (debug ? 10.0 : 1.0)
-        let publishers = Publishers.MergeMany([
-            model.run(move: move, duration: duration)
-        ])
-        return publishers
+        let futures = models.map {
+            $0.run(move: move, duration: duration)
+        }
+        return Publishers.MergeMany(futures)
             .receive(on: DispatchQueue.main)
             .sink { self.afterAction() }
     }
