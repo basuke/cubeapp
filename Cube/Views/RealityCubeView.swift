@@ -34,22 +34,17 @@ struct RealityCubeView: View {
 
     var body: some View {
         RealityView { content in
-            if play.coordinator == nil {
-                let runner = RealityViewActionRunner(content: content)
-                play.coordinator = RealityViewCoordinator(runner: runner)
-            }
+            if let model = play.model as? RealityKitModel {
+                if model.runner == nil {
+                    model.runner = RealityViewActionRunner(content: content)
+                }
 
-            if let coordinator = play.coordinator as? RealityViewCoordinator {
-                content.add(coordinator.entity)
+                content.add(model.entity)
             }
         } update: { content in
-            play.coordinator?.setCameraYaw(ratio: -yawRatio)
+            play.model.setCameraYaw(ratio: -yawRatio)
         }
     }
-}
-
-#Preview {
-    ContentView(play: Play())
 }
 
 #endif

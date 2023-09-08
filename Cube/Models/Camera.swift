@@ -14,7 +14,7 @@ let initialYaw = Float.degree(-12)
 let cameraDistance: Float = 34
 let cameraFOV: CGFloat = 8
 
-extension SceneKitCoordinator {
+extension SceneKitModel {
     func setupCamera() {
         // Add the box node to the scene
         pitchNode.addChildNode(cubeNode)
@@ -42,7 +42,7 @@ extension SceneKitCoordinator {
 
 let kYawScaleFactorForRealityKit: Float = 1.7
 
-extension RealityKitContent {
+extension RealityKitModel {
     func setupCamera() {
         // Add the box node to the scene
         pitchEntity.addChild(cubeEntity)
@@ -63,7 +63,7 @@ extension RealityKitContent {
 let kDistanceForRealityKit: Float = 0.3
 let kScaleForRealityKit: Float = 0.06
 
-extension RealityViewCoordinator {
+extension RealityKitModel {
     var entity: Entity {
         let adjustEntity = Entity()
         adjustEntity.addChild(yawEntity)
@@ -81,7 +81,7 @@ let kScaleForARKit: Float = 0.4
 extension ARKitCoordinator {
     func adjustCamera() {
         let adjustEntity = Entity()
-        adjustEntity.addChild(yawEntity)
+        adjustEntity.addChild(_model.yawEntity)
         adjustEntity.position = simd_float3(0, 0, -kDistanceForARKit)
         adjustEntity.scale = simd_float3(kScaleForARKit, kScaleForARKit, kScaleForARKit)
         cameraAnchor.addChild(adjustEntity)

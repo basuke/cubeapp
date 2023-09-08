@@ -10,7 +10,7 @@ import RealityKit
 import UIKit
 import Combine
 
-class RealityKitContent {
+class RealityKitModel: Model {
     let cubeEntity = Entity()
 
     let yawEntity = Entity()
@@ -21,10 +21,13 @@ class RealityKitContent {
 
     let thickness: Float = 0.1
 
-    let runner: ActionRunner
+    var runner: ActionRunner? {
+        willSet {
+            precondition(runner == nil)
+        }
+    }
 
-    init(runner: ActionRunner) {
-        self.runner = runner
+    init() {
         cubeEntity.addChild(rotationEntity)
 
         setupCamera()
@@ -100,9 +103,11 @@ class RealityKitContent {
         let transform: Transform = .turn(move: move)
 
         rotationEntity.move(to: transform, relativeTo: rotationEntity.parent, duration: duration, timingFunction: .easeOut)
-        runner.register {
-            self.movePiecesBackFromRotation()
-            afterAction()
+        if let runner {
+            runner.register {
+                self.movePiecesBackFromRotation()
+                afterAction()
+            }
         }
     }
 
@@ -141,18 +146,3 @@ extension Transform {
         return Transform(rotation: rotation)
     }
 }
-
-#if os(xrOS)
-
-class RealityViewCoordinator: RealityKitContent, Coordinator {
-    var view: UIView {
-        UIView(frame:.zero)
-    }
-
-    func hitTest(at: CGPoint, cube: Cube) -> Sticker? {
-        return nil
-    }
-}
-
-#endif
-

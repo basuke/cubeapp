@@ -8,25 +8,19 @@
 import Foundation
 import SceneKit
 
-class SceneKitCoordinator: Coordinator {
-    let sceneKitView = SCNView(frame: .zero)
+class SceneKitModel: Model {
     let scene = SCNScene()
     let cubeNode = SCNNode()
     let yawNode = SCNNode()
     let pitchNode = SCNNode()
     let cameraNode = SCNNode()
     let rotationNode = SCNNode()
-    
+
     var pieceNodes: [SCNNode] = []
 
-    var view: UIView { sceneKitView }
-
     init() {
-        sceneKitView.scene = scene
-        sceneKitView.backgroundColor = .clear
-
         cubeNode.addChildNode(rotationNode)
-        
+
         setupCamera()
     }
 
@@ -34,9 +28,9 @@ class SceneKitCoordinator: Coordinator {
         func createPiece(_ piece: Piece) -> SCNNode {
             let base = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0.1)
             base.firstMaterial?.diffuse.contents = UIColor(white: 0.1, alpha: 1.0)
-            
+
             let node = SCNNode(geometry: base)
-            
+
             piece.stickers.forEach { sticker in
                 node.addChildNode(createSticker(on: sticker.face, color: sticker.color))
             }
@@ -45,13 +39,13 @@ class SceneKitCoordinator: Coordinator {
             node.setKind(.piece)
             return node
         }
-        
+
         func createSticker(on face: Face, color: Color) -> SCNNode {
             let base = SCNBox(width: 0.8, height: 0.8, length: 0.8, chamferRadius: 0.1)
             base.firstMaterial?.diffuse.contents = color.uiColor
-            
+
             let node = SCNNode(geometry: base)
-            
+
             // Shift the box a little bit
             func shift(_ a: Face, _ b: Face) -> Float {
                 let shift: Float = 0.1 + 0.02
@@ -61,7 +55,7 @@ class SceneKitCoordinator: Coordinator {
             node.setKind(.sticker)
             return node
         }
-        
+
         pieceNodes.forEach { $0.removeFromParentNode() }
         pieceNodes = []
 
@@ -107,6 +101,22 @@ class SceneKitCoordinator: Coordinator {
             piece.position = SCNVector3(Vector(piece.position).rounded)
         }
     }
+}
+
+class SceneKitCoordinator: Coordinator {    
+    var model: Model {
+        _model
+    }
+    let _model: SceneKitModel
+    let sceneKitView = SCNView(frame: .zero)
+    var view: UIView { sceneKitView }
+
+    init(model: SceneKitModel) {
+        _model = model
+        sceneKitView.scene = model.scene
+        sceneKitView.backgroundColor = .clear
+    }
+
 
     func hitTest(at location: CGPoint, cube: Cube) -> Sticker? {
         let options: [SCNHitTestOption : Any] = [
@@ -117,7 +127,7 @@ class SceneKitCoordinator: Coordinator {
             return nil
         }
 
-        let normal = Vector(cubeNode.convertVector(result.worldNormal, from: nil)).rounded
+        let normal = Vector(_model.cubeNode.convertVector(result.worldNormal, from: nil)).rounded
 
         return identifySticker(from: result.node, cube: cube, normal: normal)
     }

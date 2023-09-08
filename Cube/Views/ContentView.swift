@@ -80,7 +80,3 @@ struct ContentView: View {
     }
 #endif
 }
-
-#Preview {
-    ContentView(play: Play(coordinator: SceneKitCoordinator()))
-}

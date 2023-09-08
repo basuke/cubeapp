@@ -20,13 +20,16 @@ enum TurnSpeed {
     }
 }
 
-protocol Coordinator {
+protocol Model {
     func rebuild(with: Cube)
     func run(move: Move, duration: Double, afterAction: @escaping () -> Void)
-    func hitTest(at: CGPoint, cube: Cube) -> Sticker?
     func setCameraYaw(ratio: Float)
+}
 
+protocol Coordinator {
+    func hitTest(at: CGPoint, cube: Cube) -> Sticker?
     var view: UIView { get }
+    var model: any Model { get }
 }
 
 typealias Action = () -> Void
@@ -39,6 +42,7 @@ class Play: ObservableObject {
     @Published var cube: Cube = Cube()
     @Published var moves: [Move] = []
 
+    let model: Model
     var coordinator: Coordinator? {
         didSet {
             rebuild()
@@ -55,15 +59,19 @@ class Play: ObservableObject {
         return coordinator.view
     }
 
-    init(coordinator: Coordinator? = nil) {
+    init(model: Model, coordinator: Coordinator? = nil) {
+        self.model = model
         self.coordinator = coordinator
 
         rebuild()
     }
 
+    convenience init(coordinator: Coordinator) {
+        self.init(model: coordinator.model, coordinator: coordinator)
+    }
+
     func rebuild() {
-        guard let coordinator else { return }
-        coordinator.rebuild(with: cube)
+        model.rebuild(with: cube)
     }
 
     func apply(move: Move, speed: TurnSpeed = .normal) {
@@ -91,13 +99,11 @@ class Play: ObservableObject {
     }
 
     private func run(move: Move, speed: TurnSpeed) {
-        guard let coordinator else { return }
-
         cube = cube.apply(move: move)
         running = true
 
         let duration = speed.duration * (debug ? 10.0 : 1.0)
-        coordinator.run(move: move, duration: duration) {
+        model.run(move: move, duration: duration) {
             self.afterAction()
         }
     }

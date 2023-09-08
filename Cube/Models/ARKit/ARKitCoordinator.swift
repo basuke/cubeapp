@@ -12,7 +12,11 @@ import Combine
 
 #if !os(xrOS)
 
-class ARKitCoordinator: RealityKitContent, Coordinator {
+class ARKitCoordinator: Coordinator {
+    var model: Model {
+        _model
+    }
+    let _model: RealityKitModel
     let arView = ARView(frame: .zero)
     let scene: Scene
 
@@ -37,11 +41,11 @@ class ARKitCoordinator: RealityKitContent, Coordinator {
 
     let actionRunner: ActionRunner
 
-    init() {
+    init(model: RealityKitModel) {
+        _model = model
         scene = arView.scene
         actionRunner = SceneActionRunner(scene: scene)
-
-        super.init(runner: actionRunner)
+        _model.runner = actionRunner
 
         adjustCamera()
         scene.anchors.append(cameraAnchor)
@@ -57,7 +61,7 @@ class ARKitCoordinator: RealityKitContent, Coordinator {
             return nil
         }
 
-        let stickerPosition = Vector(pieceEntity.convert(position: stickerEntity.position, to: cubeEntity))
+        let stickerPosition = Vector(pieceEntity.convert(position: stickerEntity.position, to: _model.cubeEntity))
 
         let position = (stickerPosition * 2).rounded * 0.5
 
