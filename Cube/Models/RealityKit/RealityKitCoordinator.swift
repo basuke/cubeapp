@@ -21,7 +21,7 @@ class RealityKitModel: Model {
 
     let thickness: Float = 0.1
 
-    var runner: ActionRunner? {
+    var runner: ActionRunner! {
         willSet {
             precondition(runner == nil)
         }
@@ -96,28 +96,17 @@ class RealityKitModel: Model {
         return transform
     }
 
-    private func run(move: Move, duration: Double, afterAction: @escaping () -> Void) {
+    func run(move: Move, duration: Double) -> Future<Void, Never> {
         rotationEntity.transform = .init()
 
         movePiecesIntoRotation(for: move)
         let transform: Transform = .turn(move: move)
 
         rotationEntity.move(to: transform, relativeTo: rotationEntity.parent, duration: duration, timingFunction: .easeOut)
-        let action = {
-            self.movePiecesBackFromRotation()
-            afterAction()
-        }
 
-        if let runner {
-            runner.register(action: action)
-        } else {
-            action()
-        }
-    }
-
-    func run(move: Move, duration: Double) -> Future<Void, Never> {
         return Future() { promise in
-            self.run(move: move, duration: duration) {
+            self.runner.register {
+                self.movePiecesBackFromRotation()
                 promise(Result.success(()))
             }
         }

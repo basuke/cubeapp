@@ -67,23 +67,18 @@ class SceneKitModel: Model {
         }
     }
 
-    private func run(move: Move, duration: Double, afterAction: @escaping () -> Void) {
+    func run(move: Move, duration: Double) -> Future<Void, Never> {
         movePiecesIntoRotation(for: move)
 
         let action = SCNAction.rotate(by: CGFloat(move.angle), around: SCNVector3(move.axis), duration: duration)
         action.timingMode = .easeOut
-        rotationNode.runAction(action) {
-            DispatchQueue.main.async {
-                self.movePiecesBackFromRotation()
-                afterAction()
-            }
-        }
-    }
 
-    func run(move: Move, duration: Double) -> Future<Void, Never> {
         return Future() { promise in
-            self.run(move: move, duration: duration) {
-                promise(Result.success(()))
+            self.rotationNode.runAction(action) {
+                DispatchQueue.main.async {
+                    self.movePiecesBackFromRotation()
+                    promise(Result.success(()))
+                }
             }
         }
     }
