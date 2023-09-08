@@ -60,7 +60,8 @@ class RealityKitContent {
             entity.generateCollisionShapes(recursive: false)
 
             #if os(xrOS)
-            entity.components[HoverEffectComponent.self] = HoverEffectComponent()
+            entity.components.set(HoverEffectComponent())
+            entity.components.set(InputTargetComponent())
             #endif
 
             return entity

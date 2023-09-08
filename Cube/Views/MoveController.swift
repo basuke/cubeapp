@@ -82,16 +82,15 @@ struct MoveController: View {
     var turnButtons: some View {
         VStack {
             HStack {
-                pair("L", layout: .vertical, primeFirst: false)
+                pair("L", layout: .vertical, primeFirst: true)
                 VStack {
-                    pair("U", layout: .horizontal, primeFirst: true)
+                    pair("B", layout: .horizontal, primeFirst: false)
+                    pair("U", layout: .horizontal, primeFirst: false)
                     pair("F", layout: .horizontal, primeFirst: true)
-                    pair("D", layout: .horizontal, primeFirst: false)
+                    pair("D", layout: .horizontal, primeFirst: true)
                 }
-                pair("R", layout: .vertical, primeFirst: true)
+                pair("R", layout: .vertical, primeFirst: false)
             }
-            Divider().frame(width:80)
-            pair("B", layout: .horizontal, primeFirst: false)
         }
     }
 
@@ -105,10 +104,9 @@ struct MoveController: View {
 
     var rotateButtons: some View {
         HStack {
-            pair("z", layout: .vertical, primeFirst: false)
-            Divider().frame(height:80)
             VStack {
                 button("x", prime: false)
+                pair("z", layout: .horizontal, primeFirst: true)
                 pair("y", layout: .horizontal, primeFirst: false)
                 button("x", prime: true)
             }

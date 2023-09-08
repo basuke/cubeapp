@@ -12,7 +12,7 @@ import Combine
 
 struct ContentView: View {
     @ObservedObject var play: Play
-    @State private var yawRatio: Float = 1.0
+    @State private var yawRatio: Float = -1.0
 
     let gradientColors: [UIColor] = [
         UIColor.lightGray,
@@ -20,6 +20,7 @@ struct ContentView: View {
         UIColor.lightGray,
     ]
 
+    #if os(xrOS)
     class RealityViewActionRunner: ActionRunner {
         var subscription: EventSubscription? = nil
         var action: Action? = nil
@@ -35,6 +36,7 @@ struct ContentView: View {
             self.action = action
         }
     }
+    #endif
 
     var body: some View {
         VStack {
@@ -52,6 +54,7 @@ struct ContentView: View {
                 } update: { content in
                     play.model?.setCameraYaw(ratio: yawRatio)
                 }
+
                 #else
                 Cube3DView(play: play, yawRatio: $yawRatio)
                 #endif
@@ -68,6 +71,7 @@ struct ContentView: View {
                     Spacer()
                 }
             }
+            .hoverEffect()
             MoveController(canUndo: !play.moves.isEmpty) { move in
                 if let move {
                     play.apply(move: move)
