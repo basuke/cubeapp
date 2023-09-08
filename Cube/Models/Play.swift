@@ -103,9 +103,9 @@ class Play: ObservableObject {
         cube = cube.apply(move: move)
 
         let duration = speed.duration * (debug ? 10.0 : 1.0)
-        return model.run(move: move, duration: duration).sink {
-            self.afterAction()
-        }
+        return model.run(move: move, duration: duration)
+            .receive(on: DispatchQueue.main)
+            .sink { self.afterAction() }
     }
 
     private func afterAction() {
