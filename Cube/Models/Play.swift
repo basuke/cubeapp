@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Combine
 
 enum TurnSpeed {
     case normal
@@ -22,7 +23,7 @@ enum TurnSpeed {
 
 protocol Model {
     func rebuild(with: Cube)
-    func run(move: Move, duration: Double, afterAction: @escaping () -> Void)
+    func run(move: Move, duration: Double) -> Future<Void, Never>
     func setCameraYaw(ratio: Float)
 }
 
@@ -49,8 +50,8 @@ class Play: ObservableObject {
         }
     }
 
-    var running: Bool = false
-    var requests: [Move] = []
+    private var running: AnyCancellable? = nil
+    private var requests: [Move] = []
 
     var dragging: Dragging? = nil
 
@@ -75,22 +76,22 @@ class Play: ObservableObject {
     }
 
     func apply(move: Move, speed: TurnSpeed = .normal) {
-        guard !running else {
+        guard running == nil else {
             requests.append(move)
             return
         }
 
         moves.append(move)
-        run(move: move, speed: speed)
+        running = run(move: move, speed: speed)
     }
 
     func undo() {
         if requests.isEmpty {
             if let move = moves.popLast() {
-                if running {
-                    requests.append(move.reversed)
+                if running == nil {
+                    running = run(move: move.reversed, speed: .quick)
                 } else {
-                    run(move: move.reversed, speed: .quick)
+                    requests.append(move.reversed)
                 }
             }
         } else {
@@ -98,22 +99,20 @@ class Play: ObservableObject {
         }
     }
 
-    private func run(move: Move, speed: TurnSpeed) {
+    private func run(move: Move, speed: TurnSpeed) -> AnyCancellable {
         cube = cube.apply(move: move)
-        running = true
 
         let duration = speed.duration * (debug ? 10.0 : 1.0)
-        model.run(move: move, duration: duration) {
+        return model.run(move: move, duration: duration).sink {
             self.afterAction()
         }
     }
 
     private func afterAction() {
-        if requests.isEmpty {
-            running = false
+        running = if requests.isEmpty {
+            nil
         } else {
-            let move = requests.removeFirst()
-            run(move: move, speed: .quick)
+            run(move: requests.removeFirst(), speed: .quick)
         }
     }
 }

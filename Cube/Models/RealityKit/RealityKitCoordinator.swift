@@ -96,17 +96,29 @@ class RealityKitModel: Model {
         return transform
     }
 
-    func run(move: Move, duration: Double, afterAction: @escaping () -> Void) {
+    private func run(move: Move, duration: Double, afterAction: @escaping () -> Void) {
         rotationEntity.transform = .init()
 
         movePiecesIntoRotation(for: move)
         let transform: Transform = .turn(move: move)
 
         rotationEntity.move(to: transform, relativeTo: rotationEntity.parent, duration: duration, timingFunction: .easeOut)
+        let action = {
+            self.movePiecesBackFromRotation()
+            afterAction()
+        }
+
         if let runner {
-            runner.register {
-                self.movePiecesBackFromRotation()
-                afterAction()
+            runner.register(action: action)
+        } else {
+            action()
+        }
+    }
+
+    func run(move: Move, duration: Double) -> Future<Void, Never> {
+        return Future() { promise in
+            self.run(move: move, duration: duration) {
+                promise(Result.success(()))
             }
         }
     }

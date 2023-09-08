@@ -7,6 +7,7 @@
 
 import Foundation
 import SceneKit
+import Combine
 
 class SceneKitModel: Model {
     let scene = SCNScene()
@@ -66,7 +67,7 @@ class SceneKitModel: Model {
         }
     }
 
-    func run(move: Move, duration: Double, afterAction: @escaping () -> Void) {
+    private func run(move: Move, duration: Double, afterAction: @escaping () -> Void) {
         movePiecesIntoRotation(for: move)
 
         let action = SCNAction.rotate(by: CGFloat(move.angle), around: SCNVector3(move.axis), duration: duration)
@@ -75,6 +76,14 @@ class SceneKitModel: Model {
             DispatchQueue.main.async {
                 self.movePiecesBackFromRotation()
                 afterAction()
+            }
+        }
+    }
+
+    func run(move: Move, duration: Double) -> Future<Void, Never> {
+        return Future() { promise in
+            self.run(move: move, duration: duration) {
+                promise(Result.success(()))
             }
         }
     }
