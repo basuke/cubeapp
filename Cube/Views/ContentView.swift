@@ -15,37 +15,10 @@ struct ContentView: View {
     @State private var yawRatio: Float = -1.0
 
 #if os(xrOS)
-    class RealityViewActionRunner: ActionRunner {
-        var subscription: EventSubscription? = nil
-        var action: Action? = nil
-
-        init(content: RealityViewContent) {
-            subscription = content.subscribe(to: AnimationEvents.PlaybackCompleted.self) { _ in
-                guard let action = self.action else { return }
-                action()
-            }
-        }
-
-        func register(action: @escaping Action) {
-            self.action = action
-        }
-    }
-
     var body: some View {
         VStack {
             ZStack(alignment: .bottom) {
-                RealityView { content in
-                    if play.coordinator == nil {
-                        let runner = RealityViewActionRunner(content: content)
-                        play.coordinator = RealityViewCoordinator(runner: runner)
-                    }
-
-                    if let coordinator = play.coordinator as? RealityViewCoordinator {
-                        content.add(coordinator.entity)
-                    }
-                } update: { content in
-                    play.coordinator?.setCameraYaw(ratio: -yawRatio)
-                }
+                RealityCubeView(play: play, yawRatio: $yawRatio)
 
                 HStack {
                     Spacer()
