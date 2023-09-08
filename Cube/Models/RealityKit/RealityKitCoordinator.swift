@@ -1,5 +1,5 @@
 //
-//  RealityKitContent.swift
+//  RealityKitModel.swift
 //  Cube
 //
 //  Created by Basuke Suzuki on 9/6/23.
@@ -9,12 +9,6 @@ import Foundation
 import RealityKit
 import UIKit
 import Combine
-
-typealias Action = () -> Void
-
-protocol ActionRunner {
-    func register(action: @escaping Action)
-}
 
 class RealityKitContent {
     let cubeEntity = Entity()
@@ -110,13 +104,6 @@ class RealityKitContent {
             self.movePiecesBackFromRotation()
             afterAction()
         }
-//        animationCompletion = scene.publisher(for: AnimationEvents.PlaybackCompleted.self)
-//            .filter { $0.playbackController == controller }
-//            .sink(receiveValue: { event in
-//                self.movePiecesBackFromRotation()
-//                self.animationCompletion = nil
-//                afterAction()
-//            })
     }
 
     private func movePiecesIntoRotation(for move: Move) {
@@ -154,3 +141,18 @@ extension Transform {
         return Transform(rotation: rotation)
     }
 }
+
+#if os(xrOS)
+
+class RealityViewCoordinator: RealityKitContent, Coordinator {
+    var view: UIView {
+        UIView(frame:.zero)
+    }
+
+    func hitTest(at: CGPoint, cube: Cube) -> Sticker? {
+        return nil
+    }
+}
+
+#endif
+

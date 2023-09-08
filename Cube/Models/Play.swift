@@ -20,7 +20,7 @@ enum TurnSpeed {
     }
 }
 
-protocol Model {
+protocol Coordinator {
     func rebuild(with: Cube)
     func run(move: Move, duration: Double, afterAction: @escaping () -> Void)
     func hitTest(at: CGPoint, cube: Cube) -> Sticker?
@@ -29,11 +29,17 @@ protocol Model {
     var view: UIView { get }
 }
 
+typealias Action = () -> Void
+
+protocol ActionRunner {
+    func register(action: @escaping Action)
+}
+
 class Play: ObservableObject {
     @Published var cube: Cube = Cube()
     @Published var moves: [Move] = []
 
-    var model: Model? {
+    var coordinator: Coordinator? {
         didSet {
             rebuild()
         }
@@ -45,19 +51,19 @@ class Play: ObservableObject {
     var dragging: Dragging? = nil
 
     var view: UIView {
-        guard let model else { return UIView(frame: .zero) }
-        return model.view
+        guard let coordinator else { return UIView(frame: .zero) }
+        return coordinator.view
     }
 
-    init(model: Model? = nil) {
-        self.model = model
+    init(coordinator: Coordinator? = nil) {
+        self.coordinator = coordinator
 
         rebuild()
     }
 
     func rebuild() {
-        guard let model else { return }
-        model.rebuild(with: cube)
+        guard let coordinator else { return }
+        coordinator.rebuild(with: cube)
     }
 
     func apply(move: Move, speed: TurnSpeed = .normal) {
@@ -85,13 +91,13 @@ class Play: ObservableObject {
     }
 
     private func run(move: Move, speed: TurnSpeed) {
-        guard let model else { return }
+        guard let coordinator else { return }
 
         cube = cube.apply(move: move)
         running = true
 
         let duration = speed.duration * (debug ? 10.0 : 1.0)
-        model.run(move: move, duration: duration) {
+        coordinator.run(move: move, duration: duration) {
             self.afterAction()
         }
     }

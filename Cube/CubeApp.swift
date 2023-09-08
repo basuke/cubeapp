@@ -11,18 +11,18 @@ let debug = false
 
 @main
 struct CubeApp: App {
-    static func generateModel() -> Model? {
+    static func generateCoordinator() -> Coordinator? {
         #if targetEnvironment(macCatalyst)
-        ARKitModel()
+        ARKitCoordinator()
         #elseif os(xrOS)
         nil
         #else
-        SceneKitModel()
+        SceneKitCoordinator()
         #endif
     }
 
     static func generatePlay() -> Play {
-        Play(model: generateModel())
+        Play(coordinator: generateCoordinator())
     }
 
     @StateObject private var play = generatePlay()

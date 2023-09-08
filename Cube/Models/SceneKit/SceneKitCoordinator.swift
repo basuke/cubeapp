@@ -8,7 +8,7 @@
 import Foundation
 import SceneKit
 
-class SceneKitModel: Model {
+class SceneKitCoordinator: Coordinator {
     let sceneKitView = SCNView(frame: .zero)
     let scene = SCNScene()
     let cubeNode = SCNNode()

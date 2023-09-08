@@ -12,7 +12,7 @@ import Combine
 
 #if !os(xrOS)
 
-class ARKitModel: RealityKitContent, Model {
+class ARKitCoordinator: RealityKitContent, Coordinator {
     let arView = ARView(frame: .zero)
     let scene: Scene
 

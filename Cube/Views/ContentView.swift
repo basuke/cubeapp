@@ -35,16 +35,16 @@ struct ContentView: View {
         VStack {
             ZStack(alignment: .bottom) {
                 RealityView { content in
-                    if play.model == nil {
+                    if play.coordinator == nil {
                         let runner = RealityViewActionRunner(content: content)
-                        play.model = RealityKitModel(runner: runner)
+                        play.coordinator = RealityViewCoordinator(runner: runner)
                     }
 
-                    if let model = play.model as? RealityKitModel {
-                        content.add(model.entity)
+                    if let coordinator = play.coordinator as? RealityViewCoordinator {
+                        content.add(coordinator.entity)
                     }
                 } update: { content in
-                    play.model?.setCameraYaw(ratio: -yawRatio)
+                    play.coordinator?.setCameraYaw(ratio: -yawRatio)
                 }
 
                 HStack {
@@ -109,5 +109,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView(play: Play(model: SceneKitModel()))
+    ContentView(play: Play(coordinator: SceneKitCoordinator()))
 }
