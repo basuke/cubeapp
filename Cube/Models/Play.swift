@@ -21,6 +21,17 @@ enum TurnSpeed {
     }
 }
 
+enum ModelKind {
+    case sceneKit, realityKit
+
+    func instanciate() -> Model {
+        switch self {
+        case .sceneKit: SceneKitModel()
+        case .realityKit: RealityKitModel()
+        }
+    }
+}
+
 protocol Model {
     func rebuild(with: Cube)
     func run(move: Move, duration: Double) -> Future<Void, Never>
@@ -43,34 +54,29 @@ class Play: ObservableObject {
     @Published var cube: Cube = Cube()
     @Published var moves: [Move] = []
 
-    let models: [Model]
-    var coordinator: Coordinator? {
-        didSet {
-            rebuild()
-        }
-    }
+    private var models: [ModelKind:Model] = [:]
 
     private var running: AnyCancellable? = nil
     private var requests: [Move] = []
 
-    var view: UIView {
-        guard let coordinator else { return UIView(frame: .zero) }
-        return coordinator.view
+    func model(for kind: ModelKind) -> Model {
+        if let model = models[kind] {
+            return model
+        }
+
+        let model = kind.instanciate()
+        model.rebuild(with: cube)
+
+        models[kind] = model
+        return model
     }
 
-    init(model: Model, coordinator: Coordinator? = nil) {
-        self.models = [model]
-        self.coordinator = coordinator
-
-        rebuild()
-    }
-
-    convenience init(coordinator: Coordinator) {
-        self.init(model: coordinator.model, coordinator: coordinator)
+    func forEachModel(task: (Model) -> Void) {
+        models.values.forEach(task)
     }
 
     func rebuild() {
-        models.forEach { $0.rebuild(with: cube) }
+        forEachModel { $0.rebuild(with: cube) }
     }
 
     func apply(move: Move, speed: TurnSpeed = .normal) {
@@ -101,7 +107,7 @@ class Play: ObservableObject {
         cube = cube.apply(move: move)
 
         let duration = speed.duration * (debug ? 10.0 : 1.0)
-        let futures = models.map {
+        let futures = models.values.map {
             $0.run(move: move, duration: duration)
         }
         return Publishers.MergeMany(futures)

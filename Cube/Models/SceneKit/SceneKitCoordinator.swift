@@ -15,7 +15,10 @@ class SceneKitCoordinator: Coordinator {
     let sceneKitView = SCNView(frame: .zero)
     var view: UIView { sceneKitView }
 
-    init(model: SceneKitModel) {
+    init(model: Model) {
+        guard let model = model as? SceneKitModel else {
+            fatalError("Invalid model was passed.")
+        }
         _model = model
         sceneKitView.scene = model.scene
         sceneKitView.backgroundColor = .clear

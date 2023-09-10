@@ -9,36 +9,30 @@ import SwiftUI
 
 struct Cube3DView: View {
     @ObservedObject var play: Play
+    let coordinator: Coordinator
     @Binding var yawRatio: Float
     @State var dragging: Dragging?
 
     struct PlayViewContainer: UIViewRepresentable {
         @ObservedObject var play: Play
+        let coordinator: Coordinator
         @Binding var yawRatio: Float
 
         func makeUIView(context: Context) -> some UIView {
-            play.models.forEach { $0.setCameraYaw(ratio: -yawRatio) }
-            return play.view
+            play.forEachModel { $0.setCameraYaw(ratio: -yawRatio) }
+            return coordinator.view
         }
 
         func updateUIView(_ uiView: UIViewType, context: Context) {
-            play.models.forEach { $0.setCameraYaw(ratio: -yawRatio) }
+            play.forEachModel { $0.setCameraYaw(ratio: -yawRatio) }
         }
-    }
-
-    func beginDragging(at location: CGPoint) -> Dragging? {
-        guard let coordinator = play.coordinator else {
-            return nil
-        }
-
-        return coordinator.beginDragging(at: location, play: play)
     }
 
     var dragGesture: some Gesture {
         DragGesture(minimumDistance: 0)
             .onChanged { value in
                 guard let dragging else {
-                    dragging = beginDragging(at: value.location) ?? VoidDragging()
+                    dragging = coordinator.beginDragging(at: value.location, play: play) ?? VoidDragging()
                     return
                 }
 
@@ -51,7 +45,7 @@ struct Cube3DView: View {
     }
 
     var body: some View {
-        PlayViewContainer(play: play, yawRatio: $yawRatio)
+        PlayViewContainer(play: play, coordinator: coordinator, yawRatio: $yawRatio)
             .gesture(dragGesture)
     }
 }
