@@ -53,8 +53,6 @@ class Play: ObservableObject {
     private var running: AnyCancellable? = nil
     private var requests: [Move] = []
 
-    var dragging: Dragging? = nil
-
     var view: UIView {
         guard let coordinator else { return UIView(frame: .zero) }
         return coordinator.view

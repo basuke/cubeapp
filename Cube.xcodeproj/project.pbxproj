@@ -23,8 +23,9 @@
 		EB96D4E22A82C18700CF0ED0 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4E12A82C18700CF0ED0 /* Move.swift */; };
 		EBB59AC62AA7E07F005AE35F /* SceneKitCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB59AC52AA7E07F005AE35F /* SceneKitCoordinator.swift */; };
 		EBB59AC82AA7F983005AE35F /* ARKitCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB59AC72AA7F983005AE35F /* ARKitCoordinator.swift */; };
-		EBB59AD32AA93123005AE35F /* RealityKitCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB59AD22AA93123005AE35F /* RealityKitCoordinator.swift */; };
+		EBDF64B92ABDFB2000E50588 /* RealityKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDF64B82ABDFB2000E50588 /* RealityKitModel.swift */; };
 		EBED01F62A8AFD86006FBF1B /* Play.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBED01F52A8AFD86006FBF1B /* Play.swift */; };
+		EBF45DB52ABDFBB300D8DE48 /* SceneKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF45DB42ABDFBB300D8DE48 /* SceneKitModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,8 +47,9 @@
 		EBB59AC52AA7E07F005AE35F /* SceneKitCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitCoordinator.swift; sourceTree = "<group>"; };
 		EBB59AC72AA7F983005AE35F /* ARKitCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARKitCoordinator.swift; sourceTree = "<group>"; };
 		EBB59ACB2AA91A76005AE35F /* Cube.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cube.entitlements; sourceTree = "<group>"; };
-		EBB59AD22AA93123005AE35F /* RealityKitCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityKitCoordinator.swift; sourceTree = "<group>"; };
+		EBDF64B82ABDFB2000E50588 /* RealityKitModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealityKitModel.swift; sourceTree = "<group>"; };
 		EBED01F52A8AFD86006FBF1B /* Play.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Play.swift; sourceTree = "<group>"; };
+		EBF45DB42ABDFBB300D8DE48 /* SceneKitModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneKitModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 		EBB59AC92AA7F991005AE35F /* SceneKit */ = {
 			isa = PBXGroup;
 			children = (
+				EBF45DB42ABDFBB300D8DE48 /* SceneKitModel.swift */,
 				EBB59AC52AA7E07F005AE35F /* SceneKitCoordinator.swift */,
 				EB595E132A97C24A003000D6 /* SceneKitUtils.swift */,
 			);
@@ -118,7 +121,7 @@
 		EBB59ACF2AA924EA005AE35F /* RealityKit */ = {
 			isa = PBXGroup;
 			children = (
-				EBB59AD22AA93123005AE35F /* RealityKitCoordinator.swift */,
+				EBDF64B82ABDFB2000E50588 /* RealityKitModel.swift */,
 			);
 			path = RealityKit;
 			sourceTree = "<group>";
@@ -224,9 +227,9 @@
 				EB27673A2A95160B00464B06 /* Cube3DView.swift in Sources */,
 				EB6C73922A899B6F008DD244 /* Persistence.swift in Sources */,
 				EB6C73902A88B493008DD244 /* MoveController.swift in Sources */,
-				EBB59AD32AA93123005AE35F /* RealityKitCoordinator.swift in Sources */,
 				EB6B3ACE2AAB863800AF0414 /* RealityCubeView.swift in Sources */,
 				EB96D4CE2A80BC6100CF0ED0 /* ContentView.swift in Sources */,
+				EBF45DB52ABDFBB300D8DE48 /* SceneKitModel.swift in Sources */,
 				EB96D4DE2A81BA1D00CF0ED0 /* Cube.swift in Sources */,
 				EBB59AC82AA7F983005AE35F /* ARKitCoordinator.swift in Sources */,
 				EBB59AC62AA7E07F005AE35F /* SceneKitCoordinator.swift in Sources */,
@@ -236,6 +239,7 @@
 				EB595E162A9907D5003000D6 /* Camera.swift in Sources */,
 				EB96D4DC2A817BF500CF0ED0 /* Cube2DView.swift in Sources */,
 				EB595E142A97C24A003000D6 /* SceneKitUtils.swift in Sources */,
+				EBDF64B92ABDFB2000E50588 /* RealityKitModel.swift in Sources */,
 				EB27673C2A95592C00464B06 /* Dragging.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

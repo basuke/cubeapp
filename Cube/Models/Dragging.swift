@@ -125,14 +125,14 @@ class DirectionDetector: DirectionDetectable, CustomDebugStringConvertible {
 }
 
 class TurnDragging: Dragging {
-    let play: Play
     let sticker: Sticker
+    let action: (Move) -> Void
 
     let detector: DirectionDetectable
 
-    init(at location: CGPoint, play: Play, sticker: Sticker) {
-        self.play = play
+    init(at location: CGPoint, sticker: Sticker, action: @escaping (Move) -> Void) {
         self.sticker = sticker
+        self.action = action
 
         let tilted: DirectionDetector.Tilted = switch sticker.face {
         case .right: .left
@@ -156,7 +156,7 @@ class TurnDragging: Dragging {
               let move = Move.from(string: moveStr)
                 else { return }
 
-        play.apply(move: move, speed: .quick)
+        action(move)
     }
 }
 
@@ -171,27 +171,15 @@ class VoidDragging: Dragging {
     }
 }
 
-extension Play {
-    private func beginDragging(at location: CGPoint) -> Dragging? {
-        guard let sticker = coordinator?.hitTest(at: location, cube: cube) else {
+extension Coordinator {
+    func beginDragging(at location: CGPoint, play: Play) -> Dragging? {
+        guard let sticker = hitTest(at: location, cube: play.cube) else {
             return nil
         }
 
-        return TurnDragging(at: location, play: self, sticker: sticker)
-    }
-
-    func updateDragging(at location: CGPoint) {
-        if let dragging {
-            dragging.update(at: location)
-            return
+        return TurnDragging(at: location, sticker: sticker) { move in
+            play.apply(move: move, speed: .quick)
         }
-
-        dragging = beginDragging(at: location) ?? VoidDragging()
-    }
-
-    func endDragging(at location: CGPoint) {
-        dragging?.end(at: location)
-        dragging = nil
     }
 }
 
