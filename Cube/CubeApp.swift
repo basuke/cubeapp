@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-let debug = true
+let debug = false
 
 @main
 struct CubeApp: App {

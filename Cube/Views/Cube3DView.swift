@@ -9,9 +9,13 @@ import SwiftUI
 
 struct Cube3DView: View {
     @ObservedObject var play: Play
-    let coordinator: Coordinator
+    let kind: CoordinatorKind
     @Binding var yawRatio: Float
     @State var dragging: Dragging?
+
+    var coordinator: Coordinator {
+        play.coordinator(for: kind)
+    }
 
     struct PlayViewContainer: UIViewRepresentable {
         @ObservedObject var play: Play

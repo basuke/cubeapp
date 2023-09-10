@@ -52,8 +52,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             ZStack(alignment: .bottom) {
-                let coordinator = SceneKitCoordinator(model: play.model(for: .sceneKit))
-                Cube3DView(play: play, coordinator: coordinator, yawRatio: $yawRatio)
+                Cube3DView(play: play, kind: .sceneKit, yawRatio: $yawRatio)
 
                 HStack {
                     Spacer()

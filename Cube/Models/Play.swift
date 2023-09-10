@@ -23,13 +23,13 @@ enum TurnSpeed {
 
 enum ModelKind {
     case sceneKit, realityKit
+}
 
-    func instanciate() -> Model {
-        switch self {
-        case .sceneKit: SceneKitModel()
-        case .realityKit: RealityKitModel()
-        }
-    }
+enum CoordinatorKind {
+    case sceneKit
+    #if !os(xrOS)
+    case arKit
+    #endif
 }
 
 protocol Model {
@@ -55,25 +55,10 @@ class Play: ObservableObject {
     @Published var moves: [Move] = []
 
     private var models: [ModelKind:Model] = [:]
+    private var coordinators: [CoordinatorKind:Coordinator] = [:]
 
     private var running: AnyCancellable? = nil
     private var requests: [Move] = []
-
-    func model(for kind: ModelKind) -> Model {
-        if let model = models[kind] {
-            return model
-        }
-
-        let model = kind.instanciate()
-        model.rebuild(with: cube)
-
-        models[kind] = model
-        return model
-    }
-
-    func forEachModel(task: (Model) -> Void) {
-        models.values.forEach(task)
-    }
 
     func rebuild() {
         forEachModel { $0.rebuild(with: cube) }
@@ -121,6 +106,57 @@ class Play: ObservableObject {
         } else {
             run(move: requests.removeFirst(), speed: .quick)
         }
+    }
+}
+
+extension ModelKind {
+    func instanciate() -> Model {
+        switch self {
+        case .sceneKit: SceneKitModel()
+        case .realityKit: RealityKitModel()
+        }
+    }
+}
+
+extension Play {
+    func model(for kind: ModelKind) -> Model {
+        if let model = models[kind] {
+            return model
+        }
+
+        let model = kind.instanciate()
+        model.rebuild(with: cube)
+
+        models[kind] = model
+        return model
+    }
+
+    func forEachModel(task: (Model) -> Void) {
+        models.values.forEach(task)
+    }
+}
+
+extension CoordinatorKind {
+    func instanciate(play: Play) -> Coordinator {
+        switch self {
+        case .sceneKit: SceneKitCoordinator(model: play.model(for: .sceneKit))
+#if !os(xrOS)
+        case .arKit: ARKitCoordinator(model: play.model(for: .realityKit))
+#endif
+        }
+    }
+}
+
+extension Play {
+    func coordinator(for kind: CoordinatorKind) -> Coordinator {
+        if let coordinator = coordinators[kind] {
+            return coordinator
+        }
+
+        let coordinator = kind.instanciate(play: self)
+
+        coordinators[kind] = coordinator
+        return coordinator
     }
 }
 

@@ -34,7 +34,7 @@ struct RealityCubeView: View {
 
     var body: some View {
         RealityView { content in
-            if let model = play.model as? RealityKitModel {
+            if let model = play.model(for: .realityKit) as? RealityKitModel {
                 if model.runner == nil {
                     model.runner = RealityViewActionRunner(content: content)
                 }
@@ -42,7 +42,7 @@ struct RealityCubeView: View {
                 content.add(model.entity)
             }
         } update: { content in
-            play.model.setCameraYaw(ratio: -yawRatio)
+            play.forEachModel { $0.setCameraYaw(ratio: -yawRatio) }
         }
     }
 }

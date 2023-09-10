@@ -41,7 +41,10 @@ class ARKitCoordinator: Coordinator {
 
     let actionRunner: ActionRunner
 
-    init(model: RealityKitModel) {
+    init(model: Model) {
+        guard let model = model as? RealityKitModel else {
+            fatalError("Invalid model was passed.")
+        }
         _model = model
         scene = arView.scene
         actionRunner = SceneActionRunner(scene: scene)
