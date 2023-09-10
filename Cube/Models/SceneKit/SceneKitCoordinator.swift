@@ -5,9 +5,7 @@
 //  Created by Basuke Suzuki on 9/9/23.
 //
 
-import Foundation
 import SceneKit
-import Combine
 
 class SceneKitCoordinator: Coordinator {
     var model: Model {

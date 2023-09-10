@@ -21,7 +21,7 @@
 		EB96D4DC2A817BF500CF0ED0 /* Cube2DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4DB2A817BF500CF0ED0 /* Cube2DView.swift */; };
 		EB96D4DE2A81BA1D00CF0ED0 /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */; };
 		EB96D4E22A82C18700CF0ED0 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4E12A82C18700CF0ED0 /* Move.swift */; };
-		EBB59AC62AA7E07F005AE35F /* SceneKitCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB59AC52AA7E07F005AE35F /* SceneKitCoordinator.swift */; };
+		EBB59AC62AA7E07F005AE35F /* SceneKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB59AC52AA7E07F005AE35F /* SceneKitModel.swift */; };
 		EBB59AC82AA7F983005AE35F /* ARKitCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB59AC72AA7F983005AE35F /* ARKitCoordinator.swift */; };
 		EBDF64B92ABDFB2000E50588 /* RealityKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDF64B82ABDFB2000E50588 /* RealityKitModel.swift */; };
 		EBED01F62A8AFD86006FBF1B /* Play.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBED01F52A8AFD86006FBF1B /* Play.swift */; };
@@ -44,7 +44,7 @@
 		EB96D4DB2A817BF500CF0ED0 /* Cube2DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube2DView.swift; sourceTree = "<group>"; };
 		EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube.swift; sourceTree = "<group>"; };
 		EB96D4E12A82C18700CF0ED0 /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
-		EBB59AC52AA7E07F005AE35F /* SceneKitCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitCoordinator.swift; sourceTree = "<group>"; };
+		EBB59AC52AA7E07F005AE35F /* SceneKitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitModel.swift; sourceTree = "<group>"; };
 		EBB59AC72AA7F983005AE35F /* ARKitCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARKitCoordinator.swift; sourceTree = "<group>"; };
 		EBB59ACB2AA91A76005AE35F /* Cube.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cube.entitlements; sourceTree = "<group>"; };
 		EBDF64B82ABDFB2000E50588 /* RealityKitModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealityKitModel.swift; sourceTree = "<group>"; };
@@ -232,7 +232,8 @@
 				EBF45DB52ABDFBB300D8DE48 /* SceneKitModel.swift in Sources */,
 				EB96D4DE2A81BA1D00CF0ED0 /* Cube.swift in Sources */,
 				EBB59AC82AA7F983005AE35F /* ARKitCoordinator.swift in Sources */,
-				EBB59AC62AA7E07F005AE35F /* SceneKitCoordinator.swift in Sources */,
+				EBC31DE72AAD4020001E7379 /* SceneKitCoordinator.swift in Sources */,
+				EBB59AC62AA7E07F005AE35F /* SceneKitModel.swift in Sources */,
 				EB96D4CC2A80BC6100CF0ED0 /* CubeApp.swift in Sources */,
 				EBED01F62A8AFD86006FBF1B /* Play.swift in Sources */,
 				EB96D4E22A82C18700CF0ED0 /* Move.swift in Sources */,
