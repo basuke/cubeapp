@@ -8,6 +8,7 @@
 import SwiftUI
 
 let debug = false
+let kVolumeCubeWorldId = "world"
 
 @main
 struct CubeApp: App {
@@ -34,5 +35,14 @@ struct CubeApp: App {
                     }
                 }
         }
+
+        #if os(xrOS)
+        WindowGroup(id: kVolumeCubeWorldId) {
+            VolumetircView(play: play)
+                .environmentObject(play)
+        }
+        .windowStyle(.volumetric)
+        .defaultSize(width: 0.6, height: 0.6, depth: 0.6, in: .meters)
+        #endif
     }
 }

@@ -15,29 +15,43 @@ struct ContentView: View {
     @State private var yawRatio: Float = -1.0
 
 #if os(xrOS)
-    var body: some View {
-        VStack {
-            ZStack(alignment: .bottom) {
-                RealityCubeView(play: play, yawRatio: $yawRatio)
+    @Environment(\.openWindow) private var openWindow
+    @Environment(\.dismissWindow) private var dismissWindow
+    @State private var showCube = false
 
-                HStack {
-                    Spacer()
-                    Cube2DView(cube: play.cube.as2D())
-                    Spacer()
+    var body: some View {
+        HStack {
+            if !showCube {
+                VStack {
+                    Cube3DView(play: play, kind: .sceneKit, yawRatio: $yawRatio)
                     Slider(
                         value: $yawRatio,
                         in: -3.0...3.0
                     )
-                        .frame(width: 120)
-                    Spacer()
+                    .frame(width: 120)
+                    .padding()
                 }
             }
-            .hoverEffect()
-            MoveController(canUndo: !play.moves.isEmpty) { move in
-                if let move {
-                    play.apply(move: move)
-                } else {
-                    play.undo()
+
+            VStack {
+                Spacer()
+                Cube2DView(cube: play.cube.as2D())
+                Spacer()
+                Toggle("Show / Hide", isOn: $showCube)
+                    .onChange(of: showCube) { _, isShowing in
+                        if isShowing {
+                            openWindow(id: kVolumeCubeWorldId)
+                        } else {
+                            dismissWindow(id: kVolumeCubeWorldId)
+                        }
+                    }
+                    .toggleStyle(.button)
+                MoveController(canUndo: !play.moves.isEmpty) { move in
+                    if let move {
+                        play.apply(move: move)
+                    } else {
+                        play.undo()
+                    }
                 }
             }
         }
