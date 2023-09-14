@@ -42,7 +42,7 @@ struct CubeApp: App {
         }
 #if os(visionOS)
         .windowStyle(.volumetric)
-        .defaultSize(width: 0.6, height: 0.6, depth: 0.6, in: .meters)
+        .defaultSize(width: 0.2, height: 0.2, depth: 0.2, in: .meters)
 #endif
 
         #if os(xrOS)

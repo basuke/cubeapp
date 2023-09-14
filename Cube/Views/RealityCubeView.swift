@@ -80,4 +80,16 @@ struct RealityCubeView: View {
     }
 }
 
+let kScaleForRealityKit: Float = 0.02
+
+extension RealityKitModel {
+    var entity: Entity {
+        let adjustEntity = Entity()
+        adjustEntity.addChild(yawEntity)
+        adjustEntity.position = simd_float3(0, 0, 0)
+        adjustEntity.scale = simd_float3(kScaleForRealityKit, kScaleForRealityKit, kScaleForRealityKit)
+        return adjustEntity
+    }
+}
+
 #endif
