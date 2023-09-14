@@ -129,6 +129,18 @@ class RealityKitModel: Model {
             entity.position = Vector(entity.position).rounded.simd3
         }
     }
+
+    func identifySticker(from stickerEntity: Entity, cube: Cube) -> Sticker? {
+        guard let pieceEntity = stickerEntity.parent else {
+            return nil
+        }
+
+        let stickerPosition = Vector(pieceEntity.convert(position: stickerEntity.position, to: cubeEntity))
+
+        let position = (stickerPosition * 2).rounded * 0.5
+
+        return cube.stickers.first { $0.position == position }
+    }
 }
 
 extension Vector {

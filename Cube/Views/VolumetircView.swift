@@ -7,15 +7,18 @@
 
 import SwiftUI
 
+#if os(xrOS)
+
 struct VolumetircView: View {
     @ObservedObject var play: Play
-    @State private var yawRatio: Float = 0.0
 
     var body: some View {
-        RealityCubeView(play: play, yawRatio: $yawRatio)
+        RealityCubeView(play: play)
     }
 }
 
 #Preview {
     VolumetircView(play: Play())
 }
+
+#endif

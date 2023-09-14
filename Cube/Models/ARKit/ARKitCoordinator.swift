@@ -59,16 +59,7 @@ class ARKitCoordinator: Coordinator {
             return nil
         }
 
-        let stickerEntity = result.entity
-        guard let pieceEntity = stickerEntity.parent else {
-            return nil
-        }
-
-        let stickerPosition = Vector(pieceEntity.convert(position: stickerEntity.position, to: _model.cubeEntity))
-
-        let position = (stickerPosition * 2).rounded * 0.5
-
-        return cube.stickers.first { $0.position == position }
+        return _model.identifySticker(from: result.entity, cube: cube)
     }
 
     var view: UIView { arView }
