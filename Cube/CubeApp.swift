@@ -17,6 +17,10 @@ struct CubeApp: App {
 
     var body: some Scene {
         WindowGroup {
+            #if os(visionOS)
+            VolumetircView(play: play)
+                .environmentObject(play)
+            #else
             ContentView(play: play)
                 .onChange(of: scenePhase) { _, phase in
                     if phase == .inactive {
@@ -34,7 +38,12 @@ struct CubeApp: App {
                         fatalError(error.localizedDescription)
                     }
                 }
+            #endif
         }
+#if os(visionOS)
+        .windowStyle(.volumetric)
+        .defaultSize(width: 0.6, height: 0.6, depth: 0.6, in: .meters)
+#endif
 
         #if os(xrOS)
         WindowGroup(id: kVolumeCubeWorldId) {
