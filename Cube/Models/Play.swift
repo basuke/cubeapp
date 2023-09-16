@@ -191,3 +191,8 @@ extension Vector {
     }
 }
 
+extension Float {
+    static func degree(_ value: Self) -> Self {
+        .pi * value / 180.0
+    }
+}

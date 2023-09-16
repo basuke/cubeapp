@@ -34,15 +34,15 @@ enum PrimitiveMove: Character, CaseIterable, Codable {
         case .R, .Rw, .x:
             Axis.X
         case .L, .Lw, .M:
-            Axis.X.negative
+            -Axis.X
         case .U, .Uw, .y:
             Axis.Y
         case .D, .Dw, .E:
-            Axis.Y.negative
+            -Axis.Y
         case .F, .Fw, .z, .S:
             Axis.Z
         case .B, .Bw:
-            Axis.Z.negative
+            -Axis.Z
         }
     }
 

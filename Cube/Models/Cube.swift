@@ -38,12 +38,21 @@ struct Vector: Equatable, Codable {
         self.z = z
     }
 
-    var negative: Self {
-        Self(-x, -y, -z)
-    }
-
     var values: (Float, Float, Float) {
         (x, y, z)
+    }
+
+    static prefix func -(vec: Self) -> Self {
+        Self(-vec.x, -vec.y, -vec.z)
+    }
+
+    static func +(lhs: Self, rhs: Self) -> Self {
+        return Vector(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z)
+    }
+
+    static func *(vec: Self, scale: Double) -> Self {
+        let scale = Float(scale)
+        return Vector(vec.x * scale, vec.y * scale, vec.z * scale)
     }
 }
 
@@ -90,11 +99,11 @@ extension Vector {
         }
 
         switch axis {
-        case Axis.X, Axis.X.negative:
+        case Axis.X, -Axis.X:
             (y, z) = rotate2d(y, z, angle, flipped: axis.x < 0)
-        case Axis.Y, Axis.Y.negative:
+        case Axis.Y, -Axis.Y:
             (z, x) = rotate2d(z, x, angle, flipped: axis.y < 0)
-        case Axis.Z, Axis.Z.negative:
+        case Axis.Z, -Axis.Z:
             (x, y) = rotate2d(x, y, angle, flipped: axis.z < 0)
         default:
             assert(false, "Invalid axis")
