@@ -10,6 +10,7 @@
 		EB27673A2A95160B00464B06 /* Cube3DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2767392A95160B00464B06 /* Cube3DView.swift */; };
 		EB27673C2A95592C00464B06 /* Dragging.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB27673B2A95592C00464B06 /* Dragging.swift */; };
 		EB595E142A97C24A003000D6 /* SceneKitUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB595E132A97C24A003000D6 /* SceneKitUtils.swift */; };
+		EB595E162A9907D5003000D6 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB595E152A9907D5003000D6 /* Camera.swift */; };
 		EB6C73902A88B493008DD244 /* MoveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6C738F2A88B493008DD244 /* MoveController.swift */; };
 		EB6C73922A899B6F008DD244 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6C73912A899B6F008DD244 /* Persistence.swift */; };
 		EB96D4CC2A80BC6100CF0ED0 /* CubeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4CB2A80BC6100CF0ED0 /* CubeApp.swift */; };
@@ -26,6 +27,7 @@
 		EB2767392A95160B00464B06 /* Cube3DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube3DView.swift; sourceTree = "<group>"; };
 		EB27673B2A95592C00464B06 /* Dragging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dragging.swift; sourceTree = "<group>"; };
 		EB595E132A97C24A003000D6 /* SceneKitUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitUtils.swift; sourceTree = "<group>"; };
+		EB595E152A9907D5003000D6 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		EB6C738F2A88B493008DD244 /* MoveController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveController.swift; sourceTree = "<group>"; };
 		EB6C73912A899B6F008DD244 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		EB96D4C82A80BC6100CF0ED0 /* Cube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cube.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,6 +94,7 @@
 				EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */,
 				EB96D4E12A82C18700CF0ED0 /* Move.swift */,
 				EBED01F52A8AFD86006FBF1B /* Play.swift */,
+				EB595E152A9907D5003000D6 /* Camera.swift */,
 				EB27673B2A95592C00464B06 /* Dragging.swift */,
 				EB6C73912A899B6F008DD244 /* Persistence.swift */,
 				EB595E132A97C24A003000D6 /* SceneKitUtils.swift */,
@@ -188,6 +191,7 @@
 				EB96D4CC2A80BC6100CF0ED0 /* CubeApp.swift in Sources */,
 				EBED01F62A8AFD86006FBF1B /* Play.swift in Sources */,
 				EB96D4E22A82C18700CF0ED0 /* Move.swift in Sources */,
+				EB595E162A9907D5003000D6 /* Camera.swift in Sources */,
 				EB96D4DC2A817BF500CF0ED0 /* Cube2DView.swift in Sources */,
 				EB595E142A97C24A003000D6 /* SceneKitUtils.swift in Sources */,
 				EB27673C2A95592C00464B06 /* Dragging.swift in Sources */,
