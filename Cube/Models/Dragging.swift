@@ -67,18 +67,21 @@ extension Play {
         return view.hitTest(location, options: options).first
     }
 
+    private func beginDragging(at location: CGPoint) -> Dragging? {
+        guard let result = hitTest(at: location) else {
+            return nil
+        }
+
+        return TurnDragging(at: location, play: self, result: result)
+    }
+
     func updateDragging(at location: CGPoint) {
         if let dragging {
             dragging.update(at: location)
             return
         }
 
-        guard let result = hitTest(at: location) else {
-            dragging = VoidDragging()
-            return
-        }
-
-        dragging = TurnDragging(at: location, play: self, result: result)
+        dragging = beginDragging(at: location) ?? VoidDragging()
     }
 
     func endDragging(at location: CGPoint) {
