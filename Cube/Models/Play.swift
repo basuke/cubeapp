@@ -62,32 +62,32 @@ class Play: ObservableObject {
             let base = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0.1)
             base.firstMaterial?.diffuse.contents = UIColor(white: 0.1, alpha: 1.0)
 
-            let piece = SCNNode(geometry: base)
+            let node = SCNNode(geometry: base)
 
             cube.stickers.filter { sticker in
                 sticker.position.on(piece: vec)
             }.forEach { sticker in
-                piece.addChildNode(createSticker(on: sticker.face, color: sticker.color))
+                node.addChildNode(createSticker(on: sticker.face, color: sticker.color))
             }
 
-            piece.position = SCNVector3(vec)
-            return piece
+            node.position = SCNVector3(vec)
+            return node
         }
 
         func createSticker(on face: Face, color: Color) -> SCNNode {
             let base = SCNBox(width: 0.8, height: 0.8, length: 0.8, chamferRadius: 0.1)
             base.firstMaterial?.diffuse.contents = color.uiColor
 
-            let piece = SCNNode(geometry: base)
+            let node = SCNNode(geometry: base)
 
             // Shift the box a little bit
             func shift(_ a: Face, _ b: Face) -> Float {
                 let shift: Float = 0.1 + 0.02
                 return face == a ? shift : face == b ? -shift : 0
             }
-            piece.position = SCNVector3(shift(.right, .left), shift(.up, .down), shift(.front, .back))
+            node.position = SCNVector3(shift(.right, .left), shift(.up, .down), shift(.front, .back))
 
-            return piece
+            return node
         }
 
         pieceNodes.forEach { $0.removeFromParentNode() }
