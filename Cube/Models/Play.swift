@@ -62,6 +62,7 @@ class Play: ObservableObject {
             }
 
             node.position = SCNVector3(vec)
+            node.setKind(.piece)
             return node
         }
 
@@ -77,7 +78,7 @@ class Play: ObservableObject {
                 return face == a ? shift : face == b ? -shift : 0
             }
             node.position = SCNVector3(shift(.right, .left), shift(.up, .down), shift(.front, .back))
-
+            node.setKind(.sticker)
             return node
         }
 
@@ -155,6 +156,26 @@ class Play: ObservableObject {
             let move = requests.removeFirst()
             run(move: move, speed: .quick)
         }
+    }
+}
+
+let kNodeKindKey = "cube:node-kind"
+
+enum NodeKind: String, RawRepresentable {
+    case piece, sticker
+}
+
+extension SCNNode {
+    var kind: NodeKind? {
+        guard let value = value(forKey: kNodeKindKey) as? String else {
+            return nil
+        }
+
+        return NodeKind(rawValue: value)
+    }
+
+    func setKind(_ kind: NodeKind) {
+        setValue(kind.rawValue, forKey: kNodeKindKey)
     }
 }
 
