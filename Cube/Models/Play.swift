@@ -100,17 +100,17 @@ class Play: ObservableObject {
         }
     }
 
-    func apply(move: Move) {
+    func apply(move: Move, speed: TurnSpeed = .normal) {
         guard !running else {
             requests.append(move)
             return
         }
 
         running = true
-        run(move: move)
+        run(move: move, speed: speed)
     }
 
-    private func run(move: Move, speed: TurnSpeed = .normal) {
+    private func run(move: Move, speed: TurnSpeed) {
         cube = cube.apply(move: move)
 
         movePiecesIntoRotation(for: move)

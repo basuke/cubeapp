@@ -39,6 +39,12 @@ class DirectionDetector: DirectionDetectable, CustomDebugStringConvertible {
     var oldestUpdate: Date? = nil
     var lastUpdate: Date? = nil
 
+    let tilted: Bool
+
+    init(tilted: Bool = false) {
+        self.tilted = tilted
+    }
+
     var direction: Direction? {
         let speed = speed
         guard speed > minimumSpeed else {
@@ -51,10 +57,18 @@ class DirectionDetector: DirectionDetectable, CustomDebugStringConvertible {
             return nil
         }
 
-        if abs(Float(translation.x)) >= abs(Float(translation.y)) {
-            return translation.x >= 0.0 ? .right : .left
+        if tilted {
+            if translation.x >= 0.0 {
+                return translation.y >= 0.0 ? .down : .right
+            } else {
+                return translation.y >= 0.0 ? .left : .up
+            }
         } else {
-            return translation.y >= 0.0 ? .down : .up
+            if abs(Float(translation.x)) >= abs(Float(translation.y)) {
+                return translation.x >= 0.0 ? .right : .left
+            } else {
+                return translation.y >= 0.0 ? .down : .up
+            }
         }
     }
 
@@ -105,11 +119,13 @@ class TurnDragging: Dragging {
     let play: Play
     let sticker: Sticker
 
-    let detector: DirectionDetectable = DirectionDetector()
+    let detector: DirectionDetectable
 
     init(at location: CGPoint, play: Play, sticker: Sticker) {
         self.play = play
         self.sticker = sticker
+
+        self.detector = DirectionDetector(tilted: sticker.face == .right)
 
         detector.update(location: location, at: Date.now)
     }
