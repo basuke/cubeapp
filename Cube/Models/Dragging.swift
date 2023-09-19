@@ -68,11 +68,13 @@ extension Play {
     }
 
     private func beginDragging(at location: CGPoint) -> Dragging? {
-        guard let result = hitTest(at: location) else {
-            return nil
+        if let result = hitTest(at: location) {
+            if let kind = result.node.kind, kind == .sticker {
+                return TurnDragging(at: location, play: self, result: result)
+            }
         }
 
-        return TurnDragging(at: location, play: self, result: result)
+        return nil
     }
 
     func updateDragging(at location: CGPoint) {
