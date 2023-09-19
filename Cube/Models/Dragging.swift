@@ -13,37 +13,118 @@ protocol Dragging {
     func end(at location: CGPoint)
 }
 
+enum Direction: String {
+    case up, down, left, right
+}
+
+protocol DirectionDetectable {
+    var direction: Direction? { get }
+    func update(location: CGPoint, at: Date)
+}
+
+let minimumDistance: Float = 3.0
+let minimumSpeed: Float = 500.0
+let maximumIdle: TimeInterval = 0.1
+
+class DirectionDetector: DirectionDetectable, CustomDebugStringConvertible {
+    var locations: [CGPoint] = []
+    var oldestUpdate: Date? = nil
+    var lastUpdate: Date? = nil
+
+    var direction: Direction? {
+        let speed = speed
+        guard speed > minimumSpeed else {
+            return nil
+        }
+
+        let translation = translation
+        let distance = translation.length
+        guard distance > minimumDistance else {
+            return nil
+        }
+
+        if abs(Float(translation.x)) >= abs(Float(translation.y)) {
+            return translation.x >= 0.0 ? .right : .left
+        } else {
+            return translation.y >= 0.0 ? .down : .up
+        }
+    }
+
+    var speed: Float {
+        guard let oldestUpdate, let lastUpdate else {
+            return 0.0
+        }
+
+        let duration = lastUpdate.timeIntervalSince(oldestUpdate)
+        guard duration > 0.0 else {
+            return 0.0
+        }
+
+        return translation.length / Float(duration)
+    }
+
+    var translation: CGPoint {
+        guard !locations.isEmpty else {
+            return CGPointZero
+        }
+        let oldest = locations.first!
+        let latest = locations.last!
+        return CGPointMake(latest.x - oldest.x, latest.y - oldest.y)
+    }
+
+    func update(location: CGPoint, at timestamp: Date) {
+        if let lastUpdate, timestamp.timeIntervalSince(lastUpdate) >= maximumIdle {
+            locations = []
+            oldestUpdate = timestamp
+        }
+
+        locations.append(location)
+        lastUpdate = timestamp
+
+        if oldestUpdate == nil {
+            oldestUpdate = timestamp
+        }
+    }
+
+    var debugDescription: String {
+        let speed = String(format: "%.2f", speed)
+        let direction = if let direction { direction.rawValue } else { "-" }
+        return "Direction: \(direction) Speed: \(speed) Translation: \(translation)"
+    }
+}
+
 class TurnDragging: Dragging {
     let play: Play
-    let startLocation: CGPoint
-    let hitNode: SCNNode
-    let hitCoordinates: SCNVector3
-    let hitNormal: SCNVector3
 
-    let pointNode: SCNNode
+    let detector: DirectionDetectable = DirectionDetector()
 
-    init(at location: CGPoint, play: Play, result: SCNHitTestResult) {
+    init(at location: CGPoint, play: Play) {
         self.play = play
-        self.startLocation = location
-        self.hitNode = result.node
-        self.hitCoordinates = result.localCoordinates
-        self.hitNormal = result.localNormal
 
-        pointNode = SceneKitUtils.ballArrayNode(direction: hitNormal, length: 1.5, step: 20, color: .purple)
-        pointNode.position = hitCoordinates
-        hitNode.addChildNode(pointNode)
-
-        print("begin at \(self.hitNormal)")
+        detector.update(location: location, at: Date.now)
     }
 
     func update(at location: CGPoint) {
-        print("update at \(location)")
+        detector.update(location: location, at: Date.now)
     }
 
     func end(at location: CGPoint) {
-        pointNode.removeFromParentNode()
+        detector.update(location: location, at: Date.now)
 
-        print("end at \(location)")
+        guard let direction = detector.direction else {
+            return
+        }
+
+        let move = switch direction {
+        case .up: "R"
+        case .down: "R'"
+        case .left: "U"
+        case .right: "U'"
+        }
+
+        if let move = Move.from(string: move) {
+            play.apply(move: move)
+        }
     }
 }
 
@@ -70,7 +151,7 @@ extension Play {
     private func beginDragging(at location: CGPoint) -> Dragging? {
         if let result = hitTest(at: location) {
             if let kind = result.node.kind, kind == .sticker {
-                return TurnDragging(at: location, play: self, result: result)
+                return TurnDragging(at: location, play: self)
             }
         }
 
@@ -89,5 +170,11 @@ extension Play {
     func endDragging(at location: CGPoint) {
         dragging?.end(at: location)
         dragging = nil
+    }
+}
+
+extension CGPoint {
+    var length: Float {
+        sqrtf(powf(Float(x), 2) + powf(Float(y), 2))
     }
 }
