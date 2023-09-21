@@ -8,6 +8,7 @@
 import SwiftUI
 
 let debug = false
+let startWithVolumetric = true
 let kVolumeCubeWorldId = "world"
 
 @main
@@ -17,28 +18,28 @@ struct CubeApp: App {
 
     var body: some Scene {
         WindowGroup {
-            #if os(visionOS)
-            VolumetircView(play: play)
-                .environmentObject(play)
-            #else
-            ContentView(play: play)
-                .onChange(of: scenePhase) { _, phase in
-                    if phase == .inactive {
+            if startWithVolumetric {
+                VolumetircView(play: play)
+                    .environmentObject(play)
+            } else {
+                ContentView(play: play)
+                    .onChange(of: scenePhase) { _, phase in
+                        if phase == .inactive {
+                            do {
+                                try play.save()
+                            } catch {
+                                fatalError(error.localizedDescription)
+                            }
+                        }
+                    }
+                    .task {
                         do {
-                            try play.save()
+                            try play.load()
                         } catch {
                             fatalError(error.localizedDescription)
                         }
                     }
-                }
-                .task {
-                    do {
-                        try play.load()
-                    } catch {
-                        fatalError(error.localizedDescription)
-                    }
-                }
-            #endif
+            }
         }
 #if os(visionOS)
         .windowStyle(.volumetric)
