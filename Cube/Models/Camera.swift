@@ -50,8 +50,8 @@ extension RealityKitContent {
         pitchEntity.addChild(cubeEntity)
         yawEntity.addChild(pitchEntity)
 
-        pitchEntity.transform = Transform(pitch: initialPitch.value, yaw: 0.0, roll: 0.0)
-        yawEntity.transform = Transform(pitch: 0.0, yaw: initialYaw.value * kYawScaleFactorForARKit, roll: 0.0)
+        pitchEntity.transform = Transform(pitch: initialPitch, yaw: 0.0, roll: 0.0)
+        yawEntity.transform = Transform(pitch: 0.0, yaw: initialYaw * kYawScaleFactorForARKit, roll: 0.0)
 
         let adjustEntity = Entity()
         adjustEntity.addChild(yawEntity)
@@ -63,7 +63,7 @@ extension RealityKitContent {
     }
 
     func setCameraYaw(ratio: Float) {
-        let yaw = initialYaw.value * ratio
+        let yaw = initialYaw * ratio
         yawEntity.transform = Transform(pitch: 0.0, yaw: yaw * kYawScaleFactorForARKit, roll: 0.0)
     }
 }
