@@ -18,28 +18,28 @@ struct CubeApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if startWithVolumetric {
-                VolumetircView(play: play)
-                    .environmentObject(play)
-            } else {
-                ContentView(play: play)
-                    .onChange(of: scenePhase) { _, phase in
-                        if phase == .inactive {
-                            do {
-                                try play.save()
-                            } catch {
-                                fatalError(error.localizedDescription)
-                            }
-                        }
-                    }
-                    .task {
+#if os(visionOS)
+            VolumetircView(play: play)
+                .environmentObject(play)
+#else
+            ContentView(play: play)
+                .onChange(of: scenePhase) { _, phase in
+                    if phase == .inactive {
                         do {
-                            try play.load()
+                            try play.save()
                         } catch {
                             fatalError(error.localizedDescription)
                         }
                     }
-            }
+                }
+                .task {
+                    do {
+                        try play.load()
+                    } catch {
+                        fatalError(error.localizedDescription)
+                    }
+                }
+#endif
         }
 #if os(visionOS)
         .windowStyle(.volumetric)
