@@ -56,6 +56,14 @@ struct Vector: Equatable, Codable {
     }
 }
 
+extension Vector: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(x)
+        hasher.combine(y)
+        hasher.combine(z)
+    }
+}
+
 enum Rotation {
     case clockwise, counterClockwise, flip
 
