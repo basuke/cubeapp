@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		EB27673A2A95160B00464B06 /* Cube3DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2767392A95160B00464B06 /* Cube3DView.swift */; };
 		EB27673C2A95592C00464B06 /* Dragging.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB27673B2A95592C00464B06 /* Dragging.swift */; };
+		EB30294C2ABF4C7500D01AF7 /* CubeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB30294B2ABF4C7500D01AF7 /* CubeTests.swift */; };
 		EB595E142A97C24A003000D6 /* SceneKitUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB595E132A97C24A003000D6 /* SceneKitUtils.swift */; };
 		EB595E162A9907D5003000D6 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB595E152A9907D5003000D6 /* Camera.swift */; };
 		EB6C73902A88B493008DD244 /* MoveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6C738F2A88B493008DD244 /* MoveController.swift */; };
@@ -23,9 +24,21 @@
 		EBED01F62A8AFD86006FBF1B /* Play.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBED01F52A8AFD86006FBF1B /* Play.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		EB30294D2ABF4C7500D01AF7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EB96D4C02A80BC6100CF0ED0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EB96D4C72A80BC6100CF0ED0;
+			remoteInfo = Cube;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		EB2767392A95160B00464B06 /* Cube3DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube3DView.swift; sourceTree = "<group>"; };
 		EB27673B2A95592C00464B06 /* Dragging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dragging.swift; sourceTree = "<group>"; };
+		EB3029492ABF4C7500D01AF7 /* CubeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CubeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB30294B2ABF4C7500D01AF7 /* CubeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubeTests.swift; sourceTree = "<group>"; };
 		EB595E132A97C24A003000D6 /* SceneKitUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitUtils.swift; sourceTree = "<group>"; };
 		EB595E152A9907D5003000D6 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		EB6C738F2A88B493008DD244 /* MoveController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveController.swift; sourceTree = "<group>"; };
@@ -42,6 +55,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		EB3029462ABF4C7500D01AF7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EB96D4C52A80BC6100CF0ED0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -52,10 +72,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EB30294A2ABF4C7500D01AF7 /* CubeTests */ = {
+			isa = PBXGroup;
+			children = (
+				EB30294B2ABF4C7500D01AF7 /* CubeTests.swift */,
+			);
+			path = CubeTests;
+			sourceTree = "<group>";
+		};
 		EB96D4BF2A80BC6100CF0ED0 = {
 			isa = PBXGroup;
 			children = (
 				EB96D4CA2A80BC6100CF0ED0 /* Cube */,
+				EB30294A2ABF4C7500D01AF7 /* CubeTests */,
 				EB96D4C92A80BC6100CF0ED0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -64,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				EB96D4C82A80BC6100CF0ED0 /* Cube.app */,
+				EB3029492ABF4C7500D01AF7 /* CubeTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -116,6 +146,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		EB3029482ABF4C7500D01AF7 /* CubeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EB3029512ABF4C7500D01AF7 /* Build configuration list for PBXNativeTarget "CubeTests" */;
+			buildPhases = (
+				EB3029452ABF4C7500D01AF7 /* Sources */,
+				EB3029462ABF4C7500D01AF7 /* Frameworks */,
+				EB3029472ABF4C7500D01AF7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EB30294E2ABF4C7500D01AF7 /* PBXTargetDependency */,
+			);
+			name = CubeTests;
+			productName = CubeTests;
+			productReference = EB3029492ABF4C7500D01AF7 /* CubeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		EB96D4C72A80BC6100CF0ED0 /* Cube */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EB96D4D62A80BC6400CF0ED0 /* Build configuration list for PBXNativeTarget "Cube" */;
@@ -143,6 +191,10 @@
 				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					EB3029482ABF4C7500D01AF7 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = EB96D4C72A80BC6100CF0ED0;
+					};
 					EB96D4C72A80BC6100CF0ED0 = {
 						CreatedOnToolsVersion = 15.0;
 					};
@@ -162,11 +214,19 @@
 			projectRoot = "";
 			targets = (
 				EB96D4C72A80BC6100CF0ED0 /* Cube */,
+				EB3029482ABF4C7500D01AF7 /* CubeTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		EB3029472ABF4C7500D01AF7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EB96D4C62A80BC6100CF0ED0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -179,6 +239,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		EB3029452ABF4C7500D01AF7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB30294C2ABF4C7500D01AF7 /* CubeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EB96D4C42A80BC6100CF0ED0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -200,7 +268,51 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		EB30294E2ABF4C7500D01AF7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EB96D4C72A80BC6100CF0ED0 /* Cube */;
+			targetProxy = EB30294D2ABF4C7500D01AF7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		EB30294F2ABF4C7500D01AF7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W79BP686ET;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.basuke.CubeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cube.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Cube";
+			};
+			name = Debug;
+		};
+		EB3029502ABF4C7500D01AF7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W79BP686ET;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.basuke.CubeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cube.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Cube";
+			};
+			name = Release;
+		};
 		EB96D4D42A80BC6400CF0ED0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -381,6 +493,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		EB3029512ABF4C7500D01AF7 /* Build configuration list for PBXNativeTarget "CubeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EB30294F2ABF4C7500D01AF7 /* Debug */,
+				EB3029502ABF4C7500D01AF7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		EB96D4C32A80BC6100CF0ED0 /* Build configuration list for PBXProject "Cube" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
