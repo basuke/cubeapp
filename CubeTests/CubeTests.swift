@@ -12,10 +12,9 @@ final class CubeTests: XCTestCase {
     func testIdentifyMove() throws {
         let sticker = Sticker(color: .white, position: Vector(1.5, 1.0, 1.0))
 
-        XCTAssert(sticker.identifyMove(for: .up) == "F'")
-        XCTAssert(sticker.identifyMove(for: .down) == "F")
-
-        XCTAssert(sticker.identifyMove(for: .left) == "U")
-        XCTAssert(sticker.identifyMove(for: .right) == "U'")
+        let moves: [Direction:String] = [.up: "F'", .down: "F", .left: "U", .right: "U'"]
+        for (direction, move) in moves {
+            XCTAssert(sticker.identifyMove(for: direction) == move)
+        }
     }
 }
