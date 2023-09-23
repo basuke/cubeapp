@@ -65,12 +65,40 @@ final class CubeTests: XCTestCase {
             Vector(-1.5, -1.0, 1.0): [.up: "F", .down: "F'", .left: "D'", .right: "D"],
         ]
 
-        for (position, moves) in tests {
+        func test(_ x: Float, _ y: Float, _ z: Float) {
+            let position = Vector(x, y, z)
             let sticker = Sticker(color: .white, position: position)
 
-            for (direction, move) in moves {
-                let result = sticker.identifyMove(for: direction)
-                XCTAssert(result == move, "\(position): \(direction) should be \(move), but \(result ?? "nil")")
+            if let moves = tests[position] {
+                for (direction, move) in moves {
+                    let result = sticker.identifyMove(for: direction)
+                    XCTAssert(result == move, "\(position): \(direction) should be \(move), but \(result ?? "nil")")
+                }
+            } else {
+                for direction in Direction.allCases {
+                    let result = sticker.identifyMove(for: direction)
+                    XCTAssert(result == nil, "\(position): \(direction) should be nil, but \(result ?? "nil")")
+                }
+            }
+        }
+
+        let positions: [Float] = [-1, 0, 1]
+
+        for z in positions {
+            for y in positions {
+                for x in positions {
+                    if (x, y, z) != (0, 0, 0) {
+                        if x != 0 {
+                            test(x * 1.5, y, z)
+                        }
+                        if y != 0 {
+                            test(x, y * 1.5, z)
+                        }
+                        if z != 0 {
+                            test(x, y, z * 1.5)
+                        }
+                    }
+                }
             }
         }
     }

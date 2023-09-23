@@ -13,7 +13,7 @@ protocol Dragging {
     func end(at location: CGPoint)
 }
 
-enum Direction: String {
+enum Direction: String, CaseIterable {
     case up, down, left, right
 
     var horizontal: Bool {
@@ -211,11 +211,15 @@ extension Sticker {
 
         // center piece
         if x == 0.0 && y == 0.0 {
-            return switch direction {
-            case .up: "x"
-            case .down: "x'"
-            case .left: "y"
-            case .right: "y'"
+            return if face == .front {
+                switch direction {
+                case .up: "x"
+                case .down: "x'"
+                case .left: "y"
+                case .right: "y'"
+                }
+            } else {
+                nil
             }
         } else if y == 0.0 && z == 0.0 {
             return if face == .right {
@@ -234,11 +238,15 @@ extension Sticker {
                 }
             }
         } else if z == 0.0 && x == 0.0 {
-            return switch direction {
-            case .up: "x"
-            case .down: "x'"
-            case .left: "z'"
-            case .right: "z"
+            return if face == .up {
+                switch direction {
+                case .up: "x"
+                case .down: "x'"
+                case .left: "z'"
+                case .right: "z"
+                }
+            } else {
+                nil
             }
         }
 
