@@ -37,6 +37,19 @@ final class CubeTests: XCTestCase {
             Vector(-1.0, 1.5, -1.0): [.up: "L'", .down: "L", .left: "B", .right: "B'"],
             Vector(0.0, 1.5, -1.0): [.up: "M'", .down: "M", .left: "B", .right: "B'"],
             Vector(1.0, 1.5, -1.0): [.up: "R", .down: "R'", .left: "B", .right: "B'"],
+
+            // .front
+            Vector(-1.0, 1.0, 1.5): [.up: "L'", .down: "L", .left: "U", .right: "U'"],
+            Vector(0.0, 1.0, 1.5): [.up: "M'", .down: "M", .left: "U", .right: "U'"],
+            Vector(1.0, 1.0, 1.5): [.up: "R", .down: "R'", .left: "U", .right: "U'"],
+
+            Vector(-1.0, 0.0, 1.5): [.up: "L'", .down: "L", .left: "E'", .right: "E"],
+            Vector(0.0, 0.0, 1.5): [.up: "x", .down: "x'", .left: "y", .right: "y'"],
+            Vector(1.0, 0.0, 1.5): [.up: "R", .down: "R'", .left: "E'", .right: "E"],
+
+            Vector(-1.0, -1.0, 1.5): [.up: "L'", .down: "L", .left: "D'", .right: "D"],
+            Vector(0.0, -1.0, 1.5): [.up: "M'", .down: "M", .left: "D'", .right: "D"],
+            Vector(1.0, -1.0, 1.5): [.up: "R", .down: "R'", .left: "D'", .right: "D"],
         ]
 
         for (position, moves) in tests {
