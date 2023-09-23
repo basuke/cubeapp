@@ -218,11 +218,20 @@ extension Sticker {
             case .right: "y'"
             }
         } else if y == 0.0 && z == 0.0 {
-            return switch direction {
-            case .up: "z'"
-            case .down: "z"
-            case .left: "y"
-            case .right: "y'"
+            return if face == .right {
+                switch direction {
+                case .up: "z'"
+                case .down: "z"
+                case .left: "y"
+                case .right: "y'"
+                }
+            } else {
+                switch direction {
+                case .up: "z"
+                case .down: "z'"
+                case .left: "y"
+                case .right: "y'"
+                }
             }
         } else if z == 0.0 && x == 0.0 {
             return switch direction {
@@ -234,43 +243,56 @@ extension Sticker {
         }
 
         if direction.horizontal {
-            if face == .front || face == .right {
+            return switch face {
+            case .front, .right, .left:
                 if y == 1.0 {
-                    return direction == .left ? "U" : "U'"
+                    direction == .left ? "U" : "U'"
                 } else if y == -1.0 {
-                    return direction == .right ? "D" : "D'"
+                    direction == .right ? "D" : "D'"
                 } else {
-                    return direction == .right ? "E" : "E'"
+                    direction == .right ? "E" : "E'"
                 }
-            } else if face == .up {
+            case .up:
                 if z == 1.0 {
-                    return direction == .right ? "F" : "F'"
+                    direction == .right ? "F" : "F'"
                 } else if z == -1.0 {
-                    return direction == .left ? "B" : "B'"
+                    direction == .left ? "B" : "B'"
                 } else {
-                    return direction == .right ? "S" : "S'"
+                    direction == .right ? "S" : "S'"
                 }
+            default:
+                nil
             }
         } else {
-            if face == .front || face == .up {
+            return switch face {
+            case .front, .up:
                 if x == 1.0 {
-                    return direction == .up ? "R" : "R'"
+                    direction == .up ? "R" : "R'"
                 } else if x == -1.0 {
-                    return direction == .down ? "L" : "L'"
+                    direction == .down ? "L" : "L'"
                 } else {
-                    return direction == .down ? "M" : "M'"
+                    direction == .down ? "M" : "M'"
                 }
-            } else if face == .right {
+            case .right:
                 if z == 1.0 {
-                    return direction == .down ? "F" : "F'"
+                    direction == .down ? "F" : "F'"
                 } else if z == -1.0 {
-                    return direction == .up ? "B" : "B'"
+                    direction == .up ? "B" : "B'"
                 } else {
-                    return direction == .down ? "S" : "S'"
+                    direction == .down ? "S" : "S'"
                 }
+            case .left:
+                if z == 1.0 {
+                    direction == .up ? "F" : "F'"
+                } else if z == -1.0 {
+                    direction == .down ? "B" : "B'"
+                } else {
+                    direction == .up ? "S" : "S'"
+                }
+            default:
+                nil
             }
         }
-        return nil
     }
 }
 
