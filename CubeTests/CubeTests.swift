@@ -19,7 +19,8 @@ final class CubeTests: XCTestCase {
             let sticker = Sticker(color: .white, position: position)
 
             for (direction, move) in moves {
-                XCTAssert(sticker.identifyMove(for: direction) == move)
+                let result = sticker.identifyMove(for: direction)
+                XCTAssert(result == move, "\(position): \(direction) should be \(move), but \(result ?? "nil")")
             }
         }
     }
