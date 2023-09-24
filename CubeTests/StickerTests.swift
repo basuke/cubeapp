@@ -8,7 +8,7 @@
 import XCTest
 @testable import Cube
 
-final class CubeTests: XCTestCase {
+final class StickerTests: XCTestCase {
     func testIdentifyMove() throws {
         typealias MoveMap = [Direction:String]
         let tests: [Vector:MoveMap] = [
