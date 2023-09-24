@@ -223,48 +223,43 @@ extension Sticker {
         let face = face
 
         // center piece
-        if x == 0.0 && y == 0.0 {
-            return if face == .front {
+        if (x == 0.0 && y == 0.0) || (y == 0.0 && z == 0.0) || (z == 0.0 && x == 0.0) {
+            return switch face {
+            case .front:
                 switch direction {
                 case .up: "x"
                 case .down: "x'"
                 case .left: "y"
                 case .right: "y'"
                 }
-            } else {
-                nil
-            }
-        } else if y == 0.0 && z == 0.0 {
-            return if face == .right {
+            case .right:
                 switch direction {
                 case .up: "z'"
                 case .down: "z"
                 case .left: "y"
                 case .right: "y'"
                 }
-            } else {
+            case .left:
                 switch direction {
                 case .up: "z"
                 case .down: "z'"
                 case .left: "y"
                 case .right: "y'"
                 }
-            }
-        } else if z == 0.0 && x == 0.0 {
-            return if face == .up {
+            case .up:
                 switch direction {
                 case .up: "x"
                 case .down: "x'"
                 case .left: "z'"
                 case .right: "z"
                 }
-            } else {
+            default:
                 nil
             }
         }
 
-        if direction.horizontal {
-            return switch face {
+        return if direction.horizontal {
+            switch face {
             case .front, .right, .left:
                 if y == 1.0 {
                     direction == .left ? "U" : "U'"
@@ -285,7 +280,7 @@ extension Sticker {
                 nil
             }
         } else {
-            return switch face {
+            switch face {
             case .front, .up:
                 if x == 1.0 {
                     direction == .up ? "R" : "R'"

@@ -92,16 +92,14 @@ final class CubeTests: XCTestCase {
         for z in positions {
             for y in positions {
                 for x in positions {
-                    if (x, y, z) != (0, 0, 0) {
-                        if x != 0 {
-                            count += test(x * 1.5, y, z)
-                        }
-                        if y != 0 {
-                            count += test(x, y * 1.5, z)
-                        }
-                        if z != 0 {
-                            count += test(x, y, z * 1.5)
-                        }
+                    if x != 0 {
+                        count += test(x * 1.5, y, z)
+                    }
+                    if y != 0 {
+                        count += test(x, y * 1.5, z)
+                    }
+                    if z != 0 {
+                        count += test(x, y, z * 1.5)
                     }
                 }
             }
