@@ -7,22 +7,25 @@
 
 import Foundation
 
-let kCubeDataKey = "cube_data"
-let kCubeMovesKey = "cube_moves"
+let kCubeSaveDataVersion = 1
+let kCubeSaveDataKey = "Cube:\(kCubeSaveDataVersion)"
 
 extension Play {
+    struct SaveData: Codable {
+        let cube: Cube
+        let moves: [Move]
+    }
+
     func save() throws {
-        UserDefaults.standard.setValue(try JSONEncoder().encode(cube), forKey: kCubeDataKey)
-        UserDefaults.standard.setValue(try JSONEncoder().encode(moves), forKey: kCubeMovesKey)
+        let data = SaveData(cube: cube, moves: moves)
+        UserDefaults.standard.setValue(try JSONEncoder().encode(data), forKey: kCubeSaveDataKey)
     }
 
     func load() throws {
-        if let data = UserDefaults.standard.data(forKey: kCubeDataKey) {
-            cube = try JSONDecoder().decode(Cube.self, from: data)
-        }
-
-        if let data = UserDefaults.standard.data(forKey: kCubeMovesKey) {
-            moves = try JSONDecoder().decode([Move].self, from: data)
+        if let data = UserDefaults.standard.data(forKey: kCubeSaveDataKey) {
+            let saveData = try JSONDecoder().decode(SaveData.self, from: data)
+            cube = saveData.cube
+            moves = saveData.moves
         }
 
         rebuild()
