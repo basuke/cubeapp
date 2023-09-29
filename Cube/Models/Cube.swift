@@ -28,9 +28,9 @@ enum Face: Int, CaseIterable {
 }
 
 struct Vector: Equatable, Codable {
-    var x: Float
-    var y: Float
-    var z: Float
+    let x: Float
+    let y: Float
+    let z: Float
 
     init(_ x: Float, _ y: Float, _ z: Float) {
         self.x = x
@@ -65,8 +65,8 @@ extension Vector: Hashable {
 }
 
 struct Sticker: Codable {
-    var color: Color
-    var position: Vector
+    let color: Color
+    let position: Vector
 
     var face: Face {
         if position.y == onFace {

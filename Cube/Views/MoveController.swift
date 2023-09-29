@@ -139,6 +139,6 @@ struct MoveController: View {
 
 #Preview {
     MoveController(canUndo: false) { move in
-        print(move)
+        print(move ?? "nil")
     }
 }

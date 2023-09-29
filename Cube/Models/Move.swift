@@ -272,9 +272,7 @@ extension Vector {
 
 extension Sticker {
     func rotated(on axis: Vector, by angle: Rotation) -> Self {
-        var rotated = self
-        rotated.position = position.rotated(on: axis, by: angle)
-        return rotated
+        Self(color: color, position: position.rotated(on: axis, by: angle))
     }
 }
 
