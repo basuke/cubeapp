@@ -129,13 +129,13 @@ extension Sticker {
             return (Int(y) + 1) * 3 + (Int(x) + 1)
         }
         
-        switch face {
-        case .up: return indexOf(x, z)
-        case .down: return indexOf(x, -z)
-        case .front: return indexOf(x, -y)
-        case .back: return indexOf(-x, -y)
-        case .right: return indexOf(-z, -y)
-        case .left: return indexOf(z, -y)
+        return switch face {
+        case .up: indexOf(x, z)
+        case .down: indexOf(x, -z)
+        case .front: indexOf(x, -y)
+        case .back: indexOf(-x, -y)
+        case .right: indexOf(-z, -y)
+        case .left: indexOf(z, -y)
         }
     }
 }

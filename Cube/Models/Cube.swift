@@ -47,7 +47,11 @@ struct Vector: Equatable, Codable {
     }
 
     static func +(lhs: Self, rhs: Self) -> Self {
-        return Vector(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z)
+        Vector(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z)
+    }
+
+    static func -(lhs: Self, rhs: Self) -> Self {
+        lhs + -rhs
     }
 
     static func *(vec: Self, scale: Double) -> Self {

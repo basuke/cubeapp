@@ -276,6 +276,14 @@ struct Rotation {
     static func clockwise(_ face: Face) -> Self {
         Self(face: face, angle: .clockwise)
     }
+
+    static func counterClockwise(_ face: Face) -> Self {
+        Self(face: face, angle: .counterClockwise)
+    }
+
+    static func flip(_ face: Face) -> Self {
+        Self(face: face, angle: .flip)
+    }
 }
 
 extension Vector {
