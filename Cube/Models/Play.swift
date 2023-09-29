@@ -131,7 +131,7 @@ class Play: ObservableObject {
         movePiecesIntoRotation(for: move)
 
         let duration = speed.duration * (debug ? 10.0 : 1.0)
-        let action = SCNAction.rotate(by: CGFloat(move.angle), around: SCNVector3(move.axis), duration: duration)
+        let action = SCNAction.rotate(by: CGFloat(move.angle), around: SCNVector3(move.face.axis), duration: duration)
         action.timingMode = .easeOut
         rotationNode.runAction(action) {
             DispatchQueue.main.async {
@@ -216,6 +216,31 @@ extension Vector {
 
     var rounded: Self {
         Self(round(x), round(y), round(z))
+    }
+}
+
+struct Axis {
+    static let X = Vector(1, 0, 0)
+    static let Y = Vector(0, 1, 0)
+    static let Z = Vector(0, 0, 1)
+}
+
+extension Face {
+    var axis: Vector {
+        switch self {
+        case .right: Axis.X
+        case .left: -Axis.X
+        case .up: Axis.Y
+        case .down: -Axis.Y
+        case .front: Axis.Z
+        case .back: -Axis.Z
+        }
+    }
+}
+
+extension Move {
+    var angle: Float {
+        .pi * (twice ? 1.0 : 0.5) * (prime ? 1.0 : -1.0)
     }
 }
 

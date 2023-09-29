@@ -29,20 +29,20 @@ enum PrimitiveMove: Character, CaseIterable, Codable {
     case E = "E"
     case S = "S"
 
-    var axis: Vector {
+    var face: Face {
         switch self {
         case .R, .Rw, .x:
-            Axis.X
+                .right
         case .L, .Lw, .M:
-            -Axis.X
+                .left
         case .U, .Uw, .y:
-            Axis.Y
+                .up
         case .D, .Dw, .E:
-            -Axis.Y
+                .down
         case .F, .Fw, .z, .S:
-            Axis.Z
+                .front
         case .B, .Bw:
-            -Axis.Z
+                .back
         }
     }
 
@@ -93,12 +93,8 @@ struct Move: Codable {
         move.filter
     }
 
-    var axis: Vector {
-        move.axis
-    }
-
-    var angle: Float {
-        .pi * (twice ? 1.0 : 0.5) * (prime ? 1.0 : -1.0)
+    var face: Face {
+        move.face
     }
 
     static func parse(_ movesStr: String) throws -> [Move] {
@@ -214,82 +210,93 @@ let allMoves: [String:Move] = [
     "S2": Move(.S, twice: true),
 ]
 
-enum Rotation {
-    case clockwise, counterClockwise, flip
+struct Rotation {
+    enum Angle {
+        case clockwise, counterClockwise, flip
 
-    var reversed: Self {
-        switch self {
-        case .clockwise: .counterClockwise
-        case .counterClockwise: .clockwise
-        case .flip: self
+        var reversed: Self {
+            switch self {
+            case .clockwise: .counterClockwise
+            case .counterClockwise: .clockwise
+            case .flip: self
+            }
+        }
+
+        var sin: Float {
+            switch self {
+            case .clockwise: -1
+            case .counterClockwise: 1
+            case .flip: 0
+            }
+        }
+
+        var cos: Float {
+            switch self {
+            case .clockwise, .counterClockwise: 0
+            case .flip: -1
+            }
+        }
+
+        func rotate2d(_ x: Float, _ y: Float) -> (Float, Float) {
+            func cleanup(_ value: Float) -> Float {
+                return roundf(value * 2) / 2 // because value can be one of (0, 1, -1, 1.5, -1.5)
+            }
+
+            return (cleanup(x * cos - y * sin), cleanup(x * sin + y * cos))
+        }
+
+        func rotate(vector: Vector, facing face: Face) -> Vector {
+            var (x, y, z) = vector.values
+
+            switch face {
+            case .right:
+                (y, z) = rotate2d(y, z)
+            case .left:
+                (y, z) = reversed.rotate2d(y, z)
+            case .up:
+                (z, x) = rotate2d(z, x)
+            case .down:
+                (z, x) = reversed.rotate2d(z, x)
+            case .front:
+                (x, y) = rotate2d(x, y)
+            case .back:
+                (x, y) = reversed.rotate2d(x, y)
+            }
+            return Vector(x, y, z)
         }
     }
 
-    var sin: Float {
-        switch self {
-        case .clockwise: -1
-        case .counterClockwise: 1
-        case .flip: 0
-        }
+    let face: Face
+    let angle: Angle
+
+    func rotate(vector: Vector) -> Vector {
+        angle.rotate(vector: vector, facing: face)
     }
 
-    var cos: Float {
-        switch self {
-        case .clockwise, .counterClockwise: 0
-        case .flip: -1
-        }
+    static func clockwise(_ face: Face) -> Self {
+        Self(face: face, angle: .clockwise)
     }
 }
 
 extension Vector {
-    func rotated(on axis: Vector, by angle: Rotation) -> Self {
-        var (x, y, z) = values
-
-        func cleanup(_ value: Float) -> Float {
-            return roundf(value * 2) / 2 // because value can be one of (0, 1, -1, 1.5, -1.5)
-        }
-
-        func rotate2d(_ x: Float, _ y: Float, _ rotation: Rotation, flipped: Bool) -> (Float, Float) {
-            let rotation = flipped ? rotation.reversed : rotation
-            let sin_t = rotation.sin
-            let cos_t = rotation.cos
-            return (cleanup(x * cos_t - y * sin_t), cleanup(x * sin_t + y * cos_t))
-        }
-
-        switch axis {
-        case Axis.X, -Axis.X:
-            (y, z) = rotate2d(y, z, angle, flipped: axis.x < 0)
-        case Axis.Y, -Axis.Y:
-            (z, x) = rotate2d(z, x, angle, flipped: axis.y < 0)
-        case Axis.Z, -Axis.Z:
-            (x, y) = rotate2d(x, y, angle, flipped: axis.z < 0)
-        default:
-            assert(false, "Invalid axis")
-        }
-        return Self(x, y, z)
+    func rotated(by rotation: Rotation) -> Self {
+        rotation.rotate(vector: self)
     }
 }
 
 extension Sticker {
-    func rotated(on axis: Vector, by angle: Rotation) -> Self {
-        Self(color: color, position: position.rotated(on: axis, by: angle))
+    func rotated(by rotation: Rotation) -> Self {
+        Self(color: color, position: position.rotated(by: rotation))
     }
-}
-
-struct Axis {
-    static let X = Vector(1, 0, 0)
-    static let Y = Vector(0, 1, 0)
-    static let Z = Vector(0, 0, 1)
 }
 
 extension Cube {
     func apply(move: PrimitiveMove, prime: Bool = false, twice: Bool = false) -> Self {
         let predicate = move.filter
-        let angle: Rotation = twice ? .flip : prime ? .counterClockwise : .clockwise
-        let axis = move.axis
+        let rotation = Rotation(face: move.face, angle: twice ? .flip : prime ? .counterClockwise : .clockwise)
 
         let target = stickers.filter { predicate($0.position) }
-        let moved = target.map { $0.rotated(on: axis, by: angle)}
+        let moved = target.map { $0.rotated(by: rotation)}
         let notMoved = stickers.filter { !predicate($0.position) }
 
         var newCube = Self()
