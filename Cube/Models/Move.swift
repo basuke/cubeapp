@@ -214,6 +214,76 @@ let allMoves: [String:Move] = [
     "S2": Move(.S, twice: true),
 ]
 
+enum Rotation {
+    case clockwise, counterClockwise, flip
+
+    var reversed: Self {
+        switch self {
+        case .clockwise: .counterClockwise
+        case .counterClockwise: .clockwise
+        case .flip: self
+        }
+    }
+
+    var sin: Float {
+        switch self {
+        case .clockwise: -1
+        case .counterClockwise: 1
+        case .flip: 0
+        }
+    }
+
+    var cos: Float {
+        switch self {
+        case .clockwise, .counterClockwise: 0
+        case .flip: -1
+        }
+    }
+}
+
+extension Vector {
+    func rotated(on axis: Vector, by angle: Rotation) -> Self {
+        var (x, y, z) = values
+
+        func cleanup(_ value: Float) -> Float {
+            return roundf(value * 2) / 2 // because value can be one of (0, 1, -1, 1.5, -1.5)
+        }
+
+        func rotate2d(_ x: Float, _ y: Float, _ rotation: Rotation, flipped: Bool) -> (Float, Float) {
+            let rotation = flipped ? rotation.reversed : rotation
+            let sin_t = rotation.sin
+            let cos_t = rotation.cos
+            return (cleanup(x * cos_t - y * sin_t), cleanup(x * sin_t + y * cos_t))
+        }
+
+        switch axis {
+        case Axis.X, -Axis.X:
+            (y, z) = rotate2d(y, z, angle, flipped: axis.x < 0)
+        case Axis.Y, -Axis.Y:
+            (z, x) = rotate2d(z, x, angle, flipped: axis.y < 0)
+        case Axis.Z, -Axis.Z:
+            (x, y) = rotate2d(x, y, angle, flipped: axis.z < 0)
+        default:
+            assert(false, "Invalid axis")
+        }
+        return Self(x, y, z)
+    }
+}
+
+extension Sticker {
+    func rotated(on axis: Vector, by angle: Rotation) -> Self {
+        var rotated = self
+        rotated.position = position.rotated(on: axis, by: angle)
+        return rotated
+    }
+}
+
+struct Axis {
+    static let X = Vector(1, 0, 0)
+    static let Y = Vector(0, 1, 0)
+    static let Z = Vector(0, 0, 1)
+}
+
 extension Cube {
     func apply(move: PrimitiveMove, prime: Bool = false, twice: Bool = false) -> Self {
         let predicate = move.filter
@@ -221,7 +291,7 @@ extension Cube {
         let axis = move.axis
 
         let target = stickers.filter { predicate($0.position) }
-        let moved = target.map { $0.rotate(on: axis, by: angle)}
+        let moved = target.map { $0.rotated(on: axis, by: angle)}
         let notMoved = stickers.filter { !predicate($0.position) }
 
         var newCube = Self()
