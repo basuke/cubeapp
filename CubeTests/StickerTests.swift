@@ -10,87 +10,95 @@ import XCTest
 
 final class StickerTests: XCTestCase {
     func testIdentifyMove() throws {
-        let tests: [Face:(horizontal: [String], vertical: [String])] = [
-            .right: (horizontal: [
-                "U", "U", "U",
-                "E'","y", "E'",
-                "D'","D'","D'"
-            ], vertical: [
-                "F'","S'","B",
-                "F'","z'","B",
-                "F'","S'","B"
-            ]),
-            .up: (horizontal: [
+        let horizontal: [Face:[String]] = [
+            .up: [
                 "B", "B", "B",
                 "S'","z'","S'",
                 "F'","F'","F'"
-            ], vertical: [
-                "L'","M'","R",
-                "L'","x", "R",
-                "L'","M'","R"
-            ]),
-            .front: (horizontal: [
+            ],
+            .right: [
                 "U", "U", "U",
                 "E'","y", "E'",
                 "D'","D'","D'"
-            ], vertical: [
-                "L'","M'","R",
-                "L'","x", "R",
-                "L'","M'","R"
-            ]),
-            .left: (horizontal: [
+            ],
+            .front: [
                 "U", "U", "U",
                 "E'","y", "E'",
                 "D'","D'","D'"
-            ], vertical: [
+            ],
+            .left: [
+                "U", "U", "U",
+                "E'","y", "E'",
+                "D'","D'","D'"
+            ],
+        ]
+
+        let vertical: [Face:[String]] = [
+            .right: [
+                "F'","S'","B",
+                "F'","z'","B",
+                "F'","S'","B"
+            ],
+            .up: [
+                "L'","M'","R",
+                "L'","x", "R",
+                "L'","M'","R"
+            ],
+            .front: [
+                "L'","M'","R",
+                "L'","x", "R",
+                "L'","M'","R"
+            ],
+            .left: [
                 "B'","S", "F",
                 "B'","z", "F",
                 "B'","S", "F"
-            ]),
+            ],
         ]
-        var count = 0
 
-        func test(_ face: Face, _ index: Int) -> Int {
-            var count = 0
-            let cube = Cube()
+        var count = 0
+        let cube = Cube()
+
+        func test(_ face: Face, _ index: Int, _ direction: Direction, _ tests: [String]?) {
             let piece = cube.piece(on: face, index: index)
             let sticker = piece.sticker(on: face)!
 
-            if let (horizontalTest, verticalTest) = tests[face] {
-                func parse(_ str: String) -> (String, String) {
-                    let move = str.replacing("'", with: "")
-                    let opposite = move + "'"
-
-                    return str.count == 1 ? (move, opposite) : (opposite, move)
-                }
-
-                let (leftMove, rightMove) = parse(horizontalTest[index])
-                let (upMove, downMove) = parse(verticalTest[index])
-                let moves: [Direction:String] = [.left: leftMove, .right: rightMove, .up: upMove, .down: downMove]
-
-                for (direction, move) in moves {
-                    let result = sticker.identifyMove(for: direction)
-                    XCTAssert(result == move, "\(face)\(index): \(direction) should be \(move), but \(result ?? "nil")")
-                    count += 1
-                }
+            if let tests {
+                let move = tests[index].move(for: direction)
+                let result = sticker.identifyMove(for: direction)
+                XCTAssert(result == move, "\(face)\(index): \(direction) should be \(move), but \(result ?? "nil")")
+                count += 1
             } else {
-                for direction in Direction.allCases {
-                    let result = sticker.identifyMove(for: direction)
-                    XCTAssert(result == nil, "\(face)\(index): \(direction) should be nil, but \(result ?? "nil")")
-                    count += 1
-                }
+                let result = sticker.identifyMove(for: direction)
+                XCTAssert(result == nil, "\(face)\(index): \(direction) should be nil, but \(result ?? "nil")")
+                count += 1
             }
-
-            return count
         }
 
         for face in Face.allCases {
             for index in 0..<9 {
-                count += test(face, index)
+                test(face, index, .left, horizontal[face])
+                test(face, index, .right, horizontal[face])
+                test(face, index, .up, vertical[face])
+                test(face, index, .down, vertical[face])
             }
         }
 
         XCTAssert(count == 3 * 3 * 6 * 4)
+    }
+}
+
+extension String {
+    func move(for direction: Direction) -> String {
+        let (move, other) = parsedMove()
+        return (direction == .left || direction == .up) ? move : other
+    }
+
+    func parsedMove() -> (String, String) {
+        let move = replacing("'", with: "")
+        let opposite = move + "'"
+
+        return count == 1 ? (move, opposite) : (opposite, move)
     }
 }
 
