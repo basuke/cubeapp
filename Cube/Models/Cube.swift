@@ -23,6 +23,17 @@ enum Face: Int, CaseIterable, Codable {
     case right = 3
     case back = 4
     case down = 5
+
+    var opposite: Self {
+        switch self {
+        case .right: .left
+        case .left: .right
+        case .up: .down
+        case .down: .up
+        case .front: .back
+        case .back: .front
+        }
+    }
 }
 
 struct Vector: Equatable, Codable {
