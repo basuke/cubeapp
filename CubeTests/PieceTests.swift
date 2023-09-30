@@ -25,4 +25,15 @@ final class PieceTests: XCTestCase {
         XCTAssert(piece.sticker(on: .right)?.color == .red)
     }
 
+    func testRotatedCornerPiece() throws {
+        let cube = Cube()
+        let piece = cube.piece(at: Vector(1, 1, 1))!
+
+        let rotated = piece.rotated(by: .clockwise(.front))
+        XCTAssert(rotated.kind == .corner)
+        XCTAssert(rotated.sticker(on: .front)?.color == .green)
+        XCTAssert(rotated.sticker(on: .right)?.color == .white)
+        XCTAssert(rotated.sticker(on: .down)?.color == .red)
+        XCTAssert(rotated.position == Vector(1, -1, 1))
+    }
 }
