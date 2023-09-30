@@ -67,7 +67,36 @@ final class StickerTests: XCTestCase {
 
         func test(_ x: Float, _ y: Float, _ z: Float) -> Int {
             let position = Vector(x, y, z)
-            let sticker = Sticker(color: .white, position: position)
+
+            let face: Face = if x == 1.5 {
+                .right
+            } else if y == 1.5 {
+                .up
+            } else if z == 1.5 {
+                .front
+            } else if x == -1.5 {
+                .left
+            } else if y == -1.5 {
+                .down
+            } else if z == -1.5 {
+                .back
+            } else {
+                .right
+            }
+
+            var colors: [Face:Color] = [face:.white]
+            if x == 1.0 || x == -1.0 {
+                colors[.right] = .red
+            }
+            if y == 1.0 || y == -1.0 {
+                colors[.up] = .yellow
+            }
+            if z == 1.0 || z == -1.0 {
+                colors[.front] = .green
+            }
+
+            let piece = Piece(at: (position * 0.9).rounded, colors: colors)
+            let sticker = Sticker(piece: piece, face: face)
             var count = 0
 
             if let moves = tests[position] {
