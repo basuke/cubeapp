@@ -86,6 +86,17 @@ final class StickerTests: XCTestCase {
 
         XCTAssert(count == 3 * 3 * 6 * 4)
     }
+
+    func testParseMoveStr() throws {
+        XCTAssert("R".parsedMove() == ("R", "R'"))
+        XCTAssert("F'".parsedMove() == ("F'", "F"))
+
+        XCTAssert("L".move(for: .up) == "L")
+        XCTAssert("L".move(for: .down) == "L'")
+
+        XCTAssert("x'".move(for: .left) == "x'")
+        XCTAssert("x'".move(for: .right) == "x")
+    }
 }
 
 extension String {
