@@ -8,6 +8,15 @@
 import Foundation
 import UIKit
 
+protocol Model {
+    func rebuild(with: Cube)
+    func run(move: Move, duration: Double, afterAction: @escaping () -> Void)
+    func setCameraYaw(ratio: Float)
+
+    var view: UIView { get }
+    func hitTest(at: CGPoint, cube: Cube) -> Sticker?
+}
+
 enum TurnSpeed {
     case normal
     case quick
@@ -24,7 +33,7 @@ class Play: ObservableObject {
     @Published var cube: Cube = Cube_TestData.turnedCube
     @Published var moves: [Move] = []
 
-    let model = SceneKitModel()
+    let model: Model = SceneKitModel()
 
     var running: Bool = false
     var requests: [Move] = []
