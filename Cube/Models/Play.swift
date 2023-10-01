@@ -24,6 +24,7 @@ class Play: ObservableObject {
     @Published var cube: Cube = Cube_TestData.turnedCube
     @Published var moves: [Move] = []
 
+    let model = SceneKitModel()
     let view = SCNView(frame: .zero)
     let scene = SCNScene()
     let cubeNode = SCNNode()
