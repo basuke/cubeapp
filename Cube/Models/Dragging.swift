@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SceneKit
+import UIKit
 
 protocol Dragging {
     func update(at location: CGPoint)
@@ -171,22 +171,8 @@ class VoidDragging: Dragging {
 }
 
 extension Play {
-    func hitTest(at location: CGPoint) -> SCNHitTestResult? {
-        let options: [SCNHitTestOption : Any] = [
-            .searchMode: SCNHitTestSearchMode.closest.rawValue,
-        ]
-
-        return view.hitTest(location, options: options).first
-    }
-
     private func beginDragging(at location: CGPoint) -> Dragging? {
-        guard let result = hitTest(at: location) else {
-            return nil
-        }
-
-        let normal = Vector(cubeNode.convertVector(result.worldNormal, from: nil)).rounded
-
-        guard let sticker = identifySticker(from: result.node, normal: normal) else {
+        guard let sticker = model.hitTest(at: location, cube: cube) else {
             return nil
         }
 
@@ -205,19 +191,6 @@ extension Play {
     func endDragging(at location: CGPoint) {
         dragging?.end(at: location)
         dragging = nil
-    }
-
-    func identifySticker(from node: SCNNode, normal: Vector) -> Sticker? {
-        guard let pieceNode = node.parent, node.kind == .sticker else {
-            return nil
-        }
-
-        let position = Vector(pieceNode.position).rounded
-        guard let piece = cube.piece(at: position) else {
-            return nil
-        }
-
-        return piece.sticker(facing: normal)
     }
 }
 

@@ -100,6 +100,33 @@ class SceneKitModel {
             piece.position = SCNVector3(Vector(piece.position).rounded)
         }
     }
+
+    func hitTest(at location: CGPoint, cube: Cube) -> Sticker? {
+        let options: [SCNHitTestOption : Any] = [
+            .searchMode: SCNHitTestSearchMode.closest.rawValue,
+        ]
+
+        guard let result = view.hitTest(location, options: options).first else {
+            return nil
+        }
+
+        let normal = Vector(cubeNode.convertVector(result.worldNormal, from: nil)).rounded
+
+        return identifySticker(from: result.node, cube: cube, normal: normal)
+    }
+
+    private func identifySticker(from node: SCNNode, cube: Cube, normal: Vector) -> Sticker? {
+        guard let pieceNode = node.parent, node.kind == .sticker else {
+            return nil
+        }
+
+        let position = Vector(pieceNode.position).rounded
+        guard let piece = cube.piece(at: position) else {
+            return nil
+        }
+
+        return piece.sticker(facing: normal)
+    }
 }
 
 let kNodeKindKey = "cube:node-kind"
