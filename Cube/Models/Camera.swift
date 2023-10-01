@@ -13,7 +13,7 @@ let initialYaw = Float.degree(-12)
 let cameraDistance: Float = 34
 let cameraFOV: CGFloat = 8
 
-extension Play {
+extension SceneKitModel {
     func setupCamera() {
         // Add the box node to the scene
         pitchNode.addChildNode(cubeNode)
