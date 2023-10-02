@@ -212,15 +212,29 @@ extension Play {
             return nil
         }
 
-        let position = Vector(pieceNode.position).rounded + (normal * 0.5)
-        return cube.stickers.first { $0.position == position }
+        let position = Vector(pieceNode.position).rounded
+        guard let piece = cube.piece(at: position) else {
+            return nil
+        }
+
+        return piece.sticker(facing: normal)
+    }
+}
+
+extension Piece {
+    func sticker(facing normal: Vector) -> Sticker? {
+        for (face, _) in colors {
+            if face.axis == normal {
+                return sticker(on: face)
+            }
+        }
+        return nil
     }
 }
 
 extension Sticker {
     func identifyMove(for direction: Direction) -> String? {
-        let (x, y, z) = position.values
-        let face = face
+        let (x, y, z) = piece.position.values
 
         // center piece
         if (x == 0.0 && y == 0.0) || (y == 0.0 && z == 0.0) || (z == 0.0 && x == 0.0) {

@@ -112,19 +112,20 @@ extension Cube {
     func as2D() -> Cube2D {
         var cube = Cube2D()
 
-        for sticker in stickers {
-            let face = sticker.face
-            cube.setColor(of: face, index: sticker.index, color: sticker.color)
+        for piece in pieces {
+            for (face, color) in piece.colors {
+                cube.setColor(of: face, index: piece.index(on: face), color: color)
+            }
         }
 
         return cube
     }
 }
 
-extension Sticker {
-    var index: Int {
+extension Piece {
+    func index(on face: Face) -> Int {
         let (x, y, z) = position.values
-        
+
         func indexOf(_ x: Float, _ y: Float) -> Int {
             return (Int(y) + 1) * 3 + (Int(x) + 1)
         }

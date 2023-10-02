@@ -26,13 +26,13 @@ struct CubeApp: App {
                         }
                     }
                 }
-                .task {
-                    do {
-                        try play.load()
-                    } catch {
-                        fatalError(error.localizedDescription)
-                    }
-                }
+//                .task {
+//                    do {
+//                        try play.load()
+//                    } catch {
+//                        fatalError(error.localizedDescription)
+//                    }
+//                }
         }
     }
 }

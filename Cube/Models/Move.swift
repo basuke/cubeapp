@@ -292,24 +292,16 @@ extension Vector {
     }
 }
 
-extension Sticker {
-    func rotated(by rotation: Rotation) -> Self {
-        Self(color: color, position: position.rotated(by: rotation))
-    }
-}
-
 extension Cube {
     func apply(move: PrimitiveMove, prime: Bool = false, twice: Bool = false) -> Self {
         let predicate = move.filter
         let rotation = Rotation(face: move.face, angle: twice ? .flip : prime ? .counterClockwise : .clockwise)
 
-        let target = stickers.filter { predicate($0.position) }
-        let moved = target.map { $0.rotated(by: rotation)}
-        let notMoved = stickers.filter { !predicate($0.position) }
+        let targetPieces = pieces.filter { predicate($0.position) }
+        let movedPieces = targetPieces.map { $0.rotated(by: rotation) }
+        let notMovedPieces = pieces.filter { !predicate($0.position) }
 
-        var newCube = Self()
-        newCube.stickers = moved + notMoved
-        return newCube
+        return Self(pieces: movedPieces + notMovedPieces)
     }
 
     func apply(move: Move) -> Self {
@@ -331,5 +323,49 @@ extension Cube {
             print("unknown error")
             return self
         }
+    }
+}
+
+extension Face {
+    func rotated(by rotation: Rotation) -> Self {
+        guard let rotated = Face.init(axis: axis.rotated(by: rotation)) else {
+            fatalError("Invalid axis vector")
+        }
+        return rotated
+    }
+
+    init?(axis: Vector) {
+        let (x, y, z) = axis.values
+        if x == 1.0 {
+            assert(y == 0 && z == 0)
+            self = .right
+        } else if x == -1.0 {
+            assert(y == 0 && z == 0)
+            self = .left
+        } else if y == 1.0 {
+            assert(z == 0 && x == 0)
+            self = .up
+        } else if y == -1.0 {
+            assert(z == 0 && x == 0)
+            self = .down
+        } else if z == 1.0 {
+            assert(x == 0 && y == 0)
+            self = .front
+        } else if z == -1.0 {
+            assert(x == 0 && y == 0)
+            self = .back
+        } else {
+            return nil
+        }
+    }
+}
+
+extension Piece {
+    func rotated(by rotation: Rotation) -> Self {
+        var rotatedColors: [Face:Color] = [:]
+        for (face, color) in colors {
+            rotatedColors[face.rotated(by: rotation)] = color
+        }
+        return Self(at: position.rotated(by: rotation), colors: rotatedColors)
     }
 }

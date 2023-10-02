@@ -21,7 +21,7 @@ enum TurnSpeed {
 }
 
 class Play: ObservableObject {
-    @Published var cube: Cube = Cube()
+    @Published var cube: Cube = Cube_TestData.turnedCube
     @Published var moves: [Move] = []
 
     let view = SCNView(frame: .zero)
@@ -49,19 +49,17 @@ class Play: ObservableObject {
     }
 
     func rebuild() {
-        func createPiece(_ vec: Vector) -> SCNNode {
+        func createPiece(_ piece: Piece) -> SCNNode {
             let base = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0.1)
             base.firstMaterial?.diffuse.contents = UIColor(white: 0.1, alpha: 1.0)
 
             let node = SCNNode(geometry: base)
 
-            cube.stickers.filter { sticker in
-                sticker.position.on(piece: vec)
-            }.forEach { sticker in
-                node.addChildNode(createSticker(on: sticker.face, color: sticker.color))
+            for (face, color) in piece.colors {
+                node.addChildNode(createSticker(on: face, color: color))
             }
 
-            node.position = SCNVector3(vec)
+            node.position = SCNVector3(piece.position)
             node.setKind(.piece)
             return node
         }
@@ -83,21 +81,8 @@ class Play: ObservableObject {
         }
 
         pieceNodes.forEach { $0.removeFromParentNode() }
-        pieceNodes = []
-
-        // Create each piece
-        let centers: [Float] = [-1, 0, 1]
-        for z in centers {
-            for y in centers {
-                for x in centers {
-                    if x != 0 || y != 0 || z != 0 {
-                        let pieceNode = createPiece(Vector(x, y, z))
-                        pieceNodes.append(pieceNode)
-                        cubeNode.addChildNode(pieceNode)
-                    }
-                }
-            }
-        }
+        pieceNodes = cube.pieces.map { createPiece($0) }
+        pieceNodes.forEach { cubeNode.addChildNode($0) }
     }
 
     func apply(move: Move, speed: TurnSpeed = .normal) {
@@ -196,24 +181,6 @@ extension SCNNode {
 }
 
 extension Vector {
-    // To check the sticker position is on the piece position
-    func on(piece: Self) -> Bool {
-        func onFace(_ a: Float, _ b: Float) -> Bool {
-            a != b && (a * b) > 0
-        }
-
-        if piece.x == self.x && piece.y == self.y {
-            return onFace(piece.z, self.z)
-        }
-        if piece.y == self.y && piece.z == self.z {
-            return onFace(piece.x, self.x)
-        }
-        if piece.z == self.z && piece.x == self.x {
-            return onFace(piece.y, self.y)
-        }
-        return false
-    }
-
     var rounded: Self {
         Self(round(x), round(y), round(z))
     }

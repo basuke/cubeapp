@@ -7,8 +7,6 @@
 
 import Foundation
 
-let onFace: Float = 1.5
-
 enum Color: Character, CaseIterable, Codable {
     case white = "W"
     case orange = "O"
@@ -18,7 +16,7 @@ enum Color: Character, CaseIterable, Codable {
     case yellow = "Y"
 }
 
-enum Face: Int, CaseIterable {
+enum Face: Int, CaseIterable, Codable {
     case up = 0
     case left = 1
     case front = 2
@@ -68,77 +66,98 @@ extension Vector: Hashable {
     }
 }
 
-struct Sticker: Codable {
-    let color: Color
+struct Piece: Codable {
     let position: Vector
+    let colors: [Face:Color]
 
-    var face: Face {
-        if position.y == onFace {
-            return .up
-        } else if position.y == -onFace {
-            return .down
-        } else if position.x == onFace {
-            return .right
-        } else if position.x == -onFace {
-            return .left
-        } else if position.z == onFace {
-            return .front
-        } else if position.z == -onFace {
-            return .back
-        } else {
-            assert(false, "Invalid geometry")
+    init(at position: Vector, colors: [Face:Color]) {
+        self.position = position
+        self.colors = colors
+
+        assert(colors.count >= 1 && colors.count <= 3)
+    }
+
+    subscript(face: Face) -> Color? {
+        colors[face]
+    }
+
+    func sticker(on face: Face) -> Sticker? {
+        guard let _ = self[face] else {
+            return nil
         }
+
+        return Sticker(piece: self, face: face)
+    }
+}
+
+struct Sticker {
+    let piece: Piece
+    let face: Face
+
+    var color: Color {
+        piece[face]!
     }
 }
 
 struct Cube: Codable {
-    var stickers: [Sticker] = []
+    let pieces: [Piece]
+
+    init(pieces: [Piece]) {
+        self.pieces = pieces
+        precondition(self.pieces.count == 26)
+    }
 
     init() {
-        func stickerPosition(_ x: Float, _ y: Float, face: Face) -> Vector {
-            switch face {
-            case .right: Vector(onFace, y, x)
-            case .left: Vector(-onFace, y, x)
-            case .up: Vector(y, onFace, x)
-            case .down: Vector(y, -onFace, x)
-            case .front: Vector(x, y, onFace)
-            case .back: Vector(x, y, -onFace)
-            }
-        }
+        var pieces: [Piece] = []
 
-        for (face, color) in zip(Face.allCases, Color.allCases) {
-            let positions: [Float] = [-1.0, 0, 1.0]
+        let positions: [Float] = [-1, 0, 1]
+        for z in positions {
             for y in positions {
                 for x in positions {
-                    let position = stickerPosition(x, y, face: face)
-                    let sticker = Sticker(color: color, position: position)
-                    stickers.append(sticker)
+                    if (x, y, z) != (0, 0, 0) {
+                        pieces.append(Piece(at: Vector(x, y, z), colors: Self.defaultColors(at: x, y, z)))
+                    }
                 }
             }
         }
+
+        self.init(pieces: pieces)
+    }
+
+    func piece(at position: Vector) -> Piece? {
+        pieces.first { $0.position == position }
+    }
+
+    static func defaultColors(at x: Float, _ y: Float, _ z: Float) -> [Face:Color] {
+        var colors: [Face:Color] = [:]
+
+        if x == 1 {
+            colors[.right] = .red
+        } else if x == -1 {
+            colors[.left] = .orange
+        }
+
+        if y == 1 {
+            colors[.up] = .white
+        } else if y == -1 {
+            colors[.down] = .yellow
+        }
+
+        if z == 1 {
+            colors[.front] = .green
+        } else if z == -1 {
+            colors[.back] = .blue
+        }
+
+        return colors
     }
 }
 
 // Debug
 
-extension Sticker: CustomStringConvertible {
-    var description: String {
-        return "\(face):\(color):\(position)"
-    }
-}
-
 extension Vector: CustomStringConvertible {
     var description: String {
         return "(\(x), \(y), \(z))"
-    }
-}
-
-extension Cube {
-    func printStickers(_ title: String, _ stickers: [Sticker]) {
-        print(title)
-        for sticker in stickers {
-            print("  \(sticker)")
-        }
     }
 }
 
