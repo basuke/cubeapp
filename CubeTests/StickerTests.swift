@@ -99,20 +99,6 @@ final class StickerTests: XCTestCase {
     }
 }
 
-extension String {
-    func move(for direction: Direction) -> String {
-        let (move, other) = parsedMove()
-        return (direction == .left || direction == .up) ? move : other
-    }
-
-    func parsedMove() -> (String, String) {
-        let move = replacing("'", with: "")
-        let opposite = move + "'"
-
-        return count == 1 ? (move, opposite) : (opposite, move)
-    }
-}
-
 extension Piece {
     func has(_ face: Face) -> Bool {
         colors[face] != nil

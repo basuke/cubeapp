@@ -236,93 +236,92 @@ extension Sticker {
     func identifyMove(for direction: Direction) -> String? {
         let (x, y, z) = piece.position.values
 
-        // center piece
-        if piece.kind == .center {
-            return switch face {
-            case .front:
-                switch direction {
-                case .up: "x"
-                case .down: "x'"
-                case .left: "y"
-                case .right: "y'"
-                }
-            case .right:
-                switch direction {
+        func centerMove() -> String? {
+            return if direction.horizontal {
+                switch face {
+                case .left, .front, .right: "y"
                 case .up: "z'"
-                case .down: "z"
-                case .left: "y"
-                case .right: "y'"
+                default: nil
                 }
-            case .left:
-                switch direction {
-                case .up: "z"
-                case .down: "z'"
-                case .left: "y"
-                case .right: "y'"
+            } else {
+                switch face {
+                case .left: "z"
+                case .front, .up: "x"
+                case .right: "z'"
+                default: nil
+                }
+            }
+        }
+
+        func horizontalMove() -> String? {
+            switch face {
+            case .front, .right, .left:
+                switch y {
+                case 1: "U"
+                case -1: "D'"
+                default: "E'"
                 }
             case .up:
-                switch direction {
-                case .up: "x"
-                case .down: "x'"
-                case .left: "z'"
-                case .right: "z"
+                switch z {
+                case 1: "F'"
+                case -1: "B"
+                default: "S'"
                 }
             default:
                 nil
             }
         }
 
-        return if direction.horizontal {
-            switch face {
-            case .front, .right, .left:
-                if y == 1.0 {
-                    direction == .left ? "U" : "U'"
-                } else if y == -1.0 {
-                    direction == .right ? "D" : "D'"
-                } else {
-                    direction == .right ? "E" : "E'"
-                }
-            case .up:
-                if z == 1.0 {
-                    direction == .right ? "F" : "F'"
-                } else if z == -1.0 {
-                    direction == .left ? "B" : "B'"
-                } else {
-                    direction == .right ? "S" : "S'"
-                }
-            default:
-                nil
-            }
-        } else {
+        func verticalMove() -> String? {
             switch face {
             case .front, .up:
-                if x == 1.0 {
-                    direction == .up ? "R" : "R'"
-                } else if x == -1.0 {
-                    direction == .down ? "L" : "L'"
-                } else {
-                    direction == .down ? "M" : "M'"
+                switch x {
+                case 1: "R"
+                case -1: "L'"
+                default: "M'"
                 }
             case .right:
-                if z == 1.0 {
-                    direction == .down ? "F" : "F'"
-                } else if z == -1.0 {
-                    direction == .up ? "B" : "B'"
-                } else {
-                    direction == .down ? "S" : "S'"
+                switch z {
+                case 1: "F'"
+                case -1: "B"
+                default: "S'"
                 }
             case .left:
-                if z == 1.0 {
-                    direction == .up ? "F" : "F'"
-                } else if z == -1.0 {
-                    direction == .down ? "B" : "B'"
-                } else {
-                    direction == .up ? "S" : "S'"
+                switch z {
+                case 1: "F"
+                case -1: "B'"
+                default: "S"
                 }
             default:
                 nil
             }
         }
+
+        func identify() -> String? {
+            return if piece.kind == .center {
+                centerMove()
+            } else if direction.horizontal {
+                horizontalMove()
+            } else {
+                verticalMove()
+            }
+        }
+
+        return identify()?.move(for: direction)
+    }
+}
+
+extension String {
+    func move(for direction: Direction) -> String {
+        let (move, other) = parsedMove()
+        return (direction == .left || direction == .up) ? move : other
+    }
+
+    func parsedMove() -> (String, String) {
+        let move = replacing("'", with: "")
+        let opposite = move + "'"
+
+        return count == 1 ? (move, opposite) : (opposite, move)
     }
 }
 
