@@ -78,6 +78,10 @@ extension Vector: Hashable {
 }
 
 struct Piece: Codable {
+    enum Kind {
+        case center, edge, corner
+    }
+
     let position: Vector
     let colors: [Face:Color]
 
@@ -86,6 +90,14 @@ struct Piece: Codable {
         self.colors = colors
 
         assert(colors.count >= 1 && colors.count <= 3)
+    }
+
+    var kind: Kind {
+        switch colors.count {
+        case 1: .center
+        case 2: .edge
+        default: .corner
+        }
     }
 
     subscript(face: Face) -> Color? {
