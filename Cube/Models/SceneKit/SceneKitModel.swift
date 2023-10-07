@@ -70,7 +70,7 @@ class SceneKitModel: Model {
         pieceNodes.forEach { cubeNode.addChildNode($0) }
     }
 
-    func run(move: Move, duration: Double) -> Future<Void, Never> {
+    func run(move: Move, duration: Double) -> AnyPublisher<Void, Never> {
         movePiecesIntoRotation(for: move)
 
         let action = SCNAction.rotate(by: CGFloat(move.angle), around: SCNVector3(move.face.axis), duration: duration)
@@ -83,7 +83,7 @@ class SceneKitModel: Model {
                     promise(Result.success(()))
                 }
             }
-        }
+        }.eraseToAnyPublisher()
     }
 
     private func movePiecesIntoRotation(for move: Move) {

@@ -22,7 +22,6 @@ class RealityKitModel: Model {
     let cameraAnchor = AnchorEntity()
 
     var pieceEntities: [Entity] = []
-    var animationCompletion: AnyCancellable?
 
     var view: UIView {
         arView
@@ -82,18 +81,14 @@ class RealityKitModel: Model {
         pieceEntities.forEach { cubeEntity.addChild($0) }
     }
 
-    func run(move: Move, duration: Double) -> Future<Void, Never> {
+    func run(move: Move, duration: Double) -> AnyPublisher<Void, Never> {
         rotationEntity.transform = .init()
 
         movePiecesIntoRotation(for: move)
-        return Future { promise in
-            self.animationCompletion = self.rotationEntity.apply(move: move, duration: duration)
-                .sink {
-                    self.animationCompletion = nil
-                    self.movePiecesBackFromRotation()
-                    promise(Result.success(()))
-                }
-        }
+        return rotationEntity.apply(move: move, duration: duration)
+            .map { _ in
+                self.movePiecesBackFromRotation()
+            }.eraseToAnyPublisher()
     }
 
     private func movePiecesIntoRotation(for move: Move) {

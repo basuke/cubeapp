@@ -21,14 +21,14 @@ class RotationComponent: Component {
     init() {
     }
 
-    func apply(move: Move, duration: Double) -> Future<Void, Never> {
+    func apply(move: Move, duration: Double) -> AnyPublisher<Void, Never> {
         precondition(request == nil)
 
         return Future { promise in
             self.request = RotationRequest(move: move, duration: duration) {
                 promise(.success(()))
             }
-        }
+        }.eraseToAnyPublisher()
     }
 }
 
@@ -77,7 +77,7 @@ extension Transform {
 }
 
 extension Entity {
-    func apply(move: Move, duration: Double) -> Future<Void, Never> {
+    func apply(move: Move, duration: Double) -> AnyPublisher<Void, Never> {
         guard let component = components[RotationComponent.self] as? RotationComponent else {
             fatalError("No RotationComponent assigned to the Entity")
         }

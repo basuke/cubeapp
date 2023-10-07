@@ -11,7 +11,7 @@ import Combine
 
 protocol Model {
     func rebuild(with: Cube)
-    func run(move: Move, duration: Double) -> Future<Void, Never>
+    func run(move: Move, duration: Double) -> AnyPublisher<Void, Never>
     func setCameraYaw(ratio: Float)
 
     var view: UIView { get }
