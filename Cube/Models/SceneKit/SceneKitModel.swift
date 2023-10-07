@@ -7,6 +7,7 @@
 
 import Foundation
 import SceneKit
+import Combine
 
 class SceneKitModel: Model {
     let sceneView = SCNView(frame: .zero)
@@ -69,15 +70,18 @@ class SceneKitModel: Model {
         pieceNodes.forEach { cubeNode.addChildNode($0) }
     }
 
-    func run(move: Move, duration: Double, afterAction: @escaping () -> Void) {
+    func run(move: Move, duration: Double) -> Future<Void, Never> {
         movePiecesIntoRotation(for: move)
 
         let action = SCNAction.rotate(by: CGFloat(move.angle), around: SCNVector3(move.face.axis), duration: duration)
         action.timingMode = .easeOut
-        rotationNode.runAction(action) {
-            DispatchQueue.main.async {
-                self.movePiecesBackFromRotation()
-                afterAction()
+
+        return Future() { promise in
+            self.rotationNode.runAction(action) {
+                DispatchQueue.main.async {
+                    self.movePiecesBackFromRotation()
+                    promise(Result.success(()))
+                }
             }
         }
     }

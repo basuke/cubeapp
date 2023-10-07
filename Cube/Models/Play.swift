@@ -7,10 +7,11 @@
 
 import Foundation
 import UIKit
+import Combine
 
 protocol Model {
     func rebuild(with: Cube)
-    func run(move: Move, duration: Double, afterAction: @escaping () -> Void)
+    func run(move: Move, duration: Double) -> Future<Void, Never>
     func setCameraYaw(ratio: Float)
 
     var view: UIView { get }
@@ -37,6 +38,7 @@ class Play: ObservableObject {
 
     var running: Bool = false
     var requests: [Move] = []
+    var animationCompletion: AnyCancellable?
 
     var dragging: Dragging? = nil
 
@@ -81,12 +83,12 @@ class Play: ObservableObject {
         running = true
 
         let duration = speed.duration * (debug ? 10.0 : 1.0)
-        model.run(move: move, duration: duration) {
-            self.afterAction()
-        }
+        animationCompletion = model.run(move: move, duration: duration)
+            .sink { self.afterAction() }
     }
 
     private func afterAction() {
+        animationCompletion = nil
         if requests.isEmpty {
             running = false
         } else {
