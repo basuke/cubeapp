@@ -12,7 +12,7 @@ import Combine
 
 class RealityKitModel: Model {
     let arView = ARView(frame: .zero)
-    let scene: Scene
+
     let cubeEntity = Entity()
 
     let yawEntity = Entity()
@@ -29,10 +29,11 @@ class RealityKitModel: Model {
     }
 
     init() {
-        cubeEntity.addChild(rotationEntity)
-        scene = arView.scene
+        rotationEntity.components[RotationComponent.self] = RotationComponent()
 
-        setupCamera()
+        cubeEntity.addChild(rotationEntity)
+
+        setupCamera(scene: arView.scene)
     }
 
     func rebuild(with cube: Cube) {
@@ -85,17 +86,10 @@ class RealityKitModel: Model {
         rotationEntity.transform = .init()
 
         movePiecesIntoRotation(for: move)
-        let transform: Transform = .turn(move: move)
-
-        let controller = rotationEntity.move(to: transform, relativeTo: rotationEntity.parent, duration: duration, timingFunction: .easeOut)
-
-        animationCompletion = scene.publisher(for: AnimationEvents.PlaybackCompleted.self)
-            .filter { $0.playbackController == controller }
-            .sink { _ in
-                self.movePiecesBackFromRotation()
-                self.animationCompletion = nil
-                afterAction()
-            }
+        rotationEntity.apply(move: move, duration: duration) {
+            self.movePiecesBackFromRotation()
+            afterAction()
+        }
     }
 
     private func movePiecesIntoRotation(for move: Move) {
@@ -148,13 +142,6 @@ extension Vector {
 
     var simd3: SIMD3<Float> {
         simd_float3(x, y, z)
-    }
-}
-
-extension Transform {
-    static func turn(move: Move) -> Transform {
-        let rotation = simd_quatf(angle: move.angle, axis: simd_normalize(move.face.axis.simd3))
-        return Transform(rotation: rotation)
     }
 }
 

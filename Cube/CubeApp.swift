@@ -16,6 +16,7 @@ struct CubeApp: App {
 
     init() {
         StickerComponent.registerComponent()
+        RotationSystem.registerSystem()
     }
 
     var body: some Scene {
