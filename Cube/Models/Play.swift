@@ -36,9 +36,8 @@ class Play: ObservableObject {
 
     let model: Model = RealityKitModel()
 
-    var running: Bool = false
     var requests: [Move] = []
-    var animationCompletion: AnyCancellable?
+    var running: AnyCancellable?
 
     var dragging: Dragging? = nil
 
@@ -55,22 +54,22 @@ class Play: ObservableObject {
     }
 
     func apply(move: Move, speed: TurnSpeed = .normal) {
-        guard !running else {
+        guard running == nil else {
             requests.append(move)
             return
         }
 
         moves.append(move)
-        run(move: move, speed: speed)
+        running = run(move: move, speed: speed)
     }
 
     func undo() {
         if requests.isEmpty {
-            if let move = moves.popLast() {
-                if running {
-                    requests.append(move.reversed)
+            if let move = moves.popLast()?.reversed {
+                if running != nil {
+                    requests.append(move)
                 } else {
-                    run(move: move.reversed, speed: .quick)
+                    running = run(move: move, speed: .quick)
                 }
             }
         } else {
@@ -78,22 +77,19 @@ class Play: ObservableObject {
         }
     }
 
-    private func run(move: Move, speed: TurnSpeed) {
+    private func run(move: Move, speed: TurnSpeed) -> AnyCancellable {
         cube = cube.apply(move: move)
-        running = true
 
         let duration = speed.duration * (debug ? 10.0 : 1.0)
-        animationCompletion = model.run(move: move, duration: duration)
+        return model.run(move: move, duration: duration)
             .sink { self.afterAction() }
     }
 
     private func afterAction() {
-        animationCompletion = nil
-        if requests.isEmpty {
-            running = false
+        running = if requests.isEmpty {
+            nil
         } else {
-            let move = requests.removeFirst()
-            run(move: move, speed: .quick)
+            run(move: requests.removeFirst(), speed: .quick)
         }
     }
 }
