@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import SceneKit
+import RealityKit
 
 struct ContentView: View {
     @ObservedObject var play: Play
@@ -18,7 +18,7 @@ struct ContentView: View {
         UIColor.lightGray,
     ]
 
-    var body: some View {
+    var flatWindowBody: some View {
         VStack {
             ZStack(alignment: .bottom) {
                 Cube3DView(play: play, yawRatio: $yawRatio)
@@ -45,6 +45,60 @@ struct ContentView: View {
         .background(
             LinearGradient(gradient: Gradient(colors: gradientColors.map { SwiftUI.Color($0) }), startPoint: .top, endPoint: .bottom)
         )
+    }
+
+#if os(visionOS)
+    var visionWindowBody: some View {
+        VStack {
+            ZStack(alignment: .bottom) {
+                RealityView { content in
+                    if let model = play.model as? RealityKitModel {
+                        
+                        content.add(model.entity)
+                    }
+                }
+                HStack {
+                    Spacer()
+                    Cube2DView(cube: play.cube.as2D())
+                    Spacer()
+                    Slider(
+                        value: $yawRatio,
+                        in: -3.0...3.0
+                    )
+                        .frame(width: 120)
+                    Spacer()
+                }
+            }
+            MoveController(canUndo: !play.moves.isEmpty) { move in
+                if let move {
+                    play.apply(move: move)
+                } else {
+                    play.undo()
+                }
+            }
+        }
+//        .glassBackgroundEffect()
+    }
+#endif
+
+    var body: some View {
+#if os(visionOS)
+        visionWindowBody
+#else
+        flatWindowBody
+#endif
+    }
+}
+
+let kScaleForRealityKit: Float = 0.05
+
+extension RealityKitModel {
+    var entity: Entity {
+        let adjustEntity = Entity()
+        adjustEntity.addChild(yawEntity)
+        adjustEntity.position = simd_float3(0, 0, 0)
+        adjustEntity.scale = simd_float3(kScaleForRealityKit, kScaleForRealityKit, kScaleForRealityKit)
+        return adjustEntity
     }
 }
 
