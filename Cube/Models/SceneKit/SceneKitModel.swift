@@ -78,10 +78,8 @@ class SceneKitModel: Model {
 
         return Future() { promise in
             self.rotationNode.runAction(action) {
-                DispatchQueue.main.async {
-                    self.movePiecesBackFromRotation()
-                    promise(Result.success(()))
-                }
+                self.movePiecesBackFromRotation()
+                promise(Result.success(()))
             }
         }.eraseToAnyPublisher()
     }

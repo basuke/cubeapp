@@ -34,7 +34,7 @@ class Play: ObservableObject {
     @Published var cube: Cube = Cube_TestData.turnedCube
     @Published var moves: [Move] = []
 
-    let model: Model = RealityKitModel()
+    let model: Model = SceneKitModel()
 
     var requests: [Move] = []
     var running: AnyCancellable?
@@ -82,6 +82,7 @@ class Play: ObservableObject {
 
         let duration = speed.duration * (debug ? 10.0 : 1.0)
         return model.run(move: move, duration: duration)
+            .receive(on: DispatchQueue.main)
             .sink { self.afterAction() }
     }
 
