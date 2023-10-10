@@ -11,11 +11,6 @@ import UIKit
 import Combine
 
 class RealityKitModel: Model {
-#if !os(visionOS)
-    let arView = ARView(frame: .zero)
-    let cameraAnchor = AnchorEntity()
-#endif
-
     let cubeEntity = Entity()
 
     let yawEntity = Entity()
@@ -23,14 +18,6 @@ class RealityKitModel: Model {
     let rotationEntity = Entity()
 
     var pieceEntities: [Entity] = []
-
-    var view: UIView {
-#if os(visionOS)
-        UIView(frame: .zero)
-#else
-        arView
-#endif
-    }
 
     init() {
         rotationEntity.components[RotationComponent.self] = RotationComponent()
@@ -40,11 +27,6 @@ class RealityKitModel: Model {
         // Add the box node to the scene
         pitchEntity.addChild(cubeEntity)
         yawEntity.addChild(pitchEntity)
-
-#if !os(visionOS)
-        setupCamera()
-        arView.scene.anchors.append(cameraAnchor)
-#endif
     }
 
     func rebuild(with cube: Cube) {
@@ -121,23 +103,7 @@ class RealityKitModel: Model {
         }
     }
 
-    func hitTest(at location: CGPoint, cube: Cube) -> Sticker? {
-#if os(visionOS)
-        return nil
-#else
-        guard let result = arView.hitTest(location, query: .nearest).first else {
-            return nil
-        }
-
-        guard let component = result.entity.components[StickerComponent.self] as StickerComponent? else {
-            return nil
-        }
-
-        return identifySticker(from: result.entity, cube: cube, color: component.color)
-#endif
-    }
-
-    private func identifySticker(from entity: Entity, cube: Cube, color: Color) -> Sticker? {
+    func identifySticker(from entity: Entity, cube: Cube, color: Color) -> Sticker? {
         guard let pieceEntity = entity.parent else {
             return nil
         }

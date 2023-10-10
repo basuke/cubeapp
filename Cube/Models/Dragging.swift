@@ -172,7 +172,7 @@ class VoidDragging: Dragging {
 
 extension Play {
     private func beginDragging(at location: CGPoint) -> Dragging? {
-        guard let sticker = model.hitTest(at: location, cube: cube) else {
+        guard let sticker = viewAdapter.hitTest(at: location, cube: cube) else {
             return nil
         }
 

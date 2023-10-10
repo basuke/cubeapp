@@ -27,6 +27,7 @@
 		EB96D4DE2A81BA1D00CF0ED0 /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */; };
 		EB96D4E22A82C18700CF0ED0 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4E12A82C18700CF0ED0 /* Move.swift */; };
 		EB9E151F2AD4D3DC0016152A /* RealityCubeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E151E2AD4D3DC0016152A /* RealityCubeView.swift */; };
+		EB9E15222AD4F7930016152A /* ARKitViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E15212AD4F7930016152A /* ARKitViewAdapter.swift */; };
 		EBED01F62A8AFD86006FBF1B /* Play.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBED01F52A8AFD86006FBF1B /* Play.swift */; };
 		EBFFEFE22AC693EC0032A2AE /* VectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFFEFE12AC693EC0032A2AE /* VectorTests.swift */; };
 		EBFFEFE42AC8E8290032A2AE /* FaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFFEFE32AC8E8290032A2AE /* FaceTests.swift */; };
@@ -66,6 +67,7 @@
 		EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube.swift; sourceTree = "<group>"; };
 		EB96D4E12A82C18700CF0ED0 /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 		EB9E151E2AD4D3DC0016152A /* RealityCubeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityCubeView.swift; sourceTree = "<group>"; };
+		EB9E15212AD4F7930016152A /* ARKitViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARKitViewAdapter.swift; sourceTree = "<group>"; };
 		EBED01F52A8AFD86006FBF1B /* Play.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Play.swift; sourceTree = "<group>"; };
 		EBFFEFE12AC693EC0032A2AE /* VectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTests.swift; sourceTree = "<group>"; };
 		EBFFEFE32AC8E8290032A2AE /* FaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceTests.swift; sourceTree = "<group>"; };
@@ -158,6 +160,14 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		EB9E15202AD4F7650016152A /* ARKit */ = {
+			isa = PBXGroup;
+			children = (
+				EB9E15212AD4F7930016152A /* ARKitViewAdapter.swift */,
+			);
+			path = ARKit;
+			sourceTree = "<group>";
+		};
 		EBED01F32A8AFB5C006FBF1B /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,6 +179,7 @@
 				EB6C73912A899B6F008DD244 /* Persistence.swift */,
 				EB4037C82ACBA34900602707 /* SceneKit */,
 				EB4037C92ACBA35A00602707 /* RealityKit */,
+				EB9E15202AD4F7650016152A /* ARKit */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -308,6 +319,7 @@
 				EB96D4E22A82C18700CF0ED0 /* Move.swift in Sources */,
 				EB595E162A9907D5003000D6 /* Camera.swift in Sources */,
 				EB96D4DC2A817BF500CF0ED0 /* Cube2DView.swift in Sources */,
+				EB9E15222AD4F7930016152A /* ARKitViewAdapter.swift in Sources */,
 				EB595E142A97C24A003000D6 /* SceneKitUtils.swift in Sources */,
 				EB5B6EC22AE3A16900E74981 /* StickerComponent.swift in Sources */,
 				EB4037CB2ACBA38B00602707 /* RealityKitModel.swift in Sources */,

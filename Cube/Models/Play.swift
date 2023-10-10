@@ -25,16 +25,20 @@ protocol Model {
     func rebuild(with: Cube)
     func run(move: Move, duration: Double) -> AnyPublisher<Void, Never>
     func setCameraYaw(ratio: Float)
+}
 
-    var view: UIView { get }
+protocol ViewAdapter {
+    init(model: Model)
     func hitTest(at: CGPoint, cube: Cube) -> Sticker?
+    var view: UIView { get }
 }
 
 class Play: ObservableObject {
     @Published var cube: Cube = Cube_TestData.turnedCube
     @Published var moves: [Move] = []
 
-    let model: Model = RealityKitModel()
+    let model: Model
+    let viewAdapter: ViewAdapter
 
     var requests: [Move] = []
     var running: AnyCancellable?
@@ -42,10 +46,13 @@ class Play: ObservableObject {
     var dragging: Dragging? = nil
 
     var view: UIView {
-        model.view
+        viewAdapter.view
     }
 
     init() {
+        model = RealityKitModel()
+        viewAdapter = ARKitViewAdapter(model: model)
+
         rebuild()
     }
 
