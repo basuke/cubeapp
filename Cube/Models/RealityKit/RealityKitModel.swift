@@ -43,7 +43,7 @@ class RealityKitModel: Model {
 
 #if !os(visionOS)
         setupCamera()
-        scene.anchors.append(cameraAnchor)
+        arView.scene.anchors.append(cameraAnchor)
 #endif
     }
 
