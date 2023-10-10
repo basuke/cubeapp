@@ -141,6 +141,17 @@ enum NodeKind: String, RawRepresentable {
     case piece, sticker
 }
 
+extension Piece {
+    func sticker(facing normal: Vector) -> Sticker? {
+        for (face, _) in colors {
+            if face.axis == normal {
+                return sticker(on: face)
+            }
+        }
+        return nil
+    }
+}
+
 extension SCNNode {
     var kind: NodeKind? {
         guard let value = value(forKey: kNodeKindKey) as? String else {

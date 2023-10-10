@@ -10,6 +10,7 @@ import SwiftUI
 struct Cube3DView: View {
     @ObservedObject var play: Play
     @Binding var yawRatio: Float
+    @State var dragging: Dragging? = nil
 
     struct PlayViewContainer: UIViewRepresentable {
         @ObservedObject var play: Play
@@ -28,10 +29,16 @@ struct Cube3DView: View {
     var dragGesture: some Gesture {
         DragGesture(minimumDistance: 0)
             .onChanged { value in
-                play.updateDragging(at: value.location)
+                guard let dragging else {
+                    dragging = play.viewAdapter.beginDragging(at: value.location, play: play) ?? VoidDragging()
+                    return
+                }
+
+                dragging.update(at: value.location)
             }
             .onEnded { value in
-                play.endDragging(at: value.location)
+                dragging?.end(at: value.location)
+                dragging = nil
             }
     }
 

@@ -170,38 +170,13 @@ class VoidDragging: Dragging {
     }
 }
 
-extension Play {
-    private func beginDragging(at location: CGPoint) -> Dragging? {
-        guard let sticker = viewAdapter.hitTest(at: location, cube: cube) else {
+extension ViewAdapter {
+    func beginDragging(at location: CGPoint, play: Play) -> Dragging? {
+        guard let sticker = hitTest(at: location, cube: play.cube) else {
             return nil
         }
 
-        return TurnDragging(at: location, play: self, sticker: sticker)
-    }
-
-    func updateDragging(at location: CGPoint) {
-        if let dragging {
-            dragging.update(at: location)
-            return
-        }
-
-        dragging = beginDragging(at: location) ?? VoidDragging()
-    }
-
-    func endDragging(at location: CGPoint) {
-        dragging?.end(at: location)
-        dragging = nil
-    }
-}
-
-extension Piece {
-    func sticker(facing normal: Vector) -> Sticker? {
-        for (face, _) in colors {
-            if face.axis == normal {
-                return sticker(on: face)
-            }
-        }
-        return nil
+        return TurnDragging(at: location, play: play, sticker: sticker)
     }
 }
 

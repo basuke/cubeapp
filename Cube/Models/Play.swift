@@ -43,8 +43,6 @@ class Play: ObservableObject {
     var requests: [Move] = []
     var running: AnyCancellable?
 
-    var dragging: Dragging? = nil
-
     var view: UIView {
         viewAdapter.view
     }
