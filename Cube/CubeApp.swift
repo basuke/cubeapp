@@ -38,6 +38,7 @@ struct CubeApp: App {
                         fatalError(error.localizedDescription)
                     }
                 }
+                .environmentObject(play)
         }
     }
 }

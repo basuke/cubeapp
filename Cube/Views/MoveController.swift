@@ -12,22 +12,23 @@ struct MoveController: View {
         case vertical, horizontal
     }
 
-    let canUndo: Bool
-    let callback: (Move?) -> Void
-
     struct MoveButton: View {
-        let move: String
-        let action: () -> Void
+        let label: String
+        @EnvironmentObject private var play: Play
 
         var body: some View {
-            Button(move) {
-                action()
+            Button(label) {
+                guard let move = Move.from(string: label) else {
+                    fatalError("Invalid move \(label)")
+                }
+                play.apply(move: move)
             }
             .keyboardShortcut(shortcutKey, modifiers: modifiers)
+            .buttonStyle(.bordered)
         }
 
         var shortcutKey: KeyEquivalent {
-            KeyEquivalent(move[move.startIndex])
+            KeyEquivalent(label[label.startIndex])
         }
 
         var modifiers: EventModifiers {
@@ -35,110 +36,114 @@ struct MoveController: View {
         }
 
         var isPrime: Bool {
-            move.hasSuffix("'")
+            label.hasSuffix("'")
         }
     }
 
-    func undo() {
-        callback(nil)
-    }
+    struct MoveButtons: View {
+        let label: String
+        let layout: Layout
 
-    func button(_ label: String, prime: Bool = false) -> MoveButton {
-        let label = prime ? "\(label)'" : label
-
-        return MoveButton(move: label) {
-            if let move =  Move.from(string: label) {
-                callback(move)
-            } else {
-                print("Invalid move string \(label)")
-            }
-        }
-    }
-
-    func pair(_ label: String, layout: Layout, primeFirst: Bool) -> some View {
-        HStack {
+        var body: some View {
             if layout == .vertical {
                 VStack {
-                    if primeFirst {
-                        button(label, prime: true)
-                    }
-                    button(label)
-                    if !primeFirst {
-                        button(label, prime: true)
-                    }
+                    MoveButton(label: label.move(for: .up))
+                    MoveButton(label: label.move(for: .down))
                 }
             } else {
-                if primeFirst {
-                    button(label, prime: true)
-                }
-                button(label)
-                if !primeFirst {
-                    button(label, prime: true)
+                HStack {
+                    MoveButton(label: label.move(for: .left))
+                    MoveButton(label: label.move(for: .right))
                 }
             }
         }
     }
 
-    var turnButtons: some View {
-        VStack {
-            HStack {
-                pair("L", layout: .vertical, primeFirst: false)
-                VStack {
-                    pair("U", layout: .horizontal, primeFirst: true)
-                    pair("F", layout: .horizontal, primeFirst: true)
-                    pair("D", layout: .horizontal, primeFirst: false)
-                }
-                pair("R", layout: .vertical, primeFirst: true)
+    struct UndoButton: View {
+        @EnvironmentObject private var play: Play
+
+        var body: some View {
+            Button("Undo") {
+                play.undo()
             }
-            Divider().frame(width:80)
-            pair("B", layout: .horizontal, primeFirst: false)
+            .disabled(play.moves.isEmpty)
         }
     }
 
-    var extraButtons: some View {
-        HStack {
-            pair("E", layout: .vertical, primeFirst: false)
-            pair("M", layout: .vertical, primeFirst: false)
-            pair("S", layout: .vertical, primeFirst: false)
-        }
-    }
-
-    var rotateButtons: some View {
-        HStack {
-            pair("z", layout: .vertical, primeFirst: false)
-            Divider().frame(height:80)
+    struct TurnButtons: View {
+        var body: some View {
             VStack {
-                button("x", prime: false)
-                pair("y", layout: .horizontal, primeFirst: false)
-                button("x", prime: true)
+                HStack {
+                    MoveButtons(label: "L", layout: .vertical)
+                    VStack {
+                        MoveButtons(label: "U'", layout: .horizontal)
+                        MoveButtons(label: "F'", layout: .horizontal)
+                        MoveButtons(label: "D", layout: .horizontal)
+                    }
+                    MoveButtons(label: "R'", layout: .vertical)
+                }
+                Divider().frame(width:80)
+                MoveButtons(label: "B", layout: .horizontal)
             }
+        }
+    }
+
+    struct ExtraTurnButtons: View {
+        var body: some View {
+            HStack {
+                MoveButtons(label: "E", layout: .vertical)
+                MoveButtons(label: "M", layout: .vertical)
+                MoveButtons(label: "S", layout: .vertical)
+            }
+        }
+    }
+
+    struct RotateButtons: View {
+        var body: some View {
+            HStack {
+                MoveButtons(label: "z", layout: .vertical)
+                Divider().frame(height:80)
+                VStack {
+                    MoveButton(label: "x")
+                    MoveButtons(label: "y", layout: .horizontal)
+                    MoveButton(label: "x'")
+                }
+            }
+        }
+    }
+
+    struct MainButtons: View {
+        var body: some View {
+            VStack {
+                TurnButtons()
+                Divider().frame(width: 80)
+                UndoButton()
+            }
+            .padding()
+        }
+    }
+
+    struct SubButtons: View {
+        var body: some View {
+            VStack {
+                RotateButtons()
+                Divider().frame(width:120)
+                ExtraTurnButtons()
+            }
+            .padding()
         }
     }
 
     var body: some View {
         HStack {
-            VStack {
-                rotateButtons
-                Divider().frame(width:120)
-                extraButtons
-            }
+            SubButtons()
             Spacer()
-            VStack {
-                turnButtons
-                Divider().frame(width: 80)
-                Button("Undo") {
-                    undo()
-                }
-                .disabled(!canUndo)
-            }
+            MainButtons()
         }
-        .buttonStyle(.bordered)
-        .padding()
      }
 }
 
 #Preview {
-    MoveController(canUndo: false) { move in
-        print(move ?? "nil")
-    }
+    MoveController()
+        .environmentObject(Play())
 }

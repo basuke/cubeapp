@@ -34,13 +34,7 @@ struct ContentView: View {
                     Spacer()
                 }
             }
-            MoveController(canUndo: !play.moves.isEmpty) { move in
-                if let move {
-                    play.apply(move: move)
-                } else {
-                    play.undo()
-                }
-            }
+            MoveController()
         }
         .background(
             LinearGradient(gradient: Gradient(colors: gradientColors.map { SwiftUI.Color($0) }), startPoint: .top, endPoint: .bottom)
@@ -49,21 +43,14 @@ struct ContentView: View {
 
 #if os(visionOS)
     var visionWindowBody: some View {
-        VStack {
-            ZStack(alignment: .bottom) {
-                HStack {
-                    Spacer()
-                    Cube2DView(cube: play.cube.as2D())
-                }
+        HStack {
+            MoveController.SubButtons()
+            VStack {
+                Cube2DView(cube: play.cube.as2D()).padding()
+                Spacer()
                 RealityCubeView(play: play)
             }
-            MoveController(canUndo: !play.moves.isEmpty) { move in
-                if let move {
-                    play.apply(move: move)
-                } else {
-                    play.undo()
-                }
-            }
+            MoveController.MainButtons()
         }
     }
 #endif
