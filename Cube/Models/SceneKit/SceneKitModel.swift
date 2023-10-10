@@ -10,7 +10,6 @@ import SceneKit
 import Combine
 
 class SceneKitModel: Model {
-    let sceneView = SCNView(frame: .zero)
     let scene = SCNScene()
     let cubeNode = SCNNode()
     let yawNode = SCNNode()
@@ -20,14 +19,7 @@ class SceneKitModel: Model {
 
     var pieceNodes: [SCNNode] = []
 
-    var view: UIView {
-        sceneView
-    }
-
     init() {
-        sceneView.scene = scene
-        sceneView.backgroundColor = .clear
-
         cubeNode.addChildNode(rotationNode)
 
         setupCamera()
@@ -107,21 +99,7 @@ class SceneKitModel: Model {
         }
     }
 
-    func hitTest(at location: CGPoint, cube: Cube) -> Sticker? {
-        let options: [SCNHitTestOption : Any] = [
-            .searchMode: SCNHitTestSearchMode.closest.rawValue,
-        ]
-
-        guard let result = sceneView.hitTest(location, options: options).first else {
-            return nil
-        }
-
-        let normal = Vector(cubeNode.convertVector(result.worldNormal, from: nil)).rounded
-
-        return identifySticker(from: result.node, cube: cube, normal: normal)
-    }
-
-    private func identifySticker(from node: SCNNode, cube: Cube, normal: Vector) -> Sticker? {
+    func identifySticker(from node: SCNNode, cube: Cube, normal: Vector) -> Sticker? {
         guard let pieceNode = node.parent, node.kind == .sticker else {
             return nil
         }

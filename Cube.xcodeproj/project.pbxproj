@@ -14,6 +14,7 @@
 		EB3029542AC00D0E00D01AF7 /* PieceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3029532AC00D0E00D01AF7 /* PieceTests.swift */; };
 		EB3029602AC93BAD00D01AF7 /* SceneKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB30295F2AC93BAD00D01AF7 /* SceneKitModel.swift */; };
 		EB4037CB2ACBA38B00602707 /* RealityKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4037CA2ACBA38B00602707 /* RealityKitModel.swift */; };
+		EB42A13C2AD5289600F6F80A /* SceneKitViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB42A13B2AD5289600F6F80A /* SceneKitViewAdapter.swift */; };
 		EB595E142A97C24A003000D6 /* SceneKitUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB595E132A97C24A003000D6 /* SceneKitUtils.swift */; };
 		EB595E162A9907D5003000D6 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB595E152A9907D5003000D6 /* Camera.swift */; };
 		EB5B6EC22AE3A16900E74981 /* StickerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5B6EC12AE3A16900E74981 /* StickerComponent.swift */; };
@@ -52,6 +53,7 @@
 		EB3029532AC00D0E00D01AF7 /* PieceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieceTests.swift; sourceTree = "<group>"; };
 		EB30295F2AC93BAD00D01AF7 /* SceneKitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitModel.swift; sourceTree = "<group>"; };
 		EB4037CA2ACBA38B00602707 /* RealityKitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityKitModel.swift; sourceTree = "<group>"; };
+		EB42A13B2AD5289600F6F80A /* SceneKitViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitViewAdapter.swift; sourceTree = "<group>"; };
 		EB595E132A97C24A003000D6 /* SceneKitUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitUtils.swift; sourceTree = "<group>"; };
 		EB595E152A9907D5003000D6 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		EB5A36DF2ACBC7580094EB7D /* Cube.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cube.entitlements; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 			children = (
 				EB30295F2AC93BAD00D01AF7 /* SceneKitModel.swift */,
 				EB595E132A97C24A003000D6 /* SceneKitUtils.swift */,
+				EB42A13B2AD5289600F6F80A /* SceneKitViewAdapter.swift */,
 			);
 			path = SceneKit;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				EB96D4CC2A80BC6100CF0ED0 /* CubeApp.swift in Sources */,
 				EBED01F62A8AFD86006FBF1B /* Play.swift in Sources */,
 				EB1D004E2AE3AA74000E3920 /* RotationSystem.swift in Sources */,
+				EB42A13C2AD5289600F6F80A /* SceneKitViewAdapter.swift in Sources */,
 				EB96D4E22A82C18700CF0ED0 /* Move.swift in Sources */,
 				EB595E162A9907D5003000D6 /* Camera.swift in Sources */,
 				EB96D4DC2A817BF500CF0ED0 /* Cube2DView.swift in Sources */,

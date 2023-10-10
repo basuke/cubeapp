@@ -48,8 +48,8 @@ class Play: ObservableObject {
     }
 
     init() {
-        model = RealityKitModel()
-        viewAdapter = ARKitViewAdapter(model: model)
+        model = SceneKitModel()
+        viewAdapter = SceneKitViewAdapter(model: model)
 
         rebuild()
     }
