@@ -9,15 +9,6 @@ import Foundation
 import UIKit
 import Combine
 
-protocol Model {
-    func rebuild(with: Cube)
-    func run(move: Move, duration: Double) -> AnyPublisher<Void, Never>
-    func setCameraYaw(ratio: Float)
-
-    var view: UIView { get }
-    func hitTest(at: CGPoint, cube: Cube) -> Sticker?
-}
-
 enum TurnSpeed {
     case normal
     case quick
@@ -28,6 +19,15 @@ enum TurnSpeed {
         case .quick: 0.1
         }
     }
+}
+
+protocol Model {
+    func rebuild(with: Cube)
+    func run(move: Move, duration: Double) -> AnyPublisher<Void, Never>
+    func setCameraYaw(ratio: Float)
+
+    var view: UIView { get }
+    func hitTest(at: CGPoint, cube: Cube) -> Sticker?
 }
 
 class Play: ObservableObject {
