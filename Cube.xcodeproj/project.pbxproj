@@ -26,6 +26,7 @@
 		EB96D4DC2A817BF500CF0ED0 /* Cube2DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4DB2A817BF500CF0ED0 /* Cube2DView.swift */; };
 		EB96D4DE2A81BA1D00CF0ED0 /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */; };
 		EB96D4E22A82C18700CF0ED0 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4E12A82C18700CF0ED0 /* Move.swift */; };
+		EB9E151F2AD4D3DC0016152A /* RealityCubeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E151E2AD4D3DC0016152A /* RealityCubeView.swift */; };
 		EBED01F62A8AFD86006FBF1B /* Play.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBED01F52A8AFD86006FBF1B /* Play.swift */; };
 		EBFFEFE22AC693EC0032A2AE /* VectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFFEFE12AC693EC0032A2AE /* VectorTests.swift */; };
 		EBFFEFE42AC8E8290032A2AE /* FaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFFEFE32AC8E8290032A2AE /* FaceTests.swift */; };
@@ -64,6 +65,7 @@
 		EB96D4DB2A817BF500CF0ED0 /* Cube2DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube2DView.swift; sourceTree = "<group>"; };
 		EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube.swift; sourceTree = "<group>"; };
 		EB96D4E12A82C18700CF0ED0 /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
+		EB9E151E2AD4D3DC0016152A /* RealityCubeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityCubeView.swift; sourceTree = "<group>"; };
 		EBED01F52A8AFD86006FBF1B /* Play.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Play.swift; sourceTree = "<group>"; };
 		EBFFEFE12AC693EC0032A2AE /* VectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTests.swift; sourceTree = "<group>"; };
 		EBFFEFE32AC8E8290032A2AE /* FaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceTests.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				EB96D4DB2A817BF500CF0ED0 /* Cube2DView.swift */,
 				EB6C738F2A88B493008DD244 /* MoveController.swift */,
 				EB2767392A95160B00464B06 /* Cube3DView.swift */,
+				EB9E151E2AD4D3DC0016152A /* RealityCubeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB27673A2A95160B00464B06 /* Cube3DView.swift in Sources */,
+				EB9E151F2AD4D3DC0016152A /* RealityCubeView.swift in Sources */,
 				EB6C73922A899B6F008DD244 /* Persistence.swift in Sources */,
 				EB6C73902A88B493008DD244 /* MoveController.swift in Sources */,
 				EB96D4CE2A80BC6100CF0ED0 /* ContentView.swift in Sources */,

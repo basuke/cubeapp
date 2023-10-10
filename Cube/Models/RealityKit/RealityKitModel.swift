@@ -13,6 +13,7 @@ import Combine
 class RealityKitModel: Model {
 #if !os(visionOS)
     let arView = ARView(frame: .zero)
+    let cameraAnchor = AnchorEntity()
 #endif
 
     let cubeEntity = Entity()
@@ -20,8 +21,6 @@ class RealityKitModel: Model {
     let yawEntity = Entity()
     let pitchEntity = Entity()
     let rotationEntity = Entity()
-
-    let cameraAnchor = AnchorEntity()
 
     var pieceEntities: [Entity] = []
 
@@ -38,8 +37,12 @@ class RealityKitModel: Model {
 
         cubeEntity.addChild(rotationEntity)
 
-        setupCamera()
+        // Add the box node to the scene
+        pitchEntity.addChild(cubeEntity)
+        yawEntity.addChild(pitchEntity)
+
 #if !os(visionOS)
+        setupCamera()
         scene.anchors.append(cameraAnchor)
 #endif
     }
