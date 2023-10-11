@@ -27,7 +27,7 @@ class RealityKitModel: Model {
         }
     }
 
-    init() {
+    required init() {
         cubeEntity.addChild(rotationEntity)
 
         setupCamera()

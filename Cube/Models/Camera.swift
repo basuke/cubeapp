@@ -63,10 +63,10 @@ extension RealityKitModel {
 let kDistanceForARKit: Float = 0.3
 let kScaleForARKit: Float = 0.4
 
-extension ARKitCoordinator {
+extension ARKitViewAdapter {
     func adjustCamera() {
         let adjustEntity = Entity()
-        adjustEntity.addChild(_model.yawEntity)
+        adjustEntity.addChild(model.yawEntity)
         adjustEntity.position = simd_float3(0, 0, -kDistanceForARKit)
         adjustEntity.scale = simd_float3(kScaleForARKit, kScaleForARKit, kScaleForARKit)
         cameraAnchor.addChild(adjustEntity)

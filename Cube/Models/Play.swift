@@ -25,7 +25,7 @@ enum ModelKind {
     case sceneKit, realityKit
 }
 
-enum CoordinatorKind {
+enum ViewAdapterKind {
     case sceneKit
     #if !os(xrOS)
     case arKit
@@ -38,10 +38,10 @@ protocol Model {
     func setCameraYaw(ratio: Float)
 }
 
-protocol Coordinator {
+protocol ViewAdapter {
+    init(model: Model)
     func hitTest(at: CGPoint, cube: Cube) -> Sticker?
     var view: UIView { get }
-    var model: any Model { get }
 }
 
 typealias Action = () -> Void
@@ -55,7 +55,7 @@ class Play: ObservableObject {
     @Published var moves: [Move] = []
 
     private var models: [ModelKind:Model] = [:]
-    private var coordinators: [CoordinatorKind:Coordinator] = [:]
+    private var coordinators: [ViewAdapterKind:ViewAdapter] = [:]
 
     private var running: AnyCancellable? = nil
     private var requests: [Move] = []
@@ -136,19 +136,19 @@ extension Play {
     }
 }
 
-extension CoordinatorKind {
-    func instanciate(play: Play) -> Coordinator {
+extension ViewAdapterKind {
+    func instanciate(play: Play) -> ViewAdapter {
         switch self {
-        case .sceneKit: SceneKitCoordinator(model: play.model(for: .sceneKit))
+        case .sceneKit: SceneKitViewAdapter(model: play.model(for: .sceneKit))
 #if !os(xrOS)
-        case .arKit: ARKitCoordinator(model: play.model(for: .realityKit))
+        case .arKit: ARKitViewAdapter(model: play.model(for: .realityKit))
 #endif
         }
     }
 }
 
 extension Play {
-    func coordinator(for kind: CoordinatorKind) -> Coordinator {
+    func coordinator(for kind: ViewAdapterKind) -> ViewAdapter {
         if let coordinator = coordinators[kind] {
             return coordinator
         }

@@ -12,11 +12,8 @@ import Combine
 
 #if !os(xrOS)
 
-class ARKitCoordinator: Coordinator {
-    var model: Model {
-        _model
-    }
-    let _model: RealityKitModel
+class ARKitViewAdapter: ViewAdapter {
+    let model: RealityKitModel
     let arView = ARView(frame: .zero)
     let scene: Scene
 
@@ -41,14 +38,14 @@ class ARKitCoordinator: Coordinator {
 
     let actionRunner: ActionRunner
 
-    init(model: Model) {
+    required init(model: Model) {
         guard let model = model as? RealityKitModel else {
-            fatalError("Invalid model was passed.")
+            fatalError("Requires RealityKitModel")
         }
-        _model = model
+        self.model = model
         scene = arView.scene
         actionRunner = SceneActionRunner(scene: scene)
-        _model.runner = actionRunner
+        model.runner = actionRunner
 
         adjustCamera()
         scene.anchors.append(cameraAnchor)
@@ -59,10 +56,12 @@ class ARKitCoordinator: Coordinator {
             return nil
         }
 
-        return _model.identifySticker(from: result.entity, cube: cube)
+        return model.identifySticker(from: result.entity, cube: cube)
     }
 
-    var view: UIView { arView }
+    var view: UIView {
+        arView
+    }
 }
 
 #endif

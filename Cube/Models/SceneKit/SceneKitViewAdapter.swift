@@ -7,19 +7,16 @@
 
 import SceneKit
 
-class SceneKitCoordinator: Coordinator {
-    var model: Model {
-        _model
-    }
-    let _model: SceneKitModel
+class SceneKitViewAdapter: ViewAdapter {
+    let sceneKitModel: SceneKitModel
     let sceneKitView = SCNView(frame: .zero)
     var view: UIView { sceneKitView }
 
-    init(model: Model) {
+    required init(model: Model) {
         guard let model = model as? SceneKitModel else {
             fatalError("Invalid model was passed.")
         }
-        _model = model
+        sceneKitModel = model
         sceneKitView.scene = model.scene
         sceneKitView.backgroundColor = .clear
     }
@@ -34,7 +31,7 @@ class SceneKitCoordinator: Coordinator {
             return nil
         }
 
-        let normal = Vector(_model.cubeNode.convertVector(result.worldNormal, from: nil)).rounded
+        let normal = Vector(sceneKitModel.cubeNode.convertVector(result.worldNormal, from: nil)).rounded
 
         return identifySticker(from: result.node, cube: cube, normal: normal)
     }

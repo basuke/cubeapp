@@ -22,11 +22,11 @@
 		EB96D4DE2A81BA1D00CF0ED0 /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */; };
 		EB96D4E22A82C18700CF0ED0 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4E12A82C18700CF0ED0 /* Move.swift */; };
 		EBB59AC62AA7E07F005AE35F /* SceneKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB59AC52AA7E07F005AE35F /* SceneKitModel.swift */; };
-		EBB59AC82AA7F983005AE35F /* ARKitCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB59AC72AA7F983005AE35F /* ARKitCoordinator.swift */; };
+		EBB59AC82AA7F983005AE35F /* ARKitViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB59AC72AA7F983005AE35F /* ARKitViewAdapter.swift */; };
 		EBC31DE92AAE1C25001E7379 /* VolumetircView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC31DE82AAE1C25001E7379 /* VolumetircView.swift */; };
 		EBDF64B92ABDFB2000E50588 /* RealityKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDF64B82ABDFB2000E50588 /* RealityKitModel.swift */; };
 		EBED01F62A8AFD86006FBF1B /* Play.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBED01F52A8AFD86006FBF1B /* Play.swift */; };
-		EBF45DBA2ABDFF1E00D8DE48 /* SceneKitCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF45DB92ABDFF1E00D8DE48 /* SceneKitCoordinator.swift */; };
+		EBF45DBA2ABDFF1E00D8DE48 /* SceneKitViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF45DB92ABDFF1E00D8DE48 /* SceneKitViewAdapter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,13 +46,13 @@
 		EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube.swift; sourceTree = "<group>"; };
 		EB96D4E12A82C18700CF0ED0 /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 		EBB59AC52AA7E07F005AE35F /* SceneKitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitModel.swift; sourceTree = "<group>"; };
-		EBB59AC72AA7F983005AE35F /* ARKitCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARKitCoordinator.swift; sourceTree = "<group>"; };
+		EBB59AC72AA7F983005AE35F /* ARKitViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARKitViewAdapter.swift; sourceTree = "<group>"; };
 		EBB59ACB2AA91A76005AE35F /* Cube.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cube.entitlements; sourceTree = "<group>"; };
 		EBC31DE82AAE1C25001E7379 /* VolumetircView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumetircView.swift; sourceTree = "<group>"; };
 		EBDF64AA2AB3884200E50588 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EBDF64B82ABDFB2000E50588 /* RealityKitModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealityKitModel.swift; sourceTree = "<group>"; };
 		EBED01F52A8AFD86006FBF1B /* Play.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Play.swift; sourceTree = "<group>"; };
-		EBF45DB92ABDFF1E00D8DE48 /* SceneKitCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneKitCoordinator.swift; sourceTree = "<group>"; };
+		EBF45DB92ABDFF1E00D8DE48 /* SceneKitViewAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneKitViewAdapter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,7 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				EBB59AC52AA7E07F005AE35F /* SceneKitModel.swift */,
-				EBF45DB92ABDFF1E00D8DE48 /* SceneKitCoordinator.swift */,
+				EBF45DB92ABDFF1E00D8DE48 /* SceneKitViewAdapter.swift */,
 				EB595E132A97C24A003000D6 /* SceneKitUtils.swift */,
 			);
 			path = SceneKit;
@@ -117,7 +117,7 @@
 		EBB59ACA2AA7F9A3005AE35F /* ARKit */ = {
 			isa = PBXGroup;
 			children = (
-				EBB59AC72AA7F983005AE35F /* ARKitCoordinator.swift */,
+				EBB59AC72AA7F983005AE35F /* ARKitViewAdapter.swift */,
 			);
 			path = ARKit;
 			sourceTree = "<group>";
@@ -235,9 +235,9 @@
 				EB6B3ACE2AAB863800AF0414 /* RealityCubeView.swift in Sources */,
 				EB96D4CE2A80BC6100CF0ED0 /* ContentView.swift in Sources */,
 				EB96D4DE2A81BA1D00CF0ED0 /* Cube.swift in Sources */,
-				EBB59AC82AA7F983005AE35F /* ARKitCoordinator.swift in Sources */,
+				EBB59AC82AA7F983005AE35F /* ARKitViewAdapter.swift in Sources */,
 				EBB59AC62AA7E07F005AE35F /* SceneKitModel.swift in Sources */,
-				EBF45DBA2ABDFF1E00D8DE48 /* SceneKitCoordinator.swift in Sources */,
+				EBF45DBA2ABDFF1E00D8DE48 /* SceneKitViewAdapter.swift in Sources */,
 				EBC31DE92AAE1C25001E7379 /* VolumetircView.swift in Sources */,
 				EB96D4CC2A80BC6100CF0ED0 /* CubeApp.swift in Sources */,
 				EBED01F62A8AFD86006FBF1B /* Play.swift in Sources */,

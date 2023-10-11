@@ -171,7 +171,7 @@ class VoidDragging: Dragging {
     }
 }
 
-extension Coordinator {
+extension ViewAdapter {
     func beginDragging(at location: CGPoint, play: Play) -> Dragging? {
         guard let sticker = hitTest(at: location, cube: play.cube) else {
             return nil
