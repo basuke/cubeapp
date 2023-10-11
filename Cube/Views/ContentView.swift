@@ -21,7 +21,7 @@ struct ContentView: View {
     var flatWindowBody: some View {
         VStack {
             ZStack(alignment: .bottom) {
-                Cube3DView(play: play, yawRatio: $yawRatio)
+                Cube3DView(play: play, kind: .sceneKit, yawRatio: $yawRatio)
                 HStack {
                     Spacer()
                     Cube2DView(cube: play.cube.as2D())

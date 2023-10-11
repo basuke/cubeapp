@@ -15,14 +15,16 @@ struct RealityCubeView: View {
 
     var body: some View {
         RealityView { content in
-            if let model = play.model as? RealityKitModel {
-                content.add(model.entity)
+            guard let model = play.model(for: .realityKit) as? RealityKitModel else {
+                fatalError("Cannot get RealityKitModel")
             }
+
+            content.add(model.entity)
         }
     }
 }
 
-let kScaleForRealityKit: Float = 0.05
+let kScaleForRealityKit: Float = 0.02
 
 extension RealityKitModel {
     var entity: Entity {

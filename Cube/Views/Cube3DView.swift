@@ -9,20 +9,26 @@ import SwiftUI
 
 struct Cube3DView: View {
     @ObservedObject var play: Play
+    let kind: ViewAdapterKind
     @Binding var yawRatio: Float
     @State var dragging: Dragging? = nil
 
     struct PlayViewContainer: UIViewRepresentable {
         @ObservedObject var play: Play
+        let viewAdapter: ViewAdapter
         @Binding var yawRatio: Float
 
         func makeUIView(context: Context) -> some UIView {
-            play.model.setCameraYaw(ratio: yawRatio)
-            return play.view
+            setCameraYaw()
+            return viewAdapter.view
         }
 
         func updateUIView(_ uiView: UIViewType, context: Context) {
-            play.model.setCameraYaw(ratio: yawRatio)
+            setCameraYaw()
+        }
+
+        private func setCameraYaw() {
+            play.forEachModel { $0.setCameraYaw(ratio: yawRatio) }
         }
     }
 
@@ -30,7 +36,7 @@ struct Cube3DView: View {
         DragGesture(minimumDistance: 0)
             .onChanged { value in
                 guard let dragging else {
-                    dragging = play.viewAdapter.beginDragging(at: value.location, play: play) ?? VoidDragging()
+                    dragging = viewAdapter.beginDragging(at: value.location, play: play) ?? VoidDragging()
                     return
                 }
 
@@ -42,12 +48,16 @@ struct Cube3DView: View {
             }
     }
 
+    var viewAdapter: ViewAdapter {
+        play.viewAdapter(for: kind)
+    }
+
     var body: some View {
-        PlayViewContainer(play: play, yawRatio: $yawRatio)
+        PlayViewContainer(play: play, viewAdapter: viewAdapter, yawRatio: $yawRatio)
             .gesture(dragGesture)
     }
 }
 
 #Preview {
-    Cube3DView(play: Play(), yawRatio: .constant(1.0))
+    Cube3DView(play: Play(), kind: .sceneKit, yawRatio: .constant(1.0))
 }

@@ -21,6 +21,17 @@ enum TurnSpeed {
     }
 }
 
+enum ModelKind {
+    case sceneKit, realityKit
+}
+
+enum ViewAdapterKind {
+    case sceneKit
+#if !os(xrOS)
+    case arKit
+#endif
+}
+
 protocol Model {
     func rebuild(with: Cube)
     func run(move: Move, duration: Double) -> AnyPublisher<Void, Never>
@@ -37,25 +48,14 @@ class Play: ObservableObject {
     @Published var cube: Cube = Cube_TestData.turnedCube
     @Published var moves: [Move] = []
 
-    let model: Model
-    let viewAdapter: ViewAdapter
+    private var models: [ModelKind:Model] = [:]
+    private var viewAdapters: [ViewAdapterKind:ViewAdapter] = [:]
 
     var requests: [Move] = []
     var running: AnyCancellable?
 
-    var view: UIView {
-        viewAdapter.view
-    }
-
-    init() {
-        model = SceneKitModel()
-        viewAdapter = SceneKitViewAdapter(model: model)
-
-        rebuild()
-    }
-
     func rebuild() {
-        model.rebuild(with: cube)
+        models.values.forEach { $0.rebuild(with: cube) }
     }
 
     func apply(move: Move, speed: TurnSpeed = .normal) {
@@ -86,7 +86,8 @@ class Play: ObservableObject {
         cube = cube.apply(move: move)
 
         let duration = speed.duration * (debug ? 10.0 : 1.0)
-        return model.run(move: move, duration: duration)
+        let results = models.values.map { $0.run(move: move, duration: duration) }
+        return Publishers.MergeMany(results)
             .receive(on: DispatchQueue.main)
             .sink { self.afterAction() }
     }
@@ -96,6 +97,55 @@ class Play: ObservableObject {
             nil
         } else {
             run(move: requests.removeFirst(), speed: .quick)
+        }
+    }
+}
+
+extension ModelKind {
+    func instantiate() -> Model {
+        switch self {
+        case .sceneKit: SceneKitModel()
+        case .realityKit: RealityKitModel()
+        }
+    }
+}
+
+extension Play {
+    func model(for kind: ModelKind) -> Model {
+        if let model = models[kind] {
+            return model
+        } else {
+            let model = kind.instantiate()
+            model.rebuild(with: cube)
+            models[kind] = model
+            return model
+        }
+    }
+
+    func forEachModel(callback: (Model) -> Void) {
+        models.values.forEach { callback($0) }
+    }
+}
+
+extension ViewAdapterKind {
+    func instantiate(play: Play) -> ViewAdapter {
+        switch self {
+        case .sceneKit: SceneKitViewAdapter(model: play.model(for: .sceneKit))
+#if !os(visionOS)
+        case .arKit: ARKitViewAdapter(model: play.model(for: .realityKit))
+#endif
+        }
+    }
+}
+
+extension Play {
+    func viewAdapter(for kind: ViewAdapterKind) -> ViewAdapter {
+        if let viewAdapter = viewAdapters[kind] {
+            return viewAdapter
+        } else {
+            let viewAdapter = kind.instantiate(play: self)
+            viewAdapters[kind] = viewAdapter
+            return viewAdapter
         }
     }
 }
