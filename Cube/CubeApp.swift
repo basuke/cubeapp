@@ -21,7 +21,7 @@ struct CubeApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(play: play)
+            ContentView()
                 .environmentObject(play)
                 .persistent(to: play)
         }

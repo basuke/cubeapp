@@ -9,7 +9,7 @@ import SwiftUI
 import RealityKit
 
 struct ContentView: View {
-    @ObservedObject var play: Play
+    @EnvironmentObject private var play: Play
     @State private var yawRatio: Float = -1.0
 
     let gradientColors: [UIColor] = [
@@ -21,7 +21,7 @@ struct ContentView: View {
     var flatWindowBody: some View {
         VStack {
             ZStack(alignment: .bottom) {
-                Cube3DView(play: play, kind: .sceneKit, yawRatio: $yawRatio)
+                Cube3DView(kind: .sceneKit, yawRatio: $yawRatio)
                 HStack {
                     Spacer()
                     Cube2DView(cube: play.cube.as2D())
@@ -48,7 +48,7 @@ struct ContentView: View {
             VStack {
                 Cube2DView(cube: play.cube.as2D()).padding()
                 Spacer()
-                RealityCubeView(play: play)
+                RealityCubeView()
             }
             MoveController.MainButtons()
         }
@@ -65,5 +65,6 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView(play: Play())
+    ContentView()
+        .environmentObject(Play())
 }

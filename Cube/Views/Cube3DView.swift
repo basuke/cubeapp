@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Cube3DView: View {
-    @ObservedObject var play: Play
+    @EnvironmentObject private var play: Play
     let kind: ViewAdapterKind
     @Binding var yawRatio: Float
     @State var dragging: Dragging? = nil
@@ -59,5 +59,6 @@ struct Cube3DView: View {
 }
 
 #Preview {
-    Cube3DView(play: Play(), kind: .sceneKit, yawRatio: .constant(1.0))
+    Cube3DView(kind: .sceneKit, yawRatio: .constant(1.0))
+        .environmentObject(Play())
 }

@@ -11,7 +11,7 @@ import RealityKit
 #if os(visionOS)
 
 struct RealityCubeView: View {
-    @ObservedObject var play: Play
+    @EnvironmentObject private var play: Play
     @State private var dragging: Dragging?
 
     func beginDragging(at location: CGPoint, entity: Entity) -> Dragging? {
@@ -66,7 +66,8 @@ extension RealityKitModel {
 }
 
 #Preview {
-    RealityCubeView(play: Play())
+    RealityCubeView()
+        .environmentObject(Play())
 }
 
 #endif
