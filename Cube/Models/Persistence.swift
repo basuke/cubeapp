@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 extension Play {
     struct SaveData: Codable {
@@ -39,5 +40,36 @@ extension Play {
         }
 
         rebuild()
+    }
+}
+
+extension View {
+    func persistent(to play: Play) -> some View {
+        self.modifier(PersistenceModifier(play: play))
+    }
+}
+
+private struct PersistenceModifier: ViewModifier {
+    let play: Play
+    @Environment(\.scenePhase) private var scenePhase
+
+    func body(content: Content) -> some View {
+        content
+            .onChange(of: scenePhase) { _, phase in
+                if phase == .inactive {
+                    do {
+                        try play.save()
+                    } catch {
+                        fatalError(error.localizedDescription)
+                    }
+                }
+            }
+            .task {
+                do {
+                    try play.load()
+                } catch {
+                    fatalError(error.localizedDescription)
+                }
+            }
     }
 }

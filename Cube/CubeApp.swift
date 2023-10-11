@@ -22,23 +22,8 @@ struct CubeApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(play: play)
-                .onChange(of: scenePhase) { _, phase in
-                    if phase == .inactive {
-                        do {
-                            try play.save()
-                        } catch {
-                            fatalError(error.localizedDescription)
-                        }
-                    }
-                }
-                .task {
-                    do {
-                        try play.load()
-                    } catch {
-                        fatalError(error.localizedDescription)
-                    }
-                }
                 .environmentObject(play)
+                .persistent(to: play)
         }
     }
 }
