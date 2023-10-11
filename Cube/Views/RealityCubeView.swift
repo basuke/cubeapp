@@ -12,6 +12,34 @@ import RealityKit
 
 struct RealityCubeView: View {
     @ObservedObject var play: Play
+    @State private var dragging: Dragging?
+
+    func beginDragging(at location: CGPoint, entity: Entity) -> Dragging? {
+        guard let model = play.model(for: .realityKit) as? RealityKitModel,
+              let component = entity.components[StickerComponent.self] as StickerComponent?,
+              let sticker = model.identifySticker(from: entity, cube: play.cube, color: component.color) else {
+            return nil
+        }
+
+        return TurnDragging(at: location, play: play, sticker: sticker)
+    }
+
+    var dragGesture: some Gesture {
+        DragGesture(minimumDistance: 0)
+            .targetedToAnyEntity()
+            .onChanged { value in
+                guard let dragging else {
+                    dragging = beginDragging(at: value.location, entity: value.entity) ?? VoidDragging()
+                    return
+                }
+
+                dragging.update(at: value.location)
+            }
+            .onEnded { value in
+                dragging?.end(at: value.location)
+                dragging = nil
+            }
+    }
 
     var body: some View {
         RealityView { content in
@@ -21,6 +49,7 @@ struct RealityCubeView: View {
 
             content.add(model.entity)
         }
+        .gesture(dragGesture)
     }
 }
 

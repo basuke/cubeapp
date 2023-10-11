@@ -54,6 +54,10 @@ class RealityKitModel: Model {
             entity.transform = stickerTransform(for: face)
             entity.generateCollisionShapes(recursive: false)
             entity.components.set(StickerComponent(color: color))
+#if os(visionOS)
+            entity.components.set(HoverEffectComponent())
+            entity.components.set(InputTargetComponent())
+#endif
             return entity
         }
 
