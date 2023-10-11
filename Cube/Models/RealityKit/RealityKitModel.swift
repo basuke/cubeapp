@@ -120,6 +120,15 @@ class RealityKitModel: Model {
     }
 }
 
+let kYawScaleFactorForARKit: Float = 1.7
+
+extension RealityKitModel {
+    func setCameraYaw(ratio: Float) {
+        let yaw = initialYaw * ratio
+        yawEntity.transform = Transform(pitch: 0.0, yaw: yaw * kYawScaleFactorForARKit, roll: 0.0)
+    }
+}
+
 extension Vector {
     init(_ simd: SIMD3<Float>) {
         self.init(simd.x, simd.y, simd.z)
