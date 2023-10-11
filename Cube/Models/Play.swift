@@ -27,7 +27,7 @@ enum ModelKind {
 
 enum ViewAdapterKind {
     case sceneKit
-#if !os(xrOS)
+#if !os(visionOS)
     case arKit
 #endif
 }
