@@ -20,10 +20,20 @@ struct CubeApp: App {
     }
 
     var body: some Scene {
+#if os(visionOS)
+        WindowGroup {
+            RealityCubeView()
+                .environmentObject(play)
+                .persistent(to: play)
+        }
+        .windowStyle(.volumetric)
+        .defaultSize(width: 0.2, height: 0.2, depth: 0.2, in: .meters)
+#else
         WindowGroup {
             ContentView()
                 .environmentObject(play)
                 .persistent(to: play)
         }
+#endif
     }
 }

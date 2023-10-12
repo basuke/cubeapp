@@ -53,6 +53,7 @@
 		EB30295F2AC93BAD00D01AF7 /* SceneKitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitModel.swift; sourceTree = "<group>"; };
 		EB4037CA2ACBA38B00602707 /* RealityKitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityKitModel.swift; sourceTree = "<group>"; };
 		EB42A13B2AD5289600F6F80A /* SceneKitViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitViewAdapter.swift; sourceTree = "<group>"; };
+		EB42A13F2AD704CE00F6F80A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EB595E132A97C24A003000D6 /* SceneKitUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitUtils.swift; sourceTree = "<group>"; };
 		EB5A36DF2ACBC7580094EB7D /* Cube.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cube.entitlements; sourceTree = "<group>"; };
 		EB5B6EC12AE3A16900E74981 /* StickerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerComponent.swift; sourceTree = "<group>"; };
@@ -143,6 +144,7 @@
 		EB96D4CA2A80BC6100CF0ED0 /* Cube */ = {
 			isa = PBXGroup;
 			children = (
+				EB42A13F2AD704CE00F6F80A /* Info.plist */,
 				EB5A36DF2ACBC7580094EB7D /* Cube.entitlements */,
 				EB96D4CB2A80BC6100CF0ED0 /* CubeApp.swift */,
 				EBED01F32A8AFB5C006FBF1B /* Models */,
@@ -506,7 +508,7 @@
 				DEVELOPMENT_TEAM = W79BP686ET;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_FILE = Cube/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -540,7 +542,7 @@
 				DEVELOPMENT_TEAM = W79BP686ET;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_FILE = Cube/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
