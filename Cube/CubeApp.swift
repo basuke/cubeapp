@@ -14,6 +14,7 @@ struct CubeApp: App {
     @StateObject private var play = Play()
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
+    let position = Point3D([650, -1200.0, -800.0])
 
     init() {
         StickerComponent.registerComponent()
@@ -36,6 +37,8 @@ struct CubeApp: App {
             RealityCubeView()
                 .environmentObject(play)
                 .persistent(to: play)
+                .position(x: position.x, y: position.y)
+                .offset(z: position.z)
         }
 #else
         WindowGroup {
