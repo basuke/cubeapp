@@ -13,6 +13,7 @@ let debug = false
 struct CubeApp: App {
     @StateObject private var play = Play()
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.openImmersiveSpace) private var openImmersiveSpace
 
     init() {
         StickerComponent.registerComponent()
@@ -22,12 +23,20 @@ struct CubeApp: App {
     var body: some Scene {
 #if os(visionOS)
         WindowGroup {
+            VStack {
+                Button("Start") {
+                    Task {
+                        await openImmersiveSpace(id: "cube")
+                    }
+                }
+            }
+        }
+
+        ImmersiveSpace(id: "cube") {
             RealityCubeView()
                 .environmentObject(play)
                 .persistent(to: play)
         }
-        .windowStyle(.volumetric)
-        .defaultSize(width: 0.2, height: 0.2, depth: 0.2, in: .meters)
 #else
         WindowGroup {
             ContentView()
