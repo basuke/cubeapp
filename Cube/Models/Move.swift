@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Spatial
 
 // Define moves
 
@@ -222,7 +223,7 @@ struct Rotation {
             }
         }
 
-        var sin: Float {
+        var sin: Double {
             switch self {
             case .clockwise: -1
             case .counterClockwise: 1
@@ -230,19 +231,15 @@ struct Rotation {
             }
         }
 
-        var cos: Float {
+        var cos: Double {
             switch self {
             case .clockwise, .counterClockwise: 0
             case .flip: -1
             }
         }
 
-        func rotate2d(_ x: Float, _ y: Float) -> (Float, Float) {
-            func cleanup(_ value: Float) -> Float {
-                return roundf(value * 2) / 2 // because value can be one of (0, 1, -1, 1.5, -1.5)
-            }
-
-            return (cleanup(x * cos - y * sin), cleanup(x * sin + y * cos))
+        func rotate2d(_ x: Double, _ y: Double) -> (Double, Double) {
+            return (round(x * cos - y * sin), round(x * sin + y * cos))
         }
 
         func rotate(vector: Vector, facing face: Face) -> Vector {

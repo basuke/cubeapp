@@ -126,7 +126,7 @@ extension Piece {
     func index(on face: Face) -> Int {
         let (x, y, z) = position.values
 
-        func indexOf(_ x: Float, _ y: Float) -> Int {
+        func indexOf(_ x: Double, _ y: Double) -> Int{
             return (Int(y) + 1) * 3 + (Int(x) + 1)
         }
         

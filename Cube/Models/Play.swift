@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Combine
+import Spatial
 
 enum TurnSpeed {
     case normal

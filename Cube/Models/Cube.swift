@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Spatial
 
 enum Color: Character, CaseIterable, Codable {
     case white = "W"
@@ -36,44 +37,19 @@ enum Face: Int, CaseIterable, Codable {
     }
 }
 
-struct Vector: Equatable, Codable {
-    let x: Float
-    let y: Float
-    let z: Float
+typealias Vector = Vector3D
 
-    init(_ x: Float, _ y: Float, _ z: Float) {
-        self.x = x
-        self.y = y
-        self.z = z
+extension Vector {
+    init(_ x: Double, _ y: Double, _ z: Double) {
+        self.init(x: x, y: y, z: z)
     }
 
-    var values: (Float, Float, Float) {
+    init(_ x: Int, _ y: Int, _ z: Int) {
+        self.init(x: Double(x), y: Double(y), z: Double(z))
+    }
+
+    var values: (Double, Double, Double) {
         (x, y, z)
-    }
-
-    static prefix func -(vec: Self) -> Self {
-        Self(-vec.x, -vec.y, -vec.z)
-    }
-
-    static func +(lhs: Self, rhs: Self) -> Self {
-        Vector(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z)
-    }
-
-    static func -(lhs: Self, rhs: Self) -> Self {
-        lhs + -rhs
-    }
-
-    static func *(vec: Self, scale: Double) -> Self {
-        let scale = Float(scale)
-        return Vector(vec.x * scale, vec.y * scale, vec.z * scale)
-    }
-}
-
-extension Vector: Hashable {
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(x)
-        hasher.combine(y)
-        hasher.combine(z)
     }
 }
 
@@ -133,7 +109,7 @@ struct Cube: Codable {
     init() {
         var pieces: [Piece] = []
 
-        let positions: [Float] = [-1, 0, 1]
+        let positions = [-1, 0, 1]
         for z in positions {
             for y in positions {
                 for x in positions {
@@ -151,7 +127,7 @@ struct Cube: Codable {
         pieces.first { $0.position == position }
     }
 
-    static func defaultColors(at x: Float, _ y: Float, _ z: Float) -> [Face:Color] {
+    static func defaultColors(at x: Int, _ y: Int, _ z: Int) -> [Face:Color] {
         var colors: [Face:Color] = [:]
 
         if x == 1 {
@@ -173,14 +149,6 @@ struct Cube: Codable {
         }
 
         return colors
-    }
-}
-
-// Debug
-
-extension Vector: CustomStringConvertible {
-    var description: String {
-        return "(\(x), \(y), \(z))"
     }
 }
 

@@ -50,6 +50,6 @@ extension SCNVector3 {
 
 extension Vector {
     init(_ vec: SCNVector3) {
-        self.init(vec.x, vec.y, vec.z)
+        self.init(Double(vec.x), Double(vec.y), Double(vec.z))
     }
 }

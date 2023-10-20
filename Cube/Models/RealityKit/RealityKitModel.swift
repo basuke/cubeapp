@@ -9,6 +9,7 @@ import Foundation
 import RealityKit
 import UIKit
 import Combine
+import Spatial
 
 class RealityKitModel: Model {
     let cubeEntity = Entity()
@@ -42,7 +43,7 @@ class RealityKitModel: Model {
                 entity.addChild(createSticker(on: face, color: color))
             }
 
-            entity.position = piece.position.simd3
+            entity.position = piece.position.vectorf
             return entity
         }
 
@@ -70,7 +71,7 @@ class RealityKitModel: Model {
 
             let d = 0.5 - Double(thickness) / 3
             let position = face.axis * d
-            transform.translation = position.simd3
+            transform.translation = position.vectorf
             return transform
         }
 
@@ -103,7 +104,7 @@ class RealityKitModel: Model {
         let entities = rotationEntity.children.map { $0 }
         entities.forEach { entity in
             cubeEntity.addChild(entity, preservingWorldTransform: true)
-            entity.position = Vector(entity.position).rounded.simd3
+            entity.position = Vector(entity.position).rounded.vectorf
         }
     }
 
@@ -130,12 +131,8 @@ extension RealityKitModel {
 }
 
 extension Vector {
-    init(_ simd: SIMD3<Float>) {
-        self.init(simd.x, simd.y, simd.z)
-    }
-
-    var simd3: SIMD3<Float> {
-        simd_float3(x, y, z)
+    var vectorf: SIMD3<Float> {
+        simd_float3(vector)
     }
 }
 
