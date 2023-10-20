@@ -18,7 +18,7 @@ struct ContentView: View {
         UIColor.lightGray,
     ]
 
-    var flatWindowBody: some View {
+    var body: some View {
         VStack {
             ZStack(alignment: .bottom) {
                 Cube3DView(kind: .sceneKit, yawRatio: $yawRatio)
@@ -39,28 +39,6 @@ struct ContentView: View {
         .background(
             LinearGradient(gradient: Gradient(colors: gradientColors.map { SwiftUI.Color($0) }), startPoint: .top, endPoint: .bottom)
         )
-    }
-
-#if os(visionOS)
-    var visionWindowBody: some View {
-        HStack {
-            MoveController.SubButtons()
-            VStack {
-                Cube2DView(cube: play.cube.as2D()).padding()
-                Spacer()
-                RealityCubeView()
-            }
-            MoveController.MainButtons()
-        }
-    }
-#endif
-
-    var body: some View {
-#if os(visionOS)
-        visionWindowBody
-#else
-        flatWindowBody
-#endif
     }
 }
 
