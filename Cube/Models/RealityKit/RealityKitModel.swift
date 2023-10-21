@@ -24,6 +24,10 @@ class RealityKitModel: Model {
     var pieceEntities: [Entity] = []
     var animationCompletion: Cancellable? = nil
 
+    var view: UIView {
+        arView
+    }
+
     init() {
         cubeEntity.addChild(rotationEntity)
         scene = arView.scene
@@ -77,17 +81,67 @@ class RealityKitModel: Model {
     }
 
     func run(move: Move, duration: Double, afterAction: @escaping () -> Void) {
+        rotationEntity.transform = .init()
+
+        movePiecesIntoRotation(for: move)
+        let transform: Transform = .turn(move: move)
+
+        let controller = rotationEntity.move(to: transform, relativeTo: rotationEntity.parent, duration: duration, timingFunction: .easeOut)
+
+        animationCompletion = scene.publisher(for: AnimationEvents.PlaybackCompleted.self)
+            .filter { $0.playbackController == controller }
+            .sink { _ in
+                self.movePiecesBackFromRotation()
+                afterAction()
+            }
+    }
+
+    private func movePiecesIntoRotation(for move: Move) {
+        let predicate = move.filter
+        let pieces = pieceEntities.filter { entity in
+            predicate( Vector(entity.position))
+        }
+        pieces.forEach { entity in
+            rotationEntity.addChild(entity, preservingWorldTransform: true)
+        }
+    }
+
+    private func movePiecesBackFromRotation() {
+        let entities = rotationEntity.children.map { $0 }
+        entities.forEach { entity in
+            cubeEntity.addChild(entity, preservingWorldTransform: true)
+            entity.position = Vector(entity.position).rounded.simd3
+        }
     }
 
     func hitTest(at: CGPoint, cube: Cube) -> Sticker? {
         return nil
     }
-
-    var view: UIView { arView }
 }
 
 extension Vector {
+    init(_ simd: SIMD3<Float>) {
+        self.init(simd.x, simd.y, simd.z)
+    }
+
     var simd3: SIMD3<Float> {
         simd_float3(x, y, z)
+    }
+}
+
+extension Transform {
+    static func turn(move: Move) -> Transform {
+        let rotation = simd_quatf(angle: move.angle, axis: simd_normalize(move.face.axis.simd3))
+        return Transform(rotation: rotation)
+    }
+}
+
+extension Piece {
+    func sticker(with color: Color) -> Sticker? {
+        guard let face = colors.first(where: { $1 == color })?.key else {
+            return nil
+        }
+
+        return sticker(on: face)
     }
 }
