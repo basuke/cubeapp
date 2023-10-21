@@ -70,7 +70,7 @@ class RealityKitModel: Model {
             }
 
             let d = 0.5 - Double(thickness) / 3
-            let position = face.axis * d
+            let position = Vector(face.axis.vector) * d
             transform.translation = position.vectorf
             return transform
         }

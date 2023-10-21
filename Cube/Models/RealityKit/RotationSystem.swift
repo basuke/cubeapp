@@ -69,9 +69,15 @@ class RotationSystem: System {
     }
 }
 
+extension Axis {
+    var vectorf: simd_float3 {
+        simd_float3(vector)
+    }
+}
+
 extension Transform {
     static func turn(move: Move) -> Transform {
-        let rotation = simd_quatf(angle: move.angle, axis: simd_normalize(move.face.axis.vectorf))
+        let rotation = simd_quatf(angle: move.angle, axis: move.face.axis.vectorf)
         return Transform(rotation: rotation)
     }
 }

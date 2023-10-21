@@ -157,22 +157,28 @@ extension Vector {
     }
 }
 
-struct Axis {
-    static let X = Vector(1, 0, 0)
-    static let Y = Vector(0, 1, 0)
-    static let Z = Vector(0, 0, 1)
+typealias Axis = RotationAxis3D
+
+extension Axis {
+    static prefix func - (axis: Self) -> Self {
+        Self(-axis.vector)
+    }
 }
 
 extension Face {
-    var axis: Vector {
+    var axis: Axis {
         switch self {
-        case .right: Axis.X
-        case .left: -Axis.X
-        case .up: Axis.Y
-        case .down: -Axis.Y
-        case .front: Axis.Z
-        case .back: -Axis.Z
+        case .right: .x
+        case .left: -.x
+        case .up: .y
+        case .down: -.y
+        case .front: .z
+        case .back: -.z
         }
+    }
+
+    var normal: Vector {
+        Vector(axis.vector)
     }
 }
 

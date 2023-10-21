@@ -289,6 +289,12 @@ extension Vector {
     }
 }
 
+extension Axis {
+    func rotated(by rotation: Rotation) -> Self {
+        Self(Vector(vector).rotated(by: rotation).vector)
+    }
+}
+
 extension Cube {
     func apply(move: PrimitiveMove, prime: Bool = false, twice: Bool = false) -> Self {
         let predicate = move.filter
@@ -325,14 +331,14 @@ extension Cube {
 
 extension Face {
     func rotated(by rotation: Rotation) -> Self {
-        guard let rotated = Face.init(axis: axis.rotated(by: rotation)) else {
+        guard let rotated = Face.init(normal: normal.rotated(by: rotation)) else {
             fatalError("Invalid axis vector")
         }
         return rotated
     }
 
-    init?(axis: Vector) {
-        let (x, y, z) = axis.values
+    init?(normal: Vector) {
+        let (x, y, z) = normal.values
         if x == 1.0 {
             assert(y == 0 && z == 0)
             self = .right

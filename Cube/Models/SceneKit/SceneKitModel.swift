@@ -65,7 +65,7 @@ class SceneKitModel: Model {
     func run(move: Move, duration: Double) -> AnyPublisher<Void, Never> {
         movePiecesIntoRotation(for: move)
 
-        let action = SCNAction.rotate(by: CGFloat(move.angle), around: SCNVector3(move.face.axis), duration: duration)
+        let action = SCNAction.rotate(by: CGFloat(move.angle), around: SCNVector3(move.face.axis.vector), duration: duration)
         action.timingMode = .easeOut
 
         return Future() { promise in
@@ -153,7 +153,7 @@ enum NodeKind: String, RawRepresentable {
 extension Piece {
     func sticker(facing normal: Vector) -> Sticker? {
         for (face, _) in colors {
-            if face.axis == normal {
+            if face.normal == normal {
                 return sticker(on: face)
             }
         }
