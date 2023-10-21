@@ -212,16 +212,10 @@ let allMoves: [String:Move] = [
 ]
 
 struct Rotation {
-    enum Angle {
-        case clockwise, counterClockwise, flip
-
-        var byDegrees: Double {
-            switch self {
-            case .clockwise: -90
-            case .counterClockwise: 90
-            case .flip: -180
-            }
-        }
+    enum Angle: Double, RawRepresentable {
+        case clockwise = -90
+        case counterClockwise = 90
+        case flip = -180
     }
 
     let face: Face
@@ -232,7 +226,7 @@ struct Rotation {
     }
 
     var rotation: Rotation3D {
-        Rotation3D(angle: .degrees(angle.byDegrees), axis: face.axis)
+        Rotation3D(angle: .degrees(angle.rawValue), axis: face.axis)
     }
 
     static func clockwise(_ face: Face) -> Self {
