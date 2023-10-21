@@ -118,9 +118,9 @@
 		EB4037C92ACBA35A00602707 /* RealityKit */ = {
 			isa = PBXGroup;
 			children = (
-				EB1D004D2AE3AA74000E3920 /* RotationSystem.swift */,
 				EB4037CA2ACBA38B00602707 /* RealityKitModel.swift */,
 				EB5B6EC12AE3A16900E74981 /* StickerComponent.swift */,
+				EB1D004D2AE3AA74000E3920 /* RotationSystem.swift */,
 			);
 			path = RealityKit;
 			sourceTree = "<group>";
