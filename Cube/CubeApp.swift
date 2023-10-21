@@ -14,6 +14,10 @@ struct CubeApp: App {
     @StateObject private var play = Play()
     @Environment(\.scenePhase) private var scenePhase
 
+    init() {
+        StickerComponent.registerComponent()
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView(play: play)

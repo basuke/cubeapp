@@ -58,6 +58,8 @@ class RealityKitModel: Model {
 
             let entity = ModelEntity(mesh: mesh, materials: [material])
             entity.transform = stickerTransform(for: face)
+            entity.generateCollisionShapes(recursive: false)
+            entity.components.set(StickerComponent(color: color))
             return entity
         }
 
@@ -70,7 +72,6 @@ class RealityKitModel: Model {
 
             let d = 0.5 - Double(thickness) / 3
             let position = face.axis * d
-
             transform.translation = position.simd3
             return transform
         }
@@ -92,6 +93,7 @@ class RealityKitModel: Model {
             .filter { $0.playbackController == controller }
             .sink { _ in
                 self.movePiecesBackFromRotation()
+                self.animationCompletion = nil
                 afterAction()
             }
     }
@@ -114,8 +116,28 @@ class RealityKitModel: Model {
         }
     }
 
-    func hitTest(at: CGPoint, cube: Cube) -> Sticker? {
-        return nil
+    func hitTest(at location: CGPoint, cube: Cube) -> Sticker? {
+        guard let result = arView.hitTest(location, query: .nearest).first else {
+            return nil
+        }
+
+        guard let component = result.entity.components[StickerComponent.self] as StickerComponent? else {
+            return nil
+        }
+
+        return identifySticker(from: result.entity, cube: cube, color: component.color)
+    }
+
+    private func identifySticker(from entity: Entity, cube: Cube, color: Color) -> Sticker? {
+        guard let pieceEntity = entity.parent else {
+            return nil
+        }
+
+        guard let piece = cube.piece(at: Vector(pieceEntity.position).rounded) else {
+            return nil
+        }
+
+        return piece.sticker(with: color)
     }
 }
 
