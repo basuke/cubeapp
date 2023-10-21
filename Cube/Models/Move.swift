@@ -215,51 +215,12 @@ struct Rotation {
     enum Angle {
         case clockwise, counterClockwise, flip
 
-        var reversed: Self {
+        var byDegrees: Double {
             switch self {
-            case .clockwise: .counterClockwise
-            case .counterClockwise: .clockwise
-            case .flip: self
+            case .clockwise: -90
+            case .counterClockwise: 90
+            case .flip: -180
             }
-        }
-
-        var sin: Double {
-            switch self {
-            case .clockwise: -1
-            case .counterClockwise: 1
-            case .flip: 0
-            }
-        }
-
-        var cos: Double {
-            switch self {
-            case .clockwise, .counterClockwise: 0
-            case .flip: -1
-            }
-        }
-
-        func rotate2d(_ x: Double, _ y: Double) -> (Double, Double) {
-            return (round(x * cos - y * sin), round(x * sin + y * cos))
-        }
-
-        func rotate(vector: Vector, facing face: Face) -> Vector {
-            var (x, y, z) = vector.values
-
-            switch face {
-            case .right:
-                (y, z) = rotate2d(y, z)
-            case .left:
-                (y, z) = reversed.rotate2d(y, z)
-            case .up:
-                (z, x) = rotate2d(z, x)
-            case .down:
-                (z, x) = reversed.rotate2d(z, x)
-            case .front:
-                (x, y) = rotate2d(x, y)
-            case .back:
-                (x, y) = reversed.rotate2d(x, y)
-            }
-            return Vector(x, y, z)
         }
     }
 
@@ -267,7 +228,11 @@ struct Rotation {
     let angle: Angle
 
     func rotate(vector: Vector) -> Vector {
-        angle.rotate(vector: vector, facing: face)
+        vector.rotated(by: rotation).rounded
+    }
+
+    var rotation: Rotation3D {
+        Rotation3D(angle: .degrees(angle.byDegrees), axis: face.axis)
     }
 
     static func clockwise(_ face: Face) -> Self {
