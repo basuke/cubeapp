@@ -44,6 +44,9 @@ class RealityKitModel: Model {
             }
 
             entity.position = piece.position.vectorf
+#if os(visionOS)
+            entity.components.set(GroundingShadowComponent(castsShadow: true))
+#endif
             return entity
         }
 
