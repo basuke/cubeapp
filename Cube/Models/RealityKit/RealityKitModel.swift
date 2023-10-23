@@ -34,6 +34,10 @@ class RealityKitModel: Model {
         let mesh = MeshResource.generateBox(size: 1.0, cornerRadius: 0.1)
         let material = SimpleMaterial(color: .init(white: 0.1, alpha: 1.0), isMetallic: false)
 
+        let coreMesh = MeshResource.generateSphere(radius: 1.4)
+        let coreEntity = ModelEntity(mesh: coreMesh, materials: [material])
+        cubeEntity.addChild(coreEntity)
+
         let thickness: Float = 0.1
 
         func createPiece(_ piece: Piece) -> Entity {
