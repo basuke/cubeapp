@@ -47,7 +47,23 @@ struct RealityCubeView: View {
                 fatalError("Cannot get RealityKitModel")
             }
 
-            content.add(model.entity)
+            let entity = model.entity
+
+            if debug {
+                let material = SimpleMaterial(color: .blue, isMetallic: true)
+                let sphere = ModelEntity(mesh: MeshResource.generateSphere(radius: 1.5 * sqrtf(3.0)), materials: [material])
+                sphere.components.set(OpacityComponent(opacity: 0.2))
+                entity.addChild(sphere)
+            }
+
+            var position = entity.position
+            position.z = 0.5
+            position.y = -0.5
+            entity.position = position
+
+            entity.scale *= 4.6
+
+            content.add(entity)
         }
         .gesture(dragGesture)
     }
@@ -57,6 +73,10 @@ let kScaleForRealityKit: Float = 0.02
 
 extension RealityKitModel {
     var entity: Entity {
+        entity(scale: kScaleForRealityKit)
+    }
+
+    func entity(scale: Float) -> Entity {
         let adjustEntity = Entity()
         adjustEntity.addChild(yawEntity)
         adjustEntity.position = simd_float3(0, 0, 0)
