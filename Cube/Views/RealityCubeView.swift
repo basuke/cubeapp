@@ -12,31 +12,33 @@ import RealityKit
 
 struct RealityCubeView: View {
     @EnvironmentObject private var play: Play
-    @State private var dragging: Dragging?
+    @State private var dragging: Dragging3D?
 
-    func beginDragging(at location: CGPoint, entity: Entity) -> Dragging? {
+    func beginDragging(at location3D: Point3D, entity: Entity) -> Dragging3D? {
         guard let model = play.model(for: .realityKit) as? RealityKitModel,
               let component = entity.components[StickerComponent.self] as StickerComponent?,
               let sticker = model.identifySticker(from: entity, cube: play.cube, color: component.color) else {
             return nil
         }
 
-        return TurnDragging(at: location, play: play, sticker: sticker)
+        return TurnDragging3D(at: location3D, play: play, sticker: sticker)
     }
 
     var dragGesture: some Gesture {
         DragGesture(minimumDistance: 0)
             .targetedToAnyEntity()
             .onChanged { value in
+                let location = Point3D(value.convert(value.location3D, from: .local, to: .scene))
                 guard let dragging else {
-                    dragging = beginDragging(at: value.location, entity: value.entity) ?? VoidDragging()
+                    dragging = beginDragging(at: location, entity: value.entity) ?? VoidDragging()
                     return
                 }
 
-                dragging.update(at: value.location)
+                dragging.update(location3D: location)
             }
             .onEnded { value in
-                dragging?.end(at: value.location)
+                let location = Point3D(value.convert(value.location3D, from: .local, to: .scene))
+                dragging?.end(location3D: location)
                 dragging = nil
             }
     }

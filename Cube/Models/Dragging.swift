@@ -7,10 +7,16 @@
 
 import Foundation
 import UIKit
+import Spatial
 
 protocol Dragging {
     func update(at location: CGPoint)
     func end(at location: CGPoint)
+}
+
+protocol Dragging3D {
+    func update(location3D: Point3D)
+    func end(location3D: Point3D)
 }
 
 enum Direction: String, CaseIterable {
@@ -30,14 +36,61 @@ protocol DirectionDetectable {
     func update(location: CGPoint, at: Date)
 }
 
+protocol DirectionDetectable3D {
+    var direction: Vector? { get }
+    func update(location3D: Point3D, at: Date)
+}
+
 let minimumDistance: Float = 3.0
 let minimumSpeed: Float = 500.0
 let maximumIdle: TimeInterval = 0.1
 
-class DirectionDetector: DirectionDetectable, CustomDebugStringConvertible {
-    var locations: [CGPoint] = []
+class MementStorage<T> {
+    var storage: [T] = []
     var oldestUpdate: Date? = nil
     var lastUpdate: Date? = nil
+
+    func update(value: T, at timestamp: Date) {
+        if let lastUpdate, timestamp.timeIntervalSince(lastUpdate) >= maximumIdle {
+            storage = []
+            oldestUpdate = timestamp
+        }
+
+        storage.append(value)
+        lastUpdate = timestamp
+
+        if oldestUpdate == nil {
+            oldestUpdate = timestamp
+        }
+    }
+
+    var isEmpty: Bool {
+        storage.isEmpty
+    }
+
+    var first: T? {
+        storage.first
+    }
+
+    var last: T? {
+        storage.last
+    }
+
+    var duration: TimeInterval? {
+        guard let lastUpdate, let oldestUpdate else {
+            return nil
+        }
+
+        return lastUpdate.timeIntervalSince(oldestUpdate)
+    }
+
+    func reset(at date: Date) {
+
+    }
+}
+
+class DirectionDetector: DirectionDetectable, CustomDebugStringConvertible {
+    let locations = MementStorage<CGPoint>()
 
     enum Tilted { case none, left, right }
     let tilted: Tilted
@@ -81,12 +134,7 @@ class DirectionDetector: DirectionDetectable, CustomDebugStringConvertible {
     }
 
     var speed: Float {
-        guard let oldestUpdate, let lastUpdate else {
-            return 0.0
-        }
-
-        let duration = lastUpdate.timeIntervalSince(oldestUpdate)
-        guard duration > 0.0 else {
+        guard let duration = locations.duration, duration > 0.0 else {
             return 0.0
         }
 
@@ -103,22 +151,63 @@ class DirectionDetector: DirectionDetectable, CustomDebugStringConvertible {
     }
 
     func update(location: CGPoint, at timestamp: Date) {
-        if let lastUpdate, timestamp.timeIntervalSince(lastUpdate) >= maximumIdle {
-            locations = []
-            oldestUpdate = timestamp
-        }
-
-        locations.append(location)
-        lastUpdate = timestamp
-
-        if oldestUpdate == nil {
-            oldestUpdate = timestamp
-        }
+        locations.update(value: location, at: timestamp)
     }
 
     var debugDescription: String {
         let speed = String(format: "%.2f", speed)
         let direction = if let direction { direction.rawValue } else { "-" }
+        return "Direction: \(direction) Speed: \(speed) Translation: \(translation)"
+    }
+}
+
+class DirectionDetector3D: DirectionDetectable3D, CustomDebugStringConvertible {
+    let locations = MementStorage<Point3D>()
+    let minimumDistance: Double = 0.3
+    let minimumSpeed: Double = 0.2
+
+    var direction: Vector? {
+        guard speed > minimumSpeed else {
+            return nil
+        }
+
+        let translation = translation
+        guard translation.length > minimumDistance else {
+            return nil
+        }
+
+        let direction = translation.normalized.rounded
+        if direction == .zero {
+            return nil
+        }
+
+        return direction
+    }
+
+    var speed: Double {
+        guard let duration = locations.duration, duration > 0.0 else {
+            return 0.0
+        }
+
+        return translation.length / duration
+    }
+
+    var translation: Vector {
+        guard !locations.isEmpty else {
+            return .zero
+        }
+        let oldest = locations.first!
+        let latest = locations.last!
+        return Vector(latest) - Vector(oldest)
+    }
+
+    func update(location3D: Point3D, at timestamp: Date) {
+        locations.update(value: location3D, at: timestamp)
+    }
+
+    var debugDescription: String {
+        let speed = String(format: "%.2f", speed)
+        let direction = if let direction { direction.description } else { "-" }
         return "Direction: \(direction) Speed: \(speed) Translation: \(translation)"
     }
 }
@@ -159,7 +248,41 @@ class TurnDragging: Dragging {
     }
 }
 
-class VoidDragging: Dragging {
+class TurnDragging3D: Dragging3D {
+    let play: Play
+    let sticker: Sticker
+
+    let detector: DirectionDetectable3D
+
+    init(at location3D: Point3D, play: Play, sticker: Sticker) {
+        self.play = play
+        self.sticker = sticker
+
+        let tilted: DirectionDetector.Tilted = switch sticker.face {
+        case .right: .left
+        case .left: .right
+        default: .none
+        }
+        self.detector = DirectionDetector3D()
+
+        detector.update(location3D: location3D, at: Date.now)
+    }
+
+    func update(location3D: Point3D) {
+        detector.update(location3D: location3D, at: Date.now)
+    }
+
+    func end(location3D: Point3D) {
+        detector.update(location3D: location3D, at: Date.now)
+
+        guard let direction = detector.direction else { return }
+
+        print(direction)
+//        play.apply(move: move, speed: .quick)
+    }
+}
+
+class VoidDragging: Dragging, Dragging3D {
     init() {
     }
 
@@ -167,6 +290,12 @@ class VoidDragging: Dragging {
     }
 
     func end(at location: CGPoint) {
+    }
+
+    func update(location3D: Point3D) {
+    }
+
+    func end(location3D: Point3D) {
     }
 }
 
