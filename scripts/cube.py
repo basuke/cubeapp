@@ -1,9 +1,31 @@
 from enum import Enum
+import unittest
+
 
 class Rotation(Enum):
     CLOCKWISE = -90
-    COUNTERCLOCKWISE = 90
+    COUNTER_CLOCKWISE = 90
     FLIP = 180
+
+    @property
+    def reversed(self) -> 'Rotation':
+        if self == Rotation.CLOCKWISE:
+            return Rotation.COUNTER_CLOCKWISE
+        elif self == Rotation.COUNTER_CLOCKWISE:
+            return Rotation.CLOCKWISE
+        else:
+            return self
+
+    def rotate(self, a, b):
+        if self == Rotation.CLOCKWISE:
+            return b, -a
+        elif self == Rotation.COUNTER_CLOCKWISE:
+            return -b, a
+        else:
+            return -a, -b
+
+
+# ------------------------------------------------------------------------------------
 
 class Vector:
     def __init__(self, x, y, z):
@@ -11,36 +33,252 @@ class Vector:
         self.y = y
         self.z = z
 
-    def rotated(self, rotation: Rotation, axis: 'Vector') -> 'Vector':
-        pass
+    def __str__(self) -> str:
+        return f'({self.x}, {self.y}, {self.z})'
+
+    def __repr__(self) -> str:
+        return f'Vector({self.x}, {self.y}, {self.z})'
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Vector):
+            return False
+        return self.x == other.x and self.y == other.y and self.z == other.z
+
+    def __ne__(self, other: object) -> bool:
+        return not self.__eq__(other)
+
+    def __neg__(self) -> 'Vector':
+        return Vector(-self.x, -self.y, -self.z)
+
+    def rotated(self, axis: 'Vector', rotation: Rotation) -> 'Vector':
+        x, y, z = self.x, self.y, self.z
+
+        if axis == X:
+            y, z = rotation.rotate(y, z)
+        elif axis == -X:
+            y, z = rotation.reversed.rotate(y, z)
+        elif axis == Y:
+            z, x = rotation.rotate(z, x)
+        elif axis == -Y:
+            z, x = rotation.reversed.rotate(z, x)
+        elif axis == Z:
+            x, y = rotation.rotate(x, y)
+        elif axis == -Z:
+            x, y = rotation.reversed.rotate(x, y)
+
+        return Vector(x, y, z)
+
+    @property
+    def rounded(self) -> 'Vector':
+        return Vector(round(self.x), round(self.y), round(self.z))
+
 
 X = Vector(1, 0, 0)
 Y = Vector(0, 1, 0)
 Z = Vector(0, 0, 1)
 
+
+class TestVector(unittest.TestCase):
+    def test_vector(self):
+        self.assertEqual(X, Vector(1, 0, 0))
+
+    def test_negative(self):
+        self.assertEqual(-X, Vector(-1, 0, 0))
+
+    def test_rounded(self):
+        self.assertEqual(Vector(0, 1.1, 0).rounded, Y)
+
+    def test_rotated(self):
+        self.assertEqual(X.rotated(Z, Rotation.CLOCKWISE), -Y)
+        self.assertEqual(X.rotated(Y, Rotation.COUNTER_CLOCKWISE), -Z)
+
+        self.assertEqual(Y.rotated(X, Rotation.FLIP), -Y)
+        self.assertEqual(Y.rotated(Z, Rotation.FLIP), -Y)
+        self.assertEqual(Y.rotated(Y, Rotation.FLIP), Y)
+
+        self.assertEqual(Z.rotated(X, Rotation.CLOCKWISE), Y)
+
+
+# ------------------------------------------------------------------------------------
+
 class Color(Enum):
-    RED = 1
-    GREEN = 2
-    BLUE = 3
-    YELLOW = 4
-    ORANGE = 5
-    WHITE = 6
+    RED = "R"
+    ORANGE = "O"
+    WHITE = "W"
+    YELLOW = "Y"
+    GREEN = "G"
+    BLUE = "B"
+
+
+# ------------------------------------------------------------------------------------
 
 class Face(Enum):
-    FRONT = 1
-    BACK = 2
-    LEFT = 3
-    RIGHT = 4
-    TOP = 5
-    BOTTOM = 6
+    RIGHT = 1
+    LEFT = 2
+    UP = 3
+    DOWN = 4
+    FRONT = 5
+    BACK = 6
+
+    @staticmethod
+    def from_normal(normal: Vector) -> 'Face':
+        if normal == X:
+            return Face.RIGHT
+        elif normal == -X:
+            return Face.LEFT
+        elif normal == Y:
+            return Face.UP
+        elif normal == -Y:
+            return Face.DOWN
+        elif normal == Z:
+            return Face.FRONT
+        elif normal == -Z:
+            return Face.BACK
+        else:
+            raise ValueError(f'Invalid normal: {normal}')
+
+    @property
+    def normal(self) -> Vector:
+        if self == Face.RIGHT:
+            return X
+        elif self == Face.LEFT:
+            return -X
+        elif self == Face.UP:
+            return Y
+        elif self == Face.DOWN:
+            return -Y
+        elif self == Face.FRONT:
+            return Z
+        elif self == Face.BACK:
+            return -Z
+
+    def rotated(self, axis: Vector, rotation: Rotation) -> 'Face':
+        return Face.from_normal(self.normal.rotated(axis, rotation))
+
+class TestFace(unittest.TestCase):
+    def test_from_normal(self):
+        self.assertEqual(Face.from_normal(X), Face.RIGHT)
+        self.assertEqual(Face.from_normal(-X), Face.LEFT)
+    
+    def test_rotated(self):
+        self.assertEqual(Face.RIGHT.rotated(X, Rotation.CLOCKWISE), Face.RIGHT)
+        self.assertEqual(Face.FRONT.rotated(X, Rotation.CLOCKWISE), Face.UP)
+        self.assertEqual(Face.DOWN.rotated(Y, Rotation.COUNTER_CLOCKWISE), Face.DOWN)
+        self.assertEqual(Face.FRONT.rotated(Y, Rotation.COUNTER_CLOCKWISE), Face.RIGHT)
+        self.assertEqual(Face.BACK.rotated(Z, Rotation.FLIP), Face.BACK)
+        self.assertEqual(Face.UP.rotated(Z, Rotation.FLIP), Face.DOWN)
+
+
+# ------------------------------------------------------------------------------------
+
+class PieceKind(Enum):
+    CENTER = "center"
+    EDGE = "edge"
+    CORNER = "corner"
 
 class Piece:
     def __init__(self, position: Vector, colors: dict[Face, Color]):
         self.position = position
         self.colors = colors
+        if len(colors) < 1 or len(colors) > 3:
+            raise ValueError(f'Invalid piece: {colors}')
+
+    def __repr__(self) -> str:
+        return f'Piece({self.position}, {self.colors})'
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Piece):
+            return False
+        return self.position == other.position and self.colors == other.colors
+
+    def __ne__(self, other: object) -> bool:
+        return not self.__eq__(other)
+
+    def facing(self, face: Face) -> bool:
+        return face in self.colors
+
+    def __getitem__(self, face: Face) -> Color:
+        return self.colors[face]
+
+    @property
+    def kind(self) -> PieceKind:
+        if len(self.colors) == 1:
+            return PieceKind.CENTER
+        elif len(self.colors) == 2:
+            return PieceKind.EDGE
+        elif len(self.colors) == 3:
+            return PieceKind.CORNER
+
+    def rotated(self, axis: Vector, rotation: Rotation) -> 'Piece':
+        colors = dict(zip((face.rotated(axis, rotation) for face in self.colors.keys()), self.colors.values()))
+        return Piece(self.position.rotated(axis, rotation), colors)
+
+
+class TestPiece(unittest.TestCase):
+    def test_init(self):
+        piece = Piece(Vector(1, 0, 0), {Face.RIGHT: Color.RED})
+        self.assertTrue(piece.facing(Face.RIGHT))
+        self.assertFalse(piece.facing(Face.LEFT))
+
+        self.assertEqual(piece[Face.RIGHT], Color.RED)
+    
+    def test_equality(self):
+        piece = Piece(Vector(1, 0, 0), {Face.RIGHT: Color.RED})
+        self.assertEqual(piece, Piece(Vector(1, 0, 0), {Face.RIGHT: Color.RED}))
+        self.assertNotEqual(piece, Piece(Vector(0, 1, 0), {Face.UP: Color.WHITE}))
+        self.assertNotEqual(piece, Piece(Vector(1, 0, 0), {Face.RIGHT: Color.ORANGE}))
+
+    def test_kind(self):
+        piece = Piece(Vector(1, 0, 0), {Face.RIGHT: Color.RED})
+        self.assertEqual(piece.kind, PieceKind.CENTER)
+
+        piece = Piece(Vector(1, 1, 0), {Face.RIGHT: Color.RED,
+                                        Face.UP: Color.WHITE})
+        self.assertEqual(piece.kind, PieceKind.EDGE)
+
+        piece = Piece(TRF, {Face.RIGHT: Color.RED,
+                            Face.UP: Color.WHITE,
+                            Face.FRONT: Color.GREEN})
+        self.assertEqual(piece.kind, PieceKind.CORNER)
+
+    def test_rotated(self):
+        piece = Piece(TRF, {
+            Face.RIGHT: Color.RED,
+            Face.UP: Color.WHITE,
+            Face.FRONT: Color.GREEN,
+        })
+        self.assertEqual(piece.rotated(Z, Rotation.CLOCKWISE), Piece(DRF, {
+            Face.DOWN: Color.RED,
+            Face.RIGHT: Color.WHITE,
+            Face.FRONT: Color.GREEN,
+        }))
+
+# ------------------------------------------------------------------------------------
 
 class Cube:
     def __init__(self):
         self.pieces = []
-        
+    
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Cube):
+            return False
+        return self.pieces == other.pieces
 
+class TestCube(unittest.TestCase):
+    def test_init(self):
+        cube = Cube()
+        self.assertEqual(cube, Cube())
+
+
+if __name__ == '__main__':
+
+    TRF = Vector(1, 1, 1)
+    DRF = Vector(1, -1, 1)
+    DLF = Vector(-1, -1, 1)
+    TLF = Vector(-1, 1, 1)
+    TRB = Vector(1, 1, -1)
+    DRB = Vector(1, -1, -1)
+    DLB = Vector(-1, -1, -1)
+    TLB = Vector(-1, 1, -1)
+
+    unittest.main()
