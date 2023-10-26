@@ -102,23 +102,29 @@ class TestVector(unittest.TestCase):
 # ------------------------------------------------------------------------------------
 
 class Color(Enum):
-    RED = "R"
-    ORANGE = "O"
-    WHITE = "W"
-    YELLOW = "Y"
-    GREEN = "G"
-    BLUE = "B"
+    RED = "Red"
+    ORANGE = "Orange"
+    WHITE = "White"
+    YELLOW = "Yellow"
+    GREEN = "Green"
+    BLUE = "Blue"
+
+    def __repr__(self) -> str:
+        return self.value
 
 
 # ------------------------------------------------------------------------------------
 
 class Face(Enum):
-    RIGHT = 1
-    LEFT = 2
-    UP = 3
-    DOWN = 4
-    FRONT = 5
-    BACK = 6
+    RIGHT = "R"
+    LEFT = "L"
+    UP = "U"
+    DOWN = "D"
+    FRONT = "F"
+    BACK = "B"
+
+    def __repr__(self) -> str:
+        return f"{self.value}"
 
     @staticmethod
     def from_normal(normal: Vector) -> 'Face':
@@ -255,20 +261,146 @@ class TestPiece(unittest.TestCase):
 
 # ------------------------------------------------------------------------------------
 
+class Sticker:
+    def __init__(self, color: Color, piece: Piece) -> None:
+        self.color = color
+        self.piece = piece
+
+# ------------------------------------------------------------------------------------
+
+class Move(Enum):
+    R = "R"
+    L = "L"
+    U = "U"
+    D = "D"
+    F = "F"
+    B = "B"
+
+    M = "M"
+    E = "E"
+    S = "S"
+
+    x = "x"
+    y = "y"
+    z = "z"
+
+    @property
+    def axis(self) -> Vector:
+        if self in [Move.R, Move.S, Move.x]:
+            return X
+        elif self in [Move.L]:
+            return -X
+        elif self == [Move.U, Move.M, Move.y]:
+            return Y
+        elif self == [Move.D]:
+            return -Y
+        elif self == [Move.F, Move.E, Move.z]:
+            return Z
+        elif self == Move.B:
+            return -Z
+        else:
+            raise ValueError(f'Invalid move: {self}')
+
+    def filter(self, position: Vector) -> bool:
+        if self == Move.R:
+            return position.x == 1
+        elif self == Move.L:
+            return position.x == -1
+        elif self == Move.U:
+            return position.y == 1
+        elif self == Move.D:
+            return position.y == -1
+        elif self == Move.F:
+            return position.z == 1
+        elif self == Move.B:
+            return position.z == -1
+        elif self == Move.M:
+            return position.x == 0
+        elif self == Move.E:
+            return position.y == 0
+        elif self == Move.S:
+            return position.z == 0
+        elif self in [Move.x, Move.y, Move.z]:
+            return True
+        else:
+            raise ValueError(f'Invalid move: {self}')
+
+# ------------------------------------------------------------------------------------
+
 class Cube:
-    def __init__(self):
-        self.pieces = []
-    
+    def __init__(self, pieces: list[Piece] = []):
+        if not pieces:
+            for x in [-1, 0, 1]:
+                for y in [-1, 0, 1]:
+                    for z in [-1, 0, 1]:
+                        position = Vector(x, y, z)
+                        if position == Vector(0, 0, 0):
+                            continue
+
+                        pieces.append(Piece(position, self.defaultColors(position)))
+        self._pieces = pieces
+
+    @staticmethod
+    def defaultColors(position: Vector) -> dict[Face, Color]:
+        colors = {}
+        if position.x == 1:
+            colors[Face.RIGHT] = Color.RED
+        elif position.x == -1:
+            colors[Face.LEFT] = Color.ORANGE
+        if position.y == 1:
+            colors[Face.UP] = Color.WHITE
+        elif position.y == -1:
+            colors[Face.DOWN] = Color.YELLOW
+        if position.z == 1:
+            colors[Face.FRONT] = Color.GREEN
+        elif position.z == -1:
+            colors[Face.BACK] = Color.BLUE
+
+        return colors
+
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Cube):
             return False
-        return self.pieces == other.pieces
+        return self._pieces == other._pieces
+    
+    def pieces(self, filter: callable = None, facing: Face = None) -> list[Piece]:
+        pieces = self._pieces
+
+        if facing:
+            pieces = [piece for piece in pieces if piece.facing(facing)]
+
+        if filter:
+            pieces = [piece for piece in pieces if filter(piece)]
+
+        return pieces
+
+    def stickers(self, filter: callable = None, facing: Face = None) -> list[tuple[Vector, Color]]:
+    def apply(self, move: Move, prime: bool = False, twice: bool = False) -> 'Cube':
+        axis = move.axis
+        rotation = Rotation.FLIP if twice else Rotation.COUNTER_CLOCKWISE if prime else Rotation.CLOCKWISE
+        pieces = [piece.rotated(axis, rotation) for piece in self._pieces if move.filter(piece.position)]
+        return Cube(pieces)
+    
+    def dump(self):
+        def print_face(*faces):
+            pass
+
+        up = self.pieces(facing=Face.UP)
+        left = self.pieces(facing=Face.LEFT)
+        front = self.pieces(facing=Face.FRONT)
+        right = self.pieces(facing=Face.RIGHT)
+        back = self.pieces(facing=Face.BACK)
+        down = self.pieces(facing=Face.DOWN)
 
 class TestCube(unittest.TestCase):
     def test_init(self):
         cube = Cube()
         self.assertEqual(cube, Cube())
 
+    def test_move(self):
+        cube = Cube()
+
+# ------------------------------------------------------------------------------------
 
 if __name__ == '__main__':
 
@@ -280,5 +412,7 @@ if __name__ == '__main__':
     DRB = Vector(1, -1, -1)
     DLB = Vector(-1, -1, -1)
     TLB = Vector(-1, 1, -1)
+
+    cube = Cube()
 
     unittest.main()
