@@ -16,6 +16,7 @@ class RealityKitModel: Model {
 
     let yawEntity = Entity()
     let pitchEntity = Entity()
+    let rollEntity = Entity()
     let rotationEntity = Entity()
 
     var pieceEntities: [Entity] = []
@@ -26,8 +27,9 @@ class RealityKitModel: Model {
         cubeEntity.addChild(rotationEntity)
 
         // Add the box node to the scene
-        pitchEntity.addChild(cubeEntity)
         yawEntity.addChild(pitchEntity)
+        pitchEntity.addChild(rollEntity)
+        rollEntity.addChild(cubeEntity)
     }
 
     func rebuild(with cube: Cube) {
