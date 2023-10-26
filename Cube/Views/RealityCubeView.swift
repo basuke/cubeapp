@@ -52,12 +52,9 @@ struct RealityCubeView: View {
             .targetedToAnyEntity()
             .onChanged { value in
                 let angles = value.rotation.eulerAngles(order: .xyz).angles
-                let yaw = Rotation3D(angle: .radians(angles.y), axis: .y)
-                let pitch = Rotation3D(angle: .radians(angles.x), axis: .x)
-                let roll = Rotation3D(angle: .radians(angles.z), axis: .z)
-                model.yawEntity.transform.rotation = value.convert(yaw, from: .local, to: .scene)
-                model.pitchEntity.transform.rotation = value.convert(pitch, from: .local, to: .scene)
-                model.rollEntity.transform.rotation = value.convert(roll, from: .local, to: .scene)
+                let (swing, twist) = value.rotation.swingTwist(twistAxis: .y)
+                model.yawEntity.transform.rotation = value.convert(twist, from: .local, to: .scene)
+                model.pitchEntity.transform.rotation = value.convert(swing, from: .local, to: .scene)
             }
     }
 
