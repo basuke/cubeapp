@@ -12,9 +12,10 @@ import RealityKit
 
 struct ImmersiveCubeView: View {
     @EnvironmentObject private var play: Play
-    let scale: Float
-    let translation: Vector
+    let scale: Float = 0.02
+    let translation: Vector = .zero
     @State private var dragging: Dragging?
+    @State private var tracker = HandTracking()
 
     var model: RealityKitModel {
         guard let model = play.model(for: .realityKit) as? RealityKitModel else {
@@ -27,23 +28,21 @@ struct ImmersiveCubeView: View {
         RealityView { content in
             let entity = model.entity
 
-            if debug {
-                let material = SimpleMaterial(color: .blue, isMetallic: true)
-                let sphere = ModelEntity(mesh: MeshResource.generateSphere(radius: 1.5 * sqrtf(3.0)), materials: [material])
-                sphere.components.set(OpacityComponent(opacity: 0.2))
-                entity.addChild(sphere)
-            }
-
             entity.scale = simd_float3(scale, scale, scale)
             entity.position = translation.vectorf
 
             content.add(entity)
         }
+        .onAppear() {
+            Task {
+                await tracker.start()
+            }
+        }
     }
 }
 
 #Preview {
-    ImmersiveCubeView(scale: 0.02, translation: .zero)
+    ImmersiveCubeView()
         .environmentObject(Play())
 }
 

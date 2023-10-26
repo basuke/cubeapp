@@ -12,8 +12,8 @@ import RealityKit
 
 struct RealityCubeView: View {
     @EnvironmentObject private var play: Play
-    let scale: Float
-    let translation: Vector
+    let scale: Float = 0.06
+    let translation: Vector = Vector(x: 0.0, y: -0.5, z: 0.4)
     @State private var dragging: Dragging?
 
     var model: RealityKitModel {
@@ -85,7 +85,7 @@ struct RealityCubeView: View {
 }
 
 #Preview {
-    RealityCubeView(scale: 0.02, translation: .zero)
+    RealityCubeView()
         .environmentObject(Play())
 }
 

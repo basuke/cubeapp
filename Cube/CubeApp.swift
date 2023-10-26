@@ -23,7 +23,6 @@ struct CubeApp: App {
 #if os(visionOS)
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
-    let position = Point3D([600, -1200.0, -800.0])
     let width: CGFloat = 0.5
     let height: CGFloat = 1.5
     let depth: CGFloat = 1.5
@@ -42,7 +41,7 @@ struct CubeApp: App {
                             entity.components.set(OpacityComponent(opacity: 0.1))
                         }
                     }
-                    RealityCubeView(scale: 0.06, translation: Vector(x: 0.0, y: -0.5, z: 0.4))
+                    RealityCubeView()
                 }
                 Toggle("Start", isOn: $play.inImmersiveSpace)
                     .onChange(of: play.inImmersiveSpace) { _, state in
@@ -62,10 +61,8 @@ struct CubeApp: App {
         .environmentObject(play)
 
         ImmersiveSpace(id: "cube") {
-            ImmersiveCubeView(scale: 0.02, translation: .zero)
+            ImmersiveCubeView()
                 .persistent(to: play)
-                .position(x: position.x, y: position.y)
-                .offset(z: position.z)
         }
         .environmentObject(play)
     }
