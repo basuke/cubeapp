@@ -155,7 +155,7 @@ class TurnDragging: Dragging {
               let move = Move.from(string: moveStr)
                 else { return }
 
-        play.apply(move: move, speed: .quick)
+        play.apply(move: move, speed: .normal)
     }
 }
 

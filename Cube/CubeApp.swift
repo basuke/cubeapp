@@ -8,7 +8,7 @@
 import SwiftUI
 import RealityKit
 
-let debug = true
+let debug = false
 
 @main
 struct CubeApp: App {
@@ -22,6 +22,7 @@ struct CubeApp: App {
 
 #if os(visionOS)
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
+    @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
     let position = Point3D([600, -1200.0, -800.0])
     let width: CGFloat = 0.5
     let height: CGFloat = 1.5
@@ -39,16 +40,21 @@ struct CubeApp: App {
                             let material = SimpleMaterial(color: .red, isMetallic: true)
                             let entity = ModelEntity(mesh: mesh, materials: [material])
                             entity.components.set(OpacityComponent(opacity: 0.1))
-                            content.add(entity)
                         }
                     }
                     RealityCubeView(scale: 0.06, translation: Vector(x: 0.0, y: -0.5, z: 0.4))
                 }
-                Button("Start") {
-                    Task {
-                        await openImmersiveSpace(id: "cube")
+                Toggle("Start", isOn: $play.inImmersiveSpace)
+                    .onChange(of: play.inImmersiveSpace) { _, state in
+                        Task {
+                            if state {
+                                await openImmersiveSpace(id: "cube")
+                            } else {
+                                await dismissImmersiveSpace()
+                            }
+                        }
                     }
-                }
+                    .toggleStyle(.button)
             }
         }
         .windowStyle(.volumetric)
@@ -56,7 +62,7 @@ struct CubeApp: App {
         .environmentObject(play)
 
         ImmersiveSpace(id: "cube") {
-            RealityCubeView(scale: 0.02, translation: .zero)
+            ImmersiveCubeView(scale: 0.02, translation: .zero)
                 .persistent(to: play)
                 .position(x: position.x, y: position.y)
                 .offset(z: position.z)

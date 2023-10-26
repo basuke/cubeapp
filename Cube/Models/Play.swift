@@ -48,6 +48,9 @@ protocol ViewAdapter {
 class Play: ObservableObject {
     @Published var cube: Cube = Cube_TestData.turnedCube
     @Published var moves: [Move] = []
+#if os(visionOS)
+    @Published var inImmersiveSpace: Bool = false
+#endif
 
     private var models: [ModelKind:Model] = [:]
     private var viewAdapters: [ViewAdapterKind:ViewAdapter] = [:]

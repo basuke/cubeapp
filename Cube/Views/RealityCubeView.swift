@@ -69,11 +69,15 @@ struct RealityCubeView: View {
                 sphere.components.set(OpacityComponent(opacity: 0.2))
                 entity.addChild(sphere)
             }
+        } update: { content in
+            if !play.inImmersiveSpace {
+                let entity = model.entity
 
-            entity.scale = simd_float3(scale, scale, scale)
-            entity.position = translation.vectorf
+                entity.scale = simd_float3(scale, scale, scale)
+                entity.position = translation.vectorf
 
-            content.add(entity)
+                content.add(entity)
+            }
         }
         .simultaneousGesture(rotationGesture)
         .simultaneousGesture(dragGesture)
