@@ -8,7 +8,7 @@
 import SwiftUI
 import RealityKit
 
-let debug = false
+let debug = true
 
 @main
 struct CubeApp: App {
@@ -31,18 +31,18 @@ struct CubeApp: App {
         WindowGroup {
             ZStack(alignment: .bottom) {
                 GeometryReader3D { geometry in
-                    RealityView { content in
-                        if debug {
-                            let t: CGFloat = 0.01
+                    if debug {
+                        RealityView { content in
+                            let t: CGFloat = 0.001
 
                             let mesh = MeshResource.generateBox(width: Float(width - t), height: Float(height - t), depth: Float(depth - t))
                             let material = SimpleMaterial(color: .red, isMetallic: true)
                             let entity = ModelEntity(mesh: mesh, materials: [material])
-                            entity.components.set(OpacityComponent(opacity: 0.2))
+                            entity.components.set(OpacityComponent(opacity: 0.1))
                             content.add(entity)
                         }
                     }
-                    RealityCubeView()
+                    RealityCubeView(scale: 0.06, translation: Vector(x: 0.0, y: -0.5, z: 0.4))
                 }
                 Button("Start") {
                     Task {
@@ -56,7 +56,7 @@ struct CubeApp: App {
         .environmentObject(play)
 
         ImmersiveSpace(id: "cube") {
-            RealityCubeView()
+            RealityCubeView(scale: 0.02, translation: .zero)
                 .persistent(to: play)
                 .position(x: position.x, y: position.y)
                 .offset(z: position.z)

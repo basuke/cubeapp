@@ -12,6 +12,8 @@ import RealityKit
 
 struct RealityCubeView: View {
     @EnvironmentObject private var play: Play
+    let scale: Float
+    let translation: Vector
     @State private var dragging: Dragging?
 
     var model: RealityKitModel {
@@ -51,7 +53,6 @@ struct RealityCubeView: View {
         RotateGesture3D()
             .targetedToAnyEntity()
             .onChanged { value in
-                let angles = value.rotation.eulerAngles(order: .xyz).angles
                 let (swing, twist) = value.rotation.swingTwist(twistAxis: .y)
                 model.yawEntity.transform.rotation = value.convert(twist, from: .local, to: .scene)
                 model.pitchEntity.transform.rotation = value.convert(swing, from: .local, to: .scene)
@@ -69,12 +70,8 @@ struct RealityCubeView: View {
                 entity.addChild(sphere)
             }
 
-            var position = entity.position
-            position.z = 0.5
-            position.y = -0.5
-            entity.position = position
-
-            entity.scale *= 3.0
+            entity.scale = simd_float3(scale, scale, scale)
+            entity.position = translation.vectorf
 
             content.add(entity)
         }
@@ -83,24 +80,8 @@ struct RealityCubeView: View {
     }
 }
 
-let kScaleForRealityKit: Float = 0.02
-
-extension RealityKitModel {
-    var entity: Entity {
-        entity(scale: kScaleForRealityKit)
-    }
-
-    func entity(scale: Float) -> Entity {
-        let adjustEntity = Entity()
-        adjustEntity.addChild(yawEntity)
-        adjustEntity.position = simd_float3(0, 0, 0)
-        adjustEntity.scale = simd_float3(kScaleForRealityKit, kScaleForRealityKit, kScaleForRealityKit)
-        return adjustEntity
-    }
-}
-
 #Preview {
-    RealityCubeView()
+    RealityCubeView(scale: 0.02, translation: .zero)
         .environmentObject(Play())
 }
 

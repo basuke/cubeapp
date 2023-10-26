@@ -13,10 +13,10 @@ import Spatial
 
 class RealityKitModel: Model {
     let cubeEntity = Entity()
+    let entity = Entity()
 
     let yawEntity = Entity()
     let pitchEntity = Entity()
-    let rollEntity = Entity()
     let rotationEntity = Entity()
 
     var pieceEntities: [Entity] = []
@@ -27,9 +27,9 @@ class RealityKitModel: Model {
         cubeEntity.addChild(rotationEntity)
 
         // Add the box node to the scene
+        entity.addChild(yawEntity)
         yawEntity.addChild(pitchEntity)
-        pitchEntity.addChild(rollEntity)
-        rollEntity.addChild(cubeEntity)
+        pitchEntity.addChild(cubeEntity)
     }
 
     func rebuild(with cube: Cube) {
@@ -152,5 +152,14 @@ extension Piece {
         }
 
         return sticker(on: face)
+    }
+}
+
+let kScaleForRealityKit: Float = 0.02
+
+extension RealityKitModel {
+    func entity(scale: Float) -> Entity {
+        entity.position = simd_float3(0, 0, 0)
+        return entity
     }
 }
