@@ -1,4 +1,5 @@
 from enum import Enum
+import math
 import unittest
 from termcolor import colored
 
@@ -49,11 +50,30 @@ class Vector:
             return self.x == other[0] and self.y == other[1] and self.z == other[2]
         return False
 
+    def __bool__(self) -> bool:
+        return self.x or self.y or self.z
+
     def __ne__(self, other: object) -> bool:
         return not self.__eq__(other)
 
     def __neg__(self) -> 'Vector':
         return Vector(-self.x, -self.y, -self.z)
+
+    def __add__(self, other: 'Vector') -> 'Vector':
+        return Vector(self.x + other.x, self.y + other.y, self.z + other.z)
+
+    def __sub__(self, other: 'Vector') -> 'Vector':
+        return Vector(self.x - other.x, self.y - other.y, self.z - other.z)
+
+    def __hash__(self) -> int:
+        return hash((self.x, self.y, self.z))
+
+    @property
+    def length(self) -> float:
+        return math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
+
+    def is_neighbor(self, other: 'Vector') -> bool:
+        return (self - other).length == 1
 
     @property
     def values(self) -> tuple[int, int, int]:
@@ -236,6 +256,15 @@ class Face(Enum):
         elif self == BACK:
             return -Z
 
+    @property
+    def neighbors(self) -> list['Face']:
+        if self == RIGHT or self == LEFT:
+            return [UP, FRONT, DOWN, BACK]
+        elif self == UP or self == DOWN:
+            return [BACK, RIGHT, FRONT, LEFT]
+        else:
+            return [UP, RIGHT, DOWN, LEFT]
+
     def rotated(self, axis: Vector, rotation: Rotation) -> 'Face':
         return Face.from_normal(self.normal.rotated(axis, rotation))
 
@@ -289,11 +318,14 @@ class Piece:
     def __ne__(self, other: object) -> bool:
         return not self.__eq__(other)
 
+    def __hash__(self):
+        return hash((self.position, tuple(self.colors.items())))
+
     def facing(self, face: Face) -> bool:
         return face in self.colors
 
-    def __getitem__(self, face: Face) -> Color:
-        return self.colors[face]
+    def __getitem__(self, face: Face) -> Color|None:
+        return self.colors.get(face, None)
 
     def hasSome(self, *colors: Color) -> bool:
         all_colors = self.colors.values()
@@ -306,8 +338,11 @@ class Piece:
     def hasExact(self, *colors: Color) -> bool:
         return len(self.colors) == len(colors) and self.hasAll(*colors)
 
-    def at(self, position: Vector|tuple[int, int, int]) -> bool:
+    def is_at(self, position: Vector|tuple[int, int, int]) -> bool:
         return self.position == position
+
+    def is_neighbor(self, other: 'Piece') -> bool:
+        return self.position.is_neighbor(other.position)
 
     @property
     def kind(self) -> PieceKind:
@@ -526,13 +561,15 @@ class Cube:
             return False
         return self._pieces == other._pieces
     
-    def pieces(self, *, filter: callable = None, facing: Face = None, colors: list[Color] = None) -> list[Piece]:
+    def pieces(self, *, filter: callable = None, facing: Face = None, colors: list[Color] = None, kind: PieceKind = None) -> list[Piece]:
         def match(piece: Piece) -> bool:
             if colors and not piece.hasExact(*colors):
                 return False
             if filter and not filter(piece):
                 return False
             if facing and not piece.facing(facing):
+                return False
+            if kind and piece.kind != kind:
                 return False
             return True
 
@@ -541,7 +578,7 @@ class Cube:
 
     def piece(self, at: Vector = None, *, filter: callable = None, colors: list[Color] = None) -> Piece|None:
         for piece in self._pieces:
-            if at and piece.at(at):
+            if at and piece.is_at(at):
                 return piece
             if filter and filter(piece):
                 return piece
