@@ -12,9 +12,10 @@ import RealityKit
 
 struct RealityCubeView: View {
     @EnvironmentObject private var play: Play
-    let scale: Float = 0.06
+    let scale: Float = 0.1
     let translation: Vector = Vector(x: 0.0, y: -0.5, z: 0.4)
     @State private var dragging: Dragging?
+    @State private var directionStickerEntity: Entity?
 
     var model: RealityKitModel {
         guard let model = play.model(for: .realityKit) as? RealityKitModel else {
@@ -23,9 +24,26 @@ struct RealityCubeView: View {
         return model
     }
 
+    func findStickerEntityIncludingParents(from entity: Entity) -> Entity? {
+        if let component = entity.components[StickerComponent.self] as StickerComponent? {
+            return entity
+        }
+        if let parent = entity.parent {
+            return self.findStickerEntityIncludingParents(from: parent)
+        }
+        return nil
+    }
+
+    func identifySticker(from entity: Entity) -> Sticker? {
+        guard let stickerEntity = findStickerEntityIncludingParents(from: entity),
+              let color = entity.color else {
+            return nil
+        }
+        return model.identifySticker(from: stickerEntity, cube: play.cube, color: color)
+    }
+
     func beginDragging(at location: CGPoint, entity: Entity) -> Dragging? {
-        guard let component = entity.components[StickerComponent.self] as StickerComponent?,
-              let sticker = model.identifySticker(from: entity, cube: play.cube, color: component.color) else {
+        guard let sticker = identifySticker(from: entity) else {
             return nil
         }
 
@@ -37,6 +55,8 @@ struct RealityCubeView: View {
             .targetedToAnyEntity()
             .onChanged { value in
                 guard let dragging else {
+                    dismissDirections();
+
                     dragging = beginDragging(at: value.location, entity: value.entity) ?? VoidDragging()
                     return
                 }
@@ -53,9 +73,41 @@ struct RealityCubeView: View {
         RotateGesture3D()
             .targetedToAnyEntity()
             .onChanged { value in
+                dismissDirections();
+
                 let (swing, twist) = value.rotation.swingTwist(twistAxis: .y)
                 model.yawEntity.transform.rotation = value.convert(twist, from: .local, to: .scene)
                 model.pitchEntity.transform.rotation = value.convert(swing, from: .local, to: .scene)
+            }
+    }
+
+    func dismissDirections() {
+        if let stickerEntity = directionStickerEntity {
+            model.dismissDirections(on: stickerEntity)
+        }
+    }
+
+    var tapGesture: some Gesture {
+        SpatialEventGesture()
+            .targetedToAnyEntity()
+            .onEnded { value in
+                let entity = value.entity
+                if let component = entity.components[DirectionComponent.self] {
+                    guard let stickerEntity = findStickerEntityIncludingParents(from: entity),
+                          let sticker = identifySticker(from: stickerEntity),
+                          let moveStr = sticker.identifyMove(for: component.direction),
+                          let move = Move.from(string: moveStr) else {
+                        dismissDirections();
+                        return
+                    }
+
+                    dismissDirections();
+                    play.apply(move: move)
+                } else {
+                    dismissDirections();
+                    model.showDirections(on: entity)
+                    directionStickerEntity = entity
+                }
             }
     }
 
@@ -80,7 +132,8 @@ struct RealityCubeView: View {
             }
         }
         .simultaneousGesture(rotationGesture)
-        .simultaneousGesture(dragGesture)
+        .simultaneousGesture(tapGesture)
+//        .simultaneousGesture(dragGesture)
     }
 }
 

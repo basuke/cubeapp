@@ -72,10 +72,14 @@ class RealityKitModel: Model {
         }
 
         func stickerTransform(for face: Face) -> Transform {
+            let halfPi = Float.pi / 2
             var transform: Transform = switch face {
-            case .front, .back: Transform()
-            case .up, .down: Transform(pitch: .pi / 2, yaw: 0, roll: 0)
-            case .right, .left: Transform(pitch: 0, yaw: .pi / 2, roll: 0)
+            case .front: Transform()
+            case .up: Transform(pitch: -halfPi, yaw: 0, roll: 0)
+            case .right: Transform(pitch: 0, yaw: halfPi, roll: 0)
+            case .back: Transform(pitch: 0, yaw: .pi, roll: 0)
+            case .down: Transform(pitch: halfPi, yaw: 0, roll: 0)
+            case .left: Transform(pitch: 0, yaw: -halfPi, roll: 0)
             }
 
             let d = 0.5 - Double(thickness) / 3
@@ -127,6 +131,55 @@ class RealityKitModel: Model {
         }
 
         return piece.sticker(with: color)
+    }
+
+    func showDirections(on stickerEntity: Entity) {
+        let materials: [Direction:SimpleMaterial] = [
+            .up: SimpleMaterial(color: .yellow, isMetallic: false),
+            .left: SimpleMaterial(color: .systemPink, isMetallic: false),
+            .down: SimpleMaterial(color: .systemGreen, isMetallic: false),
+            .right: SimpleMaterial(color: .red, isMetallic: false),
+        ]
+
+        func createPartEntity(with mesh: MeshResource, direction: Direction) -> Entity {
+            let entity = ModelEntity(mesh: mesh, materials: [materials[direction]!])
+            entity.generateCollisionShapes(recursive: false)
+
+            entity.components.set(DirectionComponent(direction))
+
+    #if os(visionOS)
+            entity.components.set(HoverEffectComponent())
+            entity.components.set(InputTargetComponent())
+    #endif
+            return entity
+        }
+
+        func createDirectionEntity(_ direction: Direction) -> Entity {
+            let container = Entity()
+
+            let headMesh = MeshResource.generateCone(height: 0.4, radius: 0.4)
+            let head = createPartEntity(with: headMesh, direction: direction)
+            head.position = [0, 1.1, 0.5]
+            container.addChild(head)
+
+            let poleMesh = MeshResource.generateCylinder(height: 0.4, radius: 0.3)
+            let pole = createPartEntity(with: poleMesh, direction: direction)
+            pole.position = [0, 0.7, 0.5]
+            container.addChild(pole)
+
+            container.transform.rotation = .init(angle: direction.angle, axis: Axis.z.vectorf)
+
+            return container
+        }
+
+        for direction in Direction.allCases {
+            stickerEntity.addChild(createDirectionEntity(direction))
+        }
+    }
+
+    func dismissDirections(on stickerEntity: Entity) {
+        let entities = stickerEntity.children.map { $0 }
+        entities.forEach { $0.removeFromParent() }
     }
 }
 

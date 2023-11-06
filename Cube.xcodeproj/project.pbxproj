@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EB0BA9672AF6AD340030C54E /* DirectionComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0BA9662AF6AD340030C54E /* DirectionComponent.swift */; };
 		EB1D004E2AE3AA74000E3920 /* RotationSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1D004D2AE3AA74000E3920 /* RotationSystem.swift */; };
 		EB27673A2A95160B00464B06 /* Cube3DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2767392A95160B00464B06 /* Cube3DView.swift */; };
 		EB27673C2A95592C00464B06 /* Dragging.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB27673B2A95592C00464B06 /* Dragging.swift */; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EB0BA9662AF6AD340030C54E /* DirectionComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionComponent.swift; sourceTree = "<group>"; };
 		EB1D004D2AE3AA74000E3920 /* RotationSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotationSystem.swift; sourceTree = "<group>"; };
 		EB2767392A95160B00464B06 /* Cube3DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube3DView.swift; sourceTree = "<group>"; };
 		EB27673B2A95592C00464B06 /* Dragging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dragging.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				EB4037CA2ACBA38B00602707 /* RealityKitModel.swift */,
 				EB5B6EC12AE3A16900E74981 /* StickerComponent.swift */,
 				EB1D004D2AE3AA74000E3920 /* RotationSystem.swift */,
+				EB0BA9662AF6AD340030C54E /* DirectionComponent.swift */,
 			);
 			path = RealityKit;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				EBED01F62A8AFD86006FBF1B /* Play.swift in Sources */,
 				EB1D004E2AE3AA74000E3920 /* RotationSystem.swift in Sources */,
 				EB42A13C2AD5289600F6F80A /* SceneKitViewAdapter.swift in Sources */,
+				EB0BA9672AF6AD340030C54E /* DirectionComponent.swift in Sources */,
 				EB96D4E22A82C18700CF0ED0 /* Move.swift in Sources */,
 				EB42A1412ADD9FC100F6F80A /* HandTracking.swift in Sources */,
 				EB96D4DC2A817BF500CF0ED0 /* Cube2DView.swift in Sources */,

@@ -13,7 +13,7 @@ protocol Dragging {
     func end(at location: CGPoint)
 }
 
-enum Direction: String, CaseIterable {
+enum Direction: String, CaseIterable, Codable {
     case up, down, left, right
 
     var horizontal: Bool {
@@ -22,6 +22,15 @@ enum Direction: String, CaseIterable {
 
     var vertical: Bool {
         !horizontal
+    }
+
+    var angle: Float {
+        switch self {
+        case .up: 0.0
+        case .left: .pi * 0.5
+        case .down: .pi * 1.0
+        case .right: .pi * 1.5
+        }
     }
 }
 

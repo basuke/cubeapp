@@ -15,3 +15,13 @@ struct StickerComponent: Component, Codable {
         self.color = color
     }
 }
+
+extension Entity {
+    var color: Color? {
+        if let component = components[StickerComponent.self] as StickerComponent? {
+            component.color
+        } else {
+            nil
+        }
+    }
+}
