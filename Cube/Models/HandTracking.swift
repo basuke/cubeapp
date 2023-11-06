@@ -11,44 +11,16 @@ import Foundation
 import ARKit
 
 class HandTracking: ObservableObject {
-    private let session = ARKitSession()
     private let handTracking = HandTrackingProvider()
-    // WorldTrackingProver
-    private var monitoring = false
+
+    var providers: [DataProvider] {
+        [handTracking]
+    }
 
     @Published var hands: [HandAnchor.Chirality:HandAnchor] = [:]
     @Published var tracking = false
 
-    func start() async {
-        do {
-            if HandTrackingProvider.isSupported {
-                print("ARKitSession starting.")
-                try await session.run([handTracking])
-                tracking = true
-
-                if !monitoring {
-                    Task {
-                        print("Start monitoring hand tracking.")
-                        await publishHandTrackingUpdates()
-                    }
-
-                    Task {
-                        print("Start monitoring session events.")
-                        await monitorSessionEvents()
-                    }
-                    monitoring = true
-                }
-            }
-        } catch {
-            print("ARKitSession error:", error)
-        }
-    }
-
-    public func stop() {
-        session.stop()
-    }
-
-    private func publishHandTrackingUpdates() async {
+    func processUpdates() async {
         for await update in handTracking.anchorUpdates {
             let anchor = update.anchor
             // Publish updates only if the hand and the relevant joints are tracked.
@@ -63,19 +35,6 @@ class HandTracking: ObservableObject {
                 hands[chirality] = anchor
             case .removed:
                 hands.removeValue(forKey: chirality)
-            }
-        }
-    }
-
-    private func monitorSessionEvents() async {
-        for await event in session.events {
-            switch event {
-            case .authorizationChanged(let type, let status):
-                if type == .handTracking && status != .allowed {
-                    // Stop the game, ask the user to grant hand tracking authorization again in Settings.
-                }
-            default:
-                print("Session event \(event)")
             }
         }
     }

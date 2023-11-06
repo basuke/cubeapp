@@ -20,6 +20,7 @@ struct ImmersiveCubeView: View {
     @State private var dragging: Dragging?
     @State private var session = ARKitSession()
     @State private var worldInfo = WorldTrackingProvider()
+    @State private var handTracking = HandTracking()
     @State private var translation: Vector = .zero
 
     var model: RealityKitModel {
@@ -42,7 +43,9 @@ struct ImmersiveCubeView: View {
         }
         .task {
             do {
-                try await self.session.run([self.worldInfo])
+                var providers: [DataProvider] = [self.worldInfo]
+                providers.append(contentsOf: self.handTracking.providers)
+                try await self.session.run(providers)
             } catch {
                 logger.error("Error running World Tracking Provider: \(error.localizedDescription)")
             }
@@ -52,7 +55,10 @@ struct ImmersiveCubeView: View {
             guard let pose = worldInfo.queryDeviceAnchor(atTimestamp: CACurrentMediaTime()) else { return }
             let devicePosition = Transform(matrix: pose.originFromAnchorTransform).translation
 
-            translation = Vector(devicePosition) + Vector(0, -0.3, -0.5)
+            translation = Vector(devicePosition) + Vector(0, -0.3, -0.3)
+        }
+        .task {
+            await handTracking.processUpdates()
         }
     }
 }
