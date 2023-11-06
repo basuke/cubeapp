@@ -12,7 +12,11 @@ import RealityKit
 
 struct RealityCubeView: View {
     @EnvironmentObject private var play: Play
+#if targetEnvironment(simulator)
     let scale: Float = 0.1
+#else
+    let scale: Float = 0.06
+#endif
     let translation: Vector = Vector(x: 0.0, y: -0.5, z: 0.4)
     @State private var dragging: Dragging?
     @State private var directionStickerEntity: Entity?

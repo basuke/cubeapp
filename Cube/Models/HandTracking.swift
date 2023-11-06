@@ -13,6 +13,7 @@ import ARKit
 class HandTracking: ObservableObject {
     private let session = ARKitSession()
     private let handTracking = HandTrackingProvider()
+    // WorldTrackingProver
     private var monitoring = false
 
     @Published var hands: [HandAnchor.Chirality:HandAnchor] = [:]
@@ -22,6 +23,9 @@ class HandTracking: ObservableObject {
         do {
             if HandTrackingProvider.isSupported {
                 print("ARKitSession starting.")
+                try await session.run([handTracking])
+                tracking = true
+
                 if !monitoring {
                     Task {
                         print("Start monitoring hand tracking.")
@@ -34,8 +38,6 @@ class HandTracking: ObservableObject {
                     }
                     monitoring = true
                 }
-                try await session.run([handTracking])
-                tracking = true
             }
         } catch {
             print("ARKitSession error:", error)
