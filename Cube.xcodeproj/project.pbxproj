@@ -21,6 +21,7 @@
 		EB5B6EC22AE3A16900E74981 /* StickerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5B6EC12AE3A16900E74981 /* StickerComponent.swift */; };
 		EB6C73902A88B493008DD244 /* MoveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6C738F2A88B493008DD244 /* MoveController.swift */; };
 		EB6C73922A899B6F008DD244 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6C73912A899B6F008DD244 /* Persistence.swift */; };
+		EB89FEF82AF998CF00CED037 /* CubeModels in Resources */ = {isa = PBXBuildFile; fileRef = EB89FEF72AF998CF00CED037 /* CubeModels */; };
 		EB96D4CC2A80BC6100CF0ED0 /* CubeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4CB2A80BC6100CF0ED0 /* CubeApp.swift */; };
 		EB96D4CE2A80BC6100CF0ED0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4CD2A80BC6100CF0ED0 /* ContentView.swift */; };
 		EB96D4D02A80BC6400CF0ED0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB96D4CF2A80BC6400CF0ED0 /* Assets.xcassets */; };
@@ -64,6 +65,7 @@
 		EB5B6EC12AE3A16900E74981 /* StickerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerComponent.swift; sourceTree = "<group>"; };
 		EB6C738F2A88B493008DD244 /* MoveController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveController.swift; sourceTree = "<group>"; };
 		EB6C73912A899B6F008DD244 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		EB89FEF72AF998CF00CED037 /* CubeModels */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper; path = CubeModels; sourceTree = SOURCE_ROOT; };
 		EB96D4C82A80BC6100CF0ED0 /* Cube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB96D4CB2A80BC6100CF0ED0 /* CubeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubeApp.swift; sourceTree = "<group>"; };
 		EB96D4CD2A80BC6100CF0ED0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				EB96D4CA2A80BC6100CF0ED0 /* Cube */,
+				EB89FEF72AF998CF00CED037 /* CubeModels */,
 				EB30294A2ABF4C7500D01AF7 /* CubeTests */,
 				EB96D4C92A80BC6100CF0ED0 /* Products */,
 			);
@@ -296,6 +299,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB96D4D32A80BC6400CF0ED0 /* Preview Assets.xcassets in Resources */,
+				EB89FEF82AF998CF00CED037 /* CubeModels in Resources */,
 				EB96D4D02A80BC6400CF0ED0 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
