@@ -22,6 +22,7 @@ struct ImmersiveCubeView: View {
     @State private var worldInfo = WorldTrackingProvider()
     @State private var handTracking = HandTracking()
     @State private var translation: Vector = .zero
+    let handContainer = Entity()
 
     var model: RealityKitModel {
         guard let model = play.model(for: .realityKit) as? RealityKitModel else {
@@ -37,6 +38,7 @@ struct ImmersiveCubeView: View {
             entity.scale = simd_float3(scale, scale, scale)
 
             content.add(entity)
+            content.add(handContainer)
         } update: { context in
             let entity = model.entity
             entity.position = translation.vectorf
@@ -58,7 +60,7 @@ struct ImmersiveCubeView: View {
             translation = Vector(devicePosition) + Vector(0, -0.3, -0.3)
         }
         .task {
-            await handTracking.processUpdates()
+            await handTracking.processUpdates(in: handContainer)
         }
     }
 }

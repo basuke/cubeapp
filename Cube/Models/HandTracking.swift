@@ -9,6 +9,11 @@
 
 import Foundation
 import ARKit
+import RealityKit
+
+struct HandPose {
+    let chirality: HandAnchor.Chirality
+}
 
 class HandTracking: ObservableObject {
     private let handTracking = HandTrackingProvider()
@@ -17,26 +22,47 @@ class HandTracking: ObservableObject {
         [handTracking]
     }
 
-    @Published var hands: [HandAnchor.Chirality:HandAnchor] = [:]
-    @Published var tracking = false
+    @Published var hands: [HandAnchor.Chirality:Entity] = [:]
 
-    func processUpdates() async {
+    func processUpdates(in container: Entity) async {
         for await update in handTracking.anchorUpdates {
             let anchor = update.anchor
             // Publish updates only if the hand and the relevant joints are tracked.
-            guard anchor.isTracked else { continue }
+            guard anchor.isTracked,
+                  let skeleton = anchor.handSkeleton else { continue }
 
             let chirality = anchor.chirality
 
-            print("hand: \(update.event) \(anchor)")
             switch update.event {
             case .updated, .added:
-                // Update left hand info.
-                hands[chirality] = anchor
+                processEvent(in: container, chirality: chirality, skeleton: skeleton)
             case .removed:
-                hands.removeValue(forKey: chirality)
+                removeEvent(chirality: chirality)
             }
         }
+    }
+
+    func processEvent(in container: Entity, chirality: HandAnchor.Chirality, skeleton: HandSkeleton) {
+        func getEntity() -> Entity {
+            if let entity = hands[chirality] {
+                return entity
+            }
+
+            let entity = Entity()
+            hands[chirality] = entity
+            container.addChild(entity)
+            return entity
+        }
+
+        let entity = getEntity()
+        
+    }
+
+    func removeEvent(chirality: HandAnchor.Chirality) {
+        guard let entity = hands[chirality] else { return }
+
+        entity.removeFromParent()
+        hands.removeValue(forKey: chirality)
     }
 }
 

@@ -18,6 +18,11 @@ struct CubeApp: App {
     init() {
         StickerComponent.registerComponent()
         RotationSystem.registerSystem()
+        
+        if debug {
+//            DebugHandComponent.registerComponent()
+//            DebugHandSystem.registerSystem()
+        }
     }
 
 #if os(visionOS)
@@ -31,16 +36,16 @@ struct CubeApp: App {
         WindowGroup {
             ZStack(alignment: .bottom) {
                 GeometryReader3D { geometry in
-                    if debug {
-                        RealityView { content in
-                            let t: CGFloat = 0.001
-
-                            let mesh = MeshResource.generateBox(width: Float(width - t), height: Float(height - t), depth: Float(depth - t))
-                            let material = SimpleMaterial(color: .red, isMetallic: true)
-                            let entity = ModelEntity(mesh: mesh, materials: [material])
-                            entity.components.set(OpacityComponent(opacity: 0.1))
-                        }
-                    }
+//                    if debug {
+//                        RealityView { content in
+//                            let t: CGFloat = 0.001
+//
+//                            let mesh = MeshResource.generateBox(width: Float(width - t), height: Float(height - t), depth: Float(depth - t))
+//                            let material = SimpleMaterial(color: .red, isMetallic: true)
+//                            let entity = ModelEntity(mesh: mesh, materials: [material])
+//                            entity.components.set(OpacityComponent(opacity: 0.1))
+//                        }
+//                    }
                     RealityCubeView()
                 }
                 Toggle("Start", isOn: $play.inImmersiveSpace)
