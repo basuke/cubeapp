@@ -1,4 +1,5 @@
 from enum import Enum
+from .cube import *
 
 class Permutations(Enum):
     T = "R U R' U' R' F R2 U' R' U' R U R' F'"
@@ -14,4 +15,12 @@ class Permutations(Enum):
     N = "R U2 R' U' R U R' F' R U R' U' R' F R F'"
     E = "R U R' U' R' F R U R' U' R' F' R2 U' R'"
     H = "R U R' U R D R' U' R D' R' U2 R' U2 R U' R'"
-    
+
+class Solver:
+    cube: Cube
+
+    def __init__(self, cube: Cube):
+        self.cube = cube
+
+    def solve(self):
+        return Permutations[self.scramble].value

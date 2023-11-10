@@ -1,4 +1,5 @@
 from enum import Enum
+from itertools import combinations
 import math
 import unittest
 from termcolor import colored
@@ -70,7 +71,11 @@ class Vector:
 
     @property
     def length(self) -> float:
-        return math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
+        return math.sqrt(self.length2)
+
+    @property
+    def length2(self) -> float:
+        return self.x ** 2 + self.y ** 2 + self.z ** 2
 
     def is_neighbor(self, other: 'Vector') -> bool:
         return (self - other).length == 1
@@ -586,7 +591,7 @@ class Cube:
                 return piece
         return None
 
-    def stickers(self, filter: callable = None, facing: Face = None) -> list[Sticker]:
+    def stickers(self, filter: callable = None, facing: Face = None, color: Color = None) -> list[Sticker]:
         def all_stickers():
             for piece in self._pieces:
                 for face, _ in piece.colors.items():
@@ -596,6 +601,8 @@ class Cube:
             if filter and not filter(sticker):
                 return False
             if facing and sticker.face != facing:
+                return False
+            if color and sticker.color != color:
                 return False
             return True
 
@@ -654,7 +661,22 @@ class Cube:
         ])
 
     def __repr__(self) -> str:
-        return self.as2D()
+        return self.as2D() + f"\nentropy: {self.entropy}"
+
+    @property
+    def entropy(self) -> float:
+        def entropyOf(color: Color) -> float:
+            stickers = self.stickers(color=color)
+            result = sum(entropyOfStickers(s1, s2) for s1, s2 in combinations(stickers, 2))
+            return result
+
+        def entropyOfStickers(s1: Sticker, s2: Sticker) -> float:
+            p1 = s1.piece.position
+            p2 = s2.piece.position
+            result = (p1 - p2).length - 1
+            return result
+
+        return sum(entropyOf(color) for color in Color)
 
     def dump(self):
         print(self.as2D())
@@ -673,6 +695,10 @@ class TestCube(unittest.TestCase):
         piece = cube.piece(colors=[RED, GREEN, YELLOW])
         self.assertTrue(piece.hasExact(RED, GREEN, YELLOW))
         self.assertEqual(piece.position, CORNER_RDF)
+
+    def test_entropy(self):
+        cube = Cube()
+        self.assertEqual(cube.entropy, 0)
 
 # ------------------------------------------------------------------------------------
 
