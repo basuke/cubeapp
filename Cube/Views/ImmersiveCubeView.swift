@@ -35,6 +35,7 @@ struct ImmersiveCubeView: View {
         RealityView { content in
             let entity = model.entity
 
+            entity.transform = .identity
             entity.scale = simd_float3(scale, scale, scale)
 
             content.add(entity)

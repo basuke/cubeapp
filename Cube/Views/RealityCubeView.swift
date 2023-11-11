@@ -13,13 +13,13 @@ import RealityKit
 struct RealityCubeView: View {
     @EnvironmentObject private var play: Play
 #if targetEnvironment(simulator)
-    let scale: Float = 0.1
-#else
     let scale: Float = 0.06
+#else
+    let scale: Float = 0.04
 #endif
-    let translation: Vector = Vector(x: 0.0, y: -0.5, z: 0.4)
     @State private var dragging: Dragging?
     @State private var directionStickerEntity: Entity?
+    @State private var holdingDirection: Direction?
 
     var model: RealityKitModel {
         guard let model = play.model(for: .realityKit) as? RealityKitModel else {
@@ -115,29 +115,100 @@ struct RealityCubeView: View {
             }
     }
 
-    var body: some View {
-        RealityView { content in
-            let entity = model.entity
+    struct Stack<Content: View>: View {
+        let horizontal: Bool
+        let builder: () -> Content
 
-            if debug {
-                let material = SimpleMaterial(color: .blue, isMetallic: true)
-                let sphere = ModelEntity(mesh: MeshResource.generateSphere(radius: 1.5 * sqrtf(3.0)), materials: [material])
-                sphere.components.set(OpacityComponent(opacity: 0.2))
-                entity.addChild(sphere)
-            }
-        } update: { content in
-            if !play.inImmersiveSpace {
-                let entity = model.entity
+        init(horizontal: Bool = false, @ViewBuilder builder: @escaping () -> Content) {
+            self.horizontal = horizontal
+            self.builder = builder
+        }
 
-                entity.scale = simd_float3(scale, scale, scale)
-                entity.position = translation.vectorf
-
-                content.add(entity)
+        var body: some View {
+            if horizontal {
+                VStack {
+                    builder()
+                }
+            } else {
+                HStack {
+                    builder()
+                }
             }
         }
-        .simultaneousGesture(rotationGesture)
-        .simultaneousGesture(tapGesture)
-//        .simultaneousGesture(dragGesture)
+    }
+
+    struct ViewChanger: View {
+        let direction: Direction
+        @Binding var holdingDirection: Direction?
+
+        var holdGesture: some Gesture {
+            DragGesture(minimumDistance: 0)
+                .onChanged { value in
+                    if holdingDirection != direction {
+                        holdingDirection = direction
+                    }
+                }
+                .onEnded { value in
+                    holdingDirection = nil
+                }
+        }
+
+        var body: some View {
+            Stack(horizontal: direction.horizontal) {
+                Spacer()
+                Label("View", systemImage: "chevron.up.circle")
+                    .labelStyle(.iconOnly)
+                Spacer()
+            }
+            .font(.largeTitle)
+            .background(debug ? .red : .clear)
+            .gesture(holdGesture)
+        }
+    }
+
+    var body: some View {
+        ZStack {
+            HStack {
+                ViewChanger(direction: .left, holdingDirection: $holdingDirection)
+                Spacer()
+                VStack {
+                    ViewChanger(direction: .up, holdingDirection: $holdingDirection)
+                    Spacer()
+                    ViewChanger(direction: .down, holdingDirection: $holdingDirection)
+                }
+                Spacer()
+                ViewChanger(direction: .right, holdingDirection: $holdingDirection)
+            }
+            RealityView { content in
+                let entity = model.entity
+
+                let material = SimpleMaterial(color: .blue, isMetallic: true)
+                let sphere = ModelEntity(mesh: MeshResource.generateSphere(radius: 1.5 * sqrtf(3.0)), materials: [material])
+                entity.addChild(sphere)
+
+                if debug {
+                    sphere.components.set(OpacityComponent(opacity: 0.2))
+                } else {
+                    sphere.components.set(OpacityComponent(opacity: 0))
+                }
+            } update: { content in
+                if !play.inImmersiveSpace && !play.inWindow {
+                    let entity = model.entity
+
+                    entity.transform = Transform(scale: [scale, scale, scale])
+                    model.pitch = .pi / 4
+                    model.yaw = -.pi / 8
+
+                    content.add(entity)
+                    play.inWindow = true
+                }
+
+                model.updateCamera(direction: holdingDirection)
+            }
+//                    .simultaneousGesture(rotationGesture)
+            .simultaneousGesture(tapGesture)
+    //        .simultaneousGesture(dragGesture)
+        }
     }
 }
 

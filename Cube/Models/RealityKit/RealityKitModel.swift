@@ -11,6 +11,8 @@ import UIKit
 import Combine
 import Spatial
 
+let kRadiusOfCube: Float = 1.5 * sqrtf(3.0)
+
 class RealityKitModel: Model {
     let cubeEntity = Entity()
     let entity = Entity()
@@ -183,12 +185,70 @@ class RealityKitModel: Model {
     }
 }
 
-let kYawScaleFactorForARKit: Float = 1.7
+extension Transform {
+    var eularAngles: EulerAngles {
+        let rotation = Rotation3D(rotation)
+        return rotation.eulerAngles(order: .xyz)
+    }
+}
+
+extension EulerAngles {
+    var x: Float {
+        Float(angles.x)
+    }
+
+    var y: Float {
+        Float(angles.y)
+    }
+
+    var z: Float {
+        Float(angles.z)
+    }
+}
 
 extension RealityKitModel {
     func setCameraYaw(ratio: Float) {
         let yaw = initialYaw * ratio
-        yawEntity.transform = Transform(pitch: 0.0, yaw: yaw * kYawScaleFactorForARKit, roll: 0.0)
+        yawEntity.transform = Transform(pitch: 0.0, yaw: yaw, roll: 0.0)
+    }
+
+    var yaw: Float {
+        get { yawEntity.transform.eularAngles.y }
+        set { yawEntity.transform = Transform(pitch: 0, yaw: newValue, roll: 0) }
+    }
+
+    var pitch: Float {
+        get { pitchEntity.transform.eularAngles.x }
+        set { pitchEntity.transform = Transform(pitch: newValue, yaw: 0, roll: 0) }
+    }
+
+    func updateCamera(direction: Direction?) {
+        if let direction {
+            switch direction {
+            case .up: setPitch(.pi / 4 * 3)
+            case .down: setPitch(-.pi / 4)
+            case .left: setYaw(.pi / 4)
+            case .right: setYaw(-.pi / 4)
+            }
+        } else {
+            setPitch(.pi / 4)
+            setYaw(.pi / 8 * (yaw > 0 ? 1 : -1))
+        }
+    }
+
+    func setYaw(_ value: Float, speed: TurnSpeed = .normal) {
+        let transform = Transform(pitch: 0, yaw: value, roll: 0)
+        yawEntity.move(to: transform, relativeTo: yawEntity.parent, duration: speed.duration, timingFunction: .easeInOut)
+    }
+
+    func setPitch(_ value: Float, speed: TurnSpeed = .normal) {
+        let transform = Transform(pitch: value, yaw: 0, roll: 0)
+        pitchEntity.move(to: transform, relativeTo: pitchEntity.parent, duration: speed.duration, timingFunction: .easeInOut)
+    }
+
+    func resetPitch(speed: TurnSpeed = .normal) {
+        let transform = Transform(pitch: 0, yaw: 0, roll: 0)
+        pitchEntity.move(to: transform, relativeTo: pitchEntity.parent, duration: speed.duration, timingFunction: .easeInOut)
     }
 }
 

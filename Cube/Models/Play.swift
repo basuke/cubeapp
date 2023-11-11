@@ -10,15 +10,12 @@ import UIKit
 import Combine
 import Spatial
 
-enum TurnSpeed {
-    case normal
-    case quick
+enum TurnSpeed: TimeInterval, RawRepresentable {
+    case normal = 0.3
+    case quick = 0.1
 
     var duration: TimeInterval {
-        switch self {
-        case .normal: 0.3
-        case .quick: 0.1
-        }
+        self.rawValue * (debug ? 10.0 : 1.0)
     }
 }
 
@@ -49,6 +46,7 @@ class Play: ObservableObject {
     @Published var cube: Cube = Cube_TestData.turnedCube
     @Published var moves: [Move] = []
 #if os(visionOS)
+    @Published var inWindow: Bool = false
     @Published var inImmersiveSpace: Bool = false
 #endif
 
@@ -89,8 +87,7 @@ class Play: ObservableObject {
     private func run(move: Move, speed: TurnSpeed) -> AnyCancellable {
         cube = cube.apply(move: move)
 
-        let duration = speed.duration * (debug ? 10.0 : 1.0)
-        let results = models.values.map { $0.run(move: move, duration: duration) }
+        let results = models.values.map { $0.run(move: move, duration: speed.duration) }
         return Publishers.MergeMany(results)
             .receive(on: DispatchQueue.main)
             .sink { self.afterAction() }

@@ -28,41 +28,25 @@ struct CubeApp: App {
 #if os(visionOS)
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
-    let width: CGFloat = 0.5
-    let height: CGFloat = 1.5
-    let depth: CGFloat = 1.5
+    let width: CGFloat = 1
+    let height: CGFloat = 1
+    let depth: CGFloat = 1
 
     var body: some SwiftUI.Scene {
         WindowGroup {
-            ZStack(alignment: .bottom) {
-                GeometryReader3D { geometry in
-//                    if debug {
-//                        RealityView { content in
-//                            let t: CGFloat = 0.001
-//
-//                            let mesh = MeshResource.generateBox(width: Float(width - t), height: Float(height - t), depth: Float(depth - t))
-//                            let material = SimpleMaterial(color: .red, isMetallic: true)
-//                            let entity = ModelEntity(mesh: mesh, materials: [material])
-//                            entity.components.set(OpacityComponent(opacity: 0.1))
+            RealityCubeView()
+//            Toggle("Start", isOn: $play.inImmersiveSpace)
+//                .onChange(of: play.inImmersiveSpace) { _, state in
+//                    Task {
+//                        if state {
+//                            await openImmersiveSpace(id: "cube")
+//                        } else {
+//                            await dismissImmersiveSpace()
 //                        }
 //                    }
-                    RealityCubeView()
-                }
-                Toggle("Start", isOn: $play.inImmersiveSpace)
-                    .onChange(of: play.inImmersiveSpace) { _, state in
-                        Task {
-                            if state {
-                                await openImmersiveSpace(id: "cube")
-                            } else {
-                                await dismissImmersiveSpace()
-                            }
-                        }
-                    }
-                    .toggleStyle(.button)
-            }
+//                }
+//                .toggleStyle(.button)
         }
-        .windowStyle(.volumetric)
-        .defaultSize(width: width, height: height, depth: depth, in: .meters)
         .environmentObject(play)
 
         ImmersiveSpace(id: "cube") {
