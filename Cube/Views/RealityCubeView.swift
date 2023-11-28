@@ -76,39 +76,51 @@ struct RealityCubeView: View {
     }
 
     var body: some View {
-        ZStack {
-            ControllerView(lookDirection: $lookDirection) {
-                dismissDirections()
+        HStack {
+            VStack {
+                Rectangle()
+                    .fill(.blue)
             }
-            RealityView { content in
-                let entity = model.entity
-
-                let material = SimpleMaterial(color: .blue, isMetallic: true)
-                let sphere = ModelEntity(mesh: MeshResource.generateSphere(radius: 1.5 * sqrtf(3.0)), materials: [material])
-                entity.addChild(sphere)
-
-                if debug {
-                    sphere.components.set(OpacityComponent(opacity: 0.2))
-                } else {
-                    sphere.components.set(OpacityComponent(opacity: 0))
+            .frame(width: 320)
+            ZStack {
+                ControllerView(lookDirection: $lookDirection) {
+                    dismissDirections()
                 }
-            } update: { content in
-                if !play.inImmersiveSpace && !play.inWindow {
+                RealityView { content in
                     let entity = model.entity
 
-                    entity.transform = Transform(scale: [scale, scale, scale])
-                    model.pitch = .pi / 4
-                    model.yaw = -.pi / 8
+                    let material = SimpleMaterial(color: .blue, isMetallic: true)
+                    let sphere = ModelEntity(mesh: MeshResource.generateSphere(radius: 1.5 * sqrtf(3.0)), materials: [material])
+                    entity.addChild(sphere)
 
-                    content.add(entity)
-                    play.inWindow = true
+                    if debug {
+                        sphere.components.set(OpacityComponent(opacity: 0.2))
+                    } else {
+                        sphere.components.set(OpacityComponent(opacity: 0))
+                    }
+                } update: { content in
+                    if !play.inImmersiveSpace && !play.inWindow {
+                        let entity = model.entity
+
+                        entity.transform = Transform(scale: [scale, scale, scale])
+                        model.pitch = .pi / 4 - (.pi / 10)
+                        model.yaw = -.pi / 8
+
+                        content.add(entity)
+                        play.inWindow = true
+                    }
+
+                    model.updateCamera(direction: lookDirection)
                 }
-
-                model.updateCamera(direction: lookDirection)
+                .simultaneousGesture(tapGesture)
             }
-            .simultaneousGesture(tapGesture)
+            .frame(width: 560, height: 560)
+            VStack {
+                Rectangle()
+                    .fill(.yellow)
+            }
+            .frame(width: 320)
         }
-        .frame(width: 560, height: 560)
     }
 }
 

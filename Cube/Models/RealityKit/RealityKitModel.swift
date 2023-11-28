@@ -227,9 +227,9 @@ extension RealityKitModel {
         if let direction {
             switch direction {
             case .up:
-                setPitch(.pi / 4 * 3)
+                setPitch(.pi / 4 * 3 - (.pi / 10))
             case .down:
-                setPitch(-.pi / 4)
+                setPitch(-.pi / 4 - (.pi / 10))
             case .left:
                 setYaw(.pi / 4)
                 lookingRight = false
@@ -238,7 +238,7 @@ extension RealityKitModel {
                 lookingRight = true
             }
         } else {
-            setPitch(.pi / 4)
+            setPitch(.pi / 4 - (.pi / 10))
             setYaw(.pi / 8 * (lookingRight ? -1 : 1))
         }
     }
