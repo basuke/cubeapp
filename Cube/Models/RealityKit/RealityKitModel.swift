@@ -22,6 +22,7 @@ class RealityKitModel: Model {
     let rotationEntity = Entity()
 
     var pieceEntities: [Entity] = []
+    var lookingRight: Bool = true
 
     init() {
         rotationEntity.components[RotationComponent.self] = RotationComponent()
@@ -225,14 +226,20 @@ extension RealityKitModel {
     func updateCamera(direction: Direction?) {
         if let direction {
             switch direction {
-            case .up: setPitch(.pi / 4 * 3)
-            case .down: setPitch(-.pi / 4)
-            case .left: setYaw(.pi / 4)
-            case .right: setYaw(-.pi / 4)
+            case .up:
+                setPitch(.pi / 4 * 3)
+            case .down:
+                setPitch(-.pi / 4)
+            case .left:
+                setYaw(.pi / 4)
+                lookingRight = false
+            case .right:
+                setYaw(-.pi / 4)
+                lookingRight = true
             }
         } else {
             setPitch(.pi / 4)
-            setYaw(.pi / 8 * (yaw > 0 ? 1 : -1))
+            setYaw(.pi / 8 * (lookingRight ? -1 : 1))
         }
     }
 
