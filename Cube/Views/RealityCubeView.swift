@@ -13,11 +13,10 @@ import RealityKit
 struct RealityCubeView: View {
     @EnvironmentObject private var play: Play
 #if targetEnvironment(simulator)
-    let scale: Float = 0.06
+    let scale: Float = 0.05
 #else
-    let scale: Float = 0.04
+    let scale: Float = 0.05
 #endif
-    @State private var dragging: Dragging?
     @State private var directionStickerEntity: Entity?
     @State private var lookDirection: Direction?
 
@@ -44,45 +43,6 @@ struct RealityCubeView: View {
             return nil
         }
         return model.identifySticker(from: stickerEntity, cube: play.cube, color: color)
-    }
-
-    func beginDragging(at location: CGPoint, entity: Entity) -> Dragging? {
-        guard let sticker = identifySticker(from: entity) else {
-            return nil
-        }
-
-        return TurnDragging(at: location, play: play, sticker: sticker)
-    }
-
-    var dragGesture: some Gesture {
-        DragGesture(minimumDistance: 0)
-            .targetedToAnyEntity()
-            .onChanged { value in
-                guard let dragging else {
-                    dismissDirections();
-
-                    dragging = beginDragging(at: value.location, entity: value.entity) ?? VoidDragging()
-                    return
-                }
-
-                dragging.update(at: value.location)
-            }
-            .onEnded { value in
-                dragging?.end(at: value.location)
-                dragging = nil
-            }
-    }
-
-    var rotationGesture: some Gesture {
-        RotateGesture3D()
-            .targetedToAnyEntity()
-            .onChanged { value in
-                dismissDirections();
-
-                let (swing, twist) = value.rotation.swingTwist(twistAxis: .y)
-                model.yawEntity.transform.rotation = value.convert(twist, from: .local, to: .scene)
-                model.pitchEntity.transform.rotation = value.convert(swing, from: .local, to: .scene)
-            }
     }
 
     func dismissDirections() {
