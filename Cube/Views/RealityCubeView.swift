@@ -19,7 +19,7 @@ struct RealityCubeView: View {
 #endif
     @State private var dragging: Dragging?
     @State private var directionStickerEntity: Entity?
-    @State private var holdingDirection: Direction?
+    @State private var lookDirection: Direction?
 
     var model: RealityKitModel {
         guard let model = play.model(for: .realityKit) as? RealityKitModel else {
@@ -115,100 +115,46 @@ struct RealityCubeView: View {
             }
     }
 
-    struct Stack<Content: View>: View {
-        let horizontal: Bool
-        let builder: () -> Content
-
-        init(horizontal: Bool = false, @ViewBuilder builder: @escaping () -> Content) {
-            self.horizontal = horizontal
-            self.builder = builder
-        }
-
-        var body: some View {
-            if horizontal {
-                VStack {
-                    builder()
-                }
-            } else {
-                HStack {
-                    builder()
-                }
-            }
-        }
-    }
-
-    struct ViewChanger: View {
-        let direction: Direction
-        @Binding var holdingDirection: Direction?
-
-        var holdGesture: some Gesture {
-            DragGesture(minimumDistance: 0)
-                .onChanged { value in
-                    if holdingDirection != direction {
-                        holdingDirection = direction
-                    }
-                }
-                .onEnded { value in
-                    holdingDirection = nil
-                }
-        }
-
-        var body: some View {
-            Stack(horizontal: direction.horizontal) {
-                Spacer()
-                Label("View", systemImage: "chevron.up.circle")
-                    .labelStyle(.iconOnly)
-                Spacer()
-            }
-            .font(.largeTitle)
-            .background(debug ? .red : .clear)
-            .gesture(holdGesture)
-        }
-    }
-
     var body: some View {
-        ZStack {
-            HStack {
-                ViewChanger(direction: .left, holdingDirection: $holdingDirection)
-                Spacer()
-                VStack {
-                    ViewChanger(direction: .up, holdingDirection: $holdingDirection)
-                    Spacer()
-                    ViewChanger(direction: .down, holdingDirection: $holdingDirection)
+        GeometryReader3D { geometry in
+            ZStack {
+                ControllerView(lookDirection: $lookDirection) {
+                    dismissDirections()
                 }
-                Spacer()
-                ViewChanger(direction: .right, holdingDirection: $holdingDirection)
-            }
-            RealityView { content in
-                let entity = model.entity
-
-                let material = SimpleMaterial(color: .blue, isMetallic: true)
-                let sphere = ModelEntity(mesh: MeshResource.generateSphere(radius: 1.5 * sqrtf(3.0)), materials: [material])
-                entity.addChild(sphere)
-
-                if debug {
-                    sphere.components.set(OpacityComponent(opacity: 0.2))
-                } else {
-                    sphere.components.set(OpacityComponent(opacity: 0))
-                }
-            } update: { content in
-                if !play.inImmersiveSpace && !play.inWindow {
+                RealityView { content in
                     let entity = model.entity
 
-                    entity.transform = Transform(scale: [scale, scale, scale])
-                    model.pitch = .pi / 4
-                    model.yaw = -.pi / 8
+                    let material = SimpleMaterial(color: .blue, isMetallic: true)
+                    let sphere = ModelEntity(mesh: MeshResource.generateSphere(radius: 1.5 * sqrtf(3.0)), materials: [material])
+                    entity.addChild(sphere)
 
-                    content.add(entity)
-                    play.inWindow = true
+                    if debug {
+                        sphere.components.set(OpacityComponent(opacity: 0.2))
+                    } else {
+                        sphere.components.set(OpacityComponent(opacity: 0))
+                    }
+                } update: { content in
+                    print("initial size is \(geometry.size)")
+                    if !play.inImmersiveSpace && !play.inWindow {
+                        let entity = model.entity
+
+                        entity.transform = Transform(scale: [scale, scale, scale])
+                        model.pitch = .pi / 4
+                        model.yaw = -.pi / 8
+
+                        content.add(entity)
+                        play.inWindow = true
+                    }
+
+                    model.updateCamera(direction: lookDirection)
                 }
-
-                model.updateCamera(direction: holdingDirection)
+                .onChange(of: geometry.size) { oldSize, newSize in
+                    print("old size is \(oldSize) new size is \(newSize)")
+                }
+                .simultaneousGesture(tapGesture)
             }
-//                    .simultaneousGesture(rotationGesture)
-            .simultaneousGesture(tapGesture)
-    //        .simultaneousGesture(dragGesture)
         }
+        .frame(width: 560, height: 560)
     }
 }
 
