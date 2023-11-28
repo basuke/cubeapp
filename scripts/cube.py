@@ -565,7 +565,10 @@ class Cube:
         if not isinstance(other, Cube):
             return False
         return self._pieces == other._pieces
-    
+
+    def __hash__(self):
+        return hash(piece for piece in self._pieces)
+
     def pieces(self, *, filter: callable = None, facing: Face = None, colors: list[Color] = None, kind: PieceKind = None) -> list[Piece]:
         def match(piece: Piece) -> bool:
             if colors and not piece.hasExact(*colors):
