@@ -35,17 +35,6 @@ struct CubeApp: App {
     var body: some SwiftUI.Scene {
         WindowGroup {
             RealityCubeView()
-//            Toggle("Start", isOn: $play.inImmersiveSpace)
-//                .onChange(of: play.inImmersiveSpace) { _, state in
-//                    Task {
-//                        if state {
-//                            await openImmersiveSpace(id: "cube")
-//                        } else {
-//                            await dismissImmersiveSpace()
-//                        }
-//                    }
-//                }
-//                .toggleStyle(.button)
         }
         .environmentObject(play)
 

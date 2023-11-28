@@ -70,18 +70,22 @@ class Play: ObservableObject {
         running = run(move: move, speed: speed)
     }
 
-    func undo() {
+    func undo(speed: TurnSpeed = .quick) {
         if requests.isEmpty {
             if let move = moves.popLast()?.reversed {
                 if running != nil {
                     requests.append(move)
                 } else {
-                    running = run(move: move, speed: .quick)
+                    running = run(move: move, speed: speed)
                 }
             }
         } else {
             _ = requests.popLast()
         }
+    }
+
+    var canUndo: Bool {
+        !moves.isEmpty
     }
 
     private func run(move: Move, speed: TurnSpeed) -> AnyCancellable {

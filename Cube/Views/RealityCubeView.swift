@@ -121,6 +121,21 @@ struct RealityCubeView: View {
             }
             .frame(width: 320)
         }
+        .ornament(attachmentAnchor: .scene(alignment: .bottom), contentAlignment: .center) {
+            HStack {
+                Button("Undo") {
+                    play.undo(speed: .normal)
+                }
+                .disabled(!play.canUndo)
+                .padding()
+
+                Button("Scramble") {
+                    print("Scramble")
+                }
+                .padding()
+            }
+            .glassBackgroundEffect(in: .capsule(style: .continuous))
+        }
     }
 }
 
