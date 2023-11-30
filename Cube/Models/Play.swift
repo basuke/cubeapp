@@ -45,6 +45,7 @@ protocol ViewAdapter {
 class Play: ObservableObject {
     @Published var cube: Cube = Cube_TestData.turnedCube
     @Published var moves: [Move] = []
+    @Published var undoneMoves: [Move] = []
 #if os(visionOS)
     @Published var inWindow: Bool = false
     @Published var inImmersiveSpace: Bool = false
@@ -86,6 +87,13 @@ class Play: ObservableObject {
 
     var canUndo: Bool {
         !moves.isEmpty
+    }
+
+    func redo(speed: TurnSpeed = .quick) {
+    }
+
+    var canRedo: Bool {
+        false
     }
 
     private func run(move: Move, speed: TurnSpeed) -> AnyCancellable {

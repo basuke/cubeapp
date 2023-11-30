@@ -71,7 +71,7 @@ enum PrimitiveMove: Character, CaseIterable, Codable {
     }
 }
 
-struct Move: Codable {
+struct Move: Codable, Equatable {
     let move: PrimitiveMove
     let prime: Bool
     let twice: Bool
@@ -330,4 +330,9 @@ extension Piece {
         }
         return Self(at: position.rotated(by: rotation), colors: rotatedColors)
     }
+}
+
+class MovesBuffer {
+    var moves: [Move] = []
+    var index: Int = 0
 }

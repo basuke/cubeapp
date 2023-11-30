@@ -35,12 +35,12 @@ struct CubeApp: App {
     var body: some SwiftUI.Scene {
         WindowGroup {
             RealityCubeView()
+                .persistent(to: play)
         }
         .environmentObject(play)
 
         ImmersiveSpace(id: "cube") {
             ImmersiveCubeView()
-                .persistent(to: play)
         }
         .environmentObject(play)
     }

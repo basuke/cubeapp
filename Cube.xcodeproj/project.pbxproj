@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EB0BA9672AF6AD340030C54E /* DirectionComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0BA9662AF6AD340030C54E /* DirectionComponent.swift */; };
 		EB1D004E2AE3AA74000E3920 /* RotationSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1D004D2AE3AA74000E3920 /* RotationSystem.swift */; };
 		EB27673A2A95160B00464B06 /* Cube3DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2767392A95160B00464B06 /* Cube3DView.swift */; };
 		EB27673C2A95592C00464B06 /* Dragging.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB27673B2A95592C00464B06 /* Dragging.swift */; };
@@ -22,6 +21,8 @@
 		EB6C73902A88B493008DD244 /* MoveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6C738F2A88B493008DD244 /* MoveController.swift */; };
 		EB6C73922A899B6F008DD244 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6C73912A899B6F008DD244 /* Persistence.swift */; };
 		EB8730982B167781005822F1 /* ControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8730972B167781005822F1 /* ControllerView.swift */; };
+		EB87309B2B17A836005822F1 /* OrnamentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB87309A2B17A836005822F1 /* OrnamentView.swift */; };
+		EB87309D2B17AE2C005822F1 /* DirectionButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB87309C2B17AE2C005822F1 /* DirectionButtons.swift */; };
 		EB89FEF82AF998CF00CED037 /* CubeModels in Resources */ = {isa = PBXBuildFile; fileRef = EB89FEF72AF998CF00CED037 /* CubeModels */; };
 		EB96D4CC2A80BC6100CF0ED0 /* CubeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4CB2A80BC6100CF0ED0 /* CubeApp.swift */; };
 		EB96D4CE2A80BC6100CF0ED0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4CD2A80BC6100CF0ED0 /* ContentView.swift */; };
@@ -49,7 +50,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		EB0BA9662AF6AD340030C54E /* DirectionComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionComponent.swift; sourceTree = "<group>"; };
 		EB1D004D2AE3AA74000E3920 /* RotationSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotationSystem.swift; sourceTree = "<group>"; };
 		EB2767392A95160B00464B06 /* Cube3DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube3DView.swift; sourceTree = "<group>"; };
 		EB27673B2A95592C00464B06 /* Dragging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dragging.swift; sourceTree = "<group>"; };
@@ -67,6 +67,8 @@
 		EB6C738F2A88B493008DD244 /* MoveController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveController.swift; sourceTree = "<group>"; };
 		EB6C73912A899B6F008DD244 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		EB8730972B167781005822F1 /* ControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerView.swift; sourceTree = "<group>"; };
+		EB87309A2B17A836005822F1 /* OrnamentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrnamentView.swift; sourceTree = "<group>"; };
+		EB87309C2B17AE2C005822F1 /* DirectionButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionButtons.swift; sourceTree = "<group>"; };
 		EB89FEF72AF998CF00CED037 /* CubeModels */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper; path = CubeModels; sourceTree = SOURCE_ROOT; };
 		EB96D4C82A80BC6100CF0ED0 /* Cube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB96D4CB2A80BC6100CF0ED0 /* CubeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubeApp.swift; sourceTree = "<group>"; };
@@ -129,9 +131,19 @@
 				EB4037CA2ACBA38B00602707 /* RealityKitModel.swift */,
 				EB5B6EC12AE3A16900E74981 /* StickerComponent.swift */,
 				EB1D004D2AE3AA74000E3920 /* RotationSystem.swift */,
-				EB0BA9662AF6AD340030C54E /* DirectionComponent.swift */,
 			);
 			path = RealityKit;
+			sourceTree = "<group>";
+		};
+		EB8730992B17A77A005822F1 /* Views - visionOS */ = {
+			isa = PBXGroup;
+			children = (
+				EB9E151E2AD4D3DC0016152A /* RealityCubeView.swift */,
+				EB87309C2B17AE2C005822F1 /* DirectionButtons.swift */,
+				EB8730972B167781005822F1 /* ControllerView.swift */,
+				EB87309A2B17A836005822F1 /* OrnamentView.swift */,
+			);
+			path = "Views - visionOS";
 			sourceTree = "<group>";
 		};
 		EB96D4BF2A80BC6100CF0ED0 = {
@@ -161,6 +173,7 @@
 				EB96D4CB2A80BC6100CF0ED0 /* CubeApp.swift */,
 				EBED01F32A8AFB5C006FBF1B /* Models */,
 				EBED01F42A8AFB68006FBF1B /* Views */,
+				EB8730992B17A77A005822F1 /* Views - visionOS */,
 				EB96D4CF2A80BC6400CF0ED0 /* Assets.xcassets */,
 				EB96D4D12A80BC6400CF0ED0 /* Preview Content */,
 			);
@@ -206,8 +219,6 @@
 				EB96D4DB2A817BF500CF0ED0 /* Cube2DView.swift */,
 				EB6C738F2A88B493008DD244 /* MoveController.swift */,
 				EB2767392A95160B00464B06 /* Cube3DView.swift */,
-				EB9E151E2AD4D3DC0016152A /* RealityCubeView.swift */,
-				EB8730972B167781005822F1 /* ControllerView.swift */,
 				EBA617292AEB1EFA005C8AF8 /* ImmersiveCubeView.swift */,
 			);
 			path = Views;
@@ -326,6 +337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB27673A2A95160B00464B06 /* Cube3DView.swift in Sources */,
+				EB87309D2B17AE2C005822F1 /* DirectionButtons.swift in Sources */,
 				EB9E151F2AD4D3DC0016152A /* RealityCubeView.swift in Sources */,
 				EB6C73922A899B6F008DD244 /* Persistence.swift in Sources */,
 				EB6C73902A88B493008DD244 /* MoveController.swift in Sources */,
@@ -334,8 +346,8 @@
 				EB96D4CC2A80BC6100CF0ED0 /* CubeApp.swift in Sources */,
 				EBED01F62A8AFD86006FBF1B /* Play.swift in Sources */,
 				EB1D004E2AE3AA74000E3920 /* RotationSystem.swift in Sources */,
+				EB87309B2B17A836005822F1 /* OrnamentView.swift in Sources */,
 				EB42A13C2AD5289600F6F80A /* SceneKitViewAdapter.swift in Sources */,
-				EB0BA9672AF6AD340030C54E /* DirectionComponent.swift in Sources */,
 				EB96D4E22A82C18700CF0ED0 /* Move.swift in Sources */,
 				EB42A1412ADD9FC100F6F80A /* HandTracking.swift in Sources */,
 				EB96D4DC2A817BF500CF0ED0 /* Cube2DView.swift in Sources */,

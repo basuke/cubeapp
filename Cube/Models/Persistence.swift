@@ -10,16 +10,18 @@ import SwiftUI
 
 extension Play {
     struct SaveData: Codable {
-        static let version = 1
+        static let version = 2
 
         let version: Int
         let cube: Cube
-        let moves: [Move]
+        let undoBuffer: [Move]
+        let redoBuffer: [Move]
 
-        init(cube: Cube, moves: [Move]) {
+        init(cube: Cube, undoBuffer: [Move], redoBuffer: [Move]) {
             self.version = Self.version
             self.cube = cube
-            self.moves = moves
+            self.undoBuffer = undoBuffer
+            self.redoBuffer = redoBuffer
         }
 
         static var key: String {
@@ -28,7 +30,7 @@ extension Play {
     }
 
     func save() throws {
-        let data = SaveData(cube: cube, moves: moves)
+        let data = SaveData(cube: cube, undoBuffer: moves, redoBuffer: undoneMoves)
         UserDefaults.standard.setValue(try JSONEncoder().encode(data), forKey: SaveData.key)
     }
 
@@ -36,7 +38,8 @@ extension Play {
         if let data = UserDefaults.standard.data(forKey: SaveData.key) {
             let saveData = try JSONDecoder().decode(SaveData.self, from: data)
             cube = saveData.cube
-            moves = saveData.moves
+            moves = saveData.undoBuffer
+            undoneMoves = saveData.redoBuffer
         }
 
         rebuild()
