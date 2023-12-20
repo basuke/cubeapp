@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import SceneKit
+import RealityKit
 
 struct ContentView: View {
     @ObservedObject var play: Play
@@ -18,6 +18,21 @@ struct ContentView: View {
         UIColor.lightGray,
     ]
 
+#if os(visionOS)
+    var body: some View {
+        RealityView { content in
+            guard let model = play.model as? RealityKitModel else {
+                fatalError("Invalid configuration")
+            }
+
+            let scale: Float = 0.05
+            let entity = Entity()
+            entity.addChild(model.yawEntity)
+            entity.transform.scale = simd_float3(scale, scale, scale)
+            content.add(entity)
+        }
+    }
+#else
     var body: some View {
         VStack {
             ZStack(alignment: .bottom) {
@@ -46,6 +61,7 @@ struct ContentView: View {
             LinearGradient(gradient: Gradient(colors: gradientColors.map { SwiftUI.Color($0) }), startPoint: .top, endPoint: .bottom)
         )
     }
+#endif
 }
 
 #Preview {

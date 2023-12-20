@@ -45,11 +45,8 @@ let kDistanceForARKit: Float = 0.3
 let kScaleForARKit: Float = 0.4
 
 extension RealityKitModel {
+#if !os(visionOS)
     func setupCamera(scene: Scene) {
-        // Add the box node to the scene
-        pitchEntity.addChild(cubeEntity)
-        yawEntity.addChild(pitchEntity)
-
         pitchEntity.transform = Transform(pitch: initialPitch, yaw: 0.0, roll: 0.0)
         yawEntity.transform = Transform(pitch: 0.0, yaw: initialYaw * kYawScaleFactorForARKit, roll: 0.0)
 
@@ -61,6 +58,7 @@ extension RealityKitModel {
 
         scene.anchors.append(cameraAnchor)
     }
+#endif
 
     func setCameraYaw(ratio: Float) {
         let yaw = initialYaw * ratio

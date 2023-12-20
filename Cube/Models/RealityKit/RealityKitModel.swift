@@ -11,7 +11,9 @@ import UIKit
 import Combine
 
 class RealityKitModel: Model {
+#if !os(visionOS)
     let arView = ARView(frame: .zero)
+#endif
 
     let cubeEntity = Entity()
 
@@ -24,7 +26,11 @@ class RealityKitModel: Model {
     var pieceEntities: [Entity] = []
 
     var view: UIView {
+#if os(visionOS)
+        UIView()
+#else
         arView
+#endif
     }
 
     init() {
@@ -32,7 +38,13 @@ class RealityKitModel: Model {
 
         cubeEntity.addChild(rotationEntity)
 
+        // Add the box node to the scene
+        pitchEntity.addChild(cubeEntity)
+        yawEntity.addChild(pitchEntity)
+
+#if !os(visionOS)
         setupCamera(scene: arView.scene)
+#endif
     }
 
     func rebuild(with cube: Cube) {
@@ -110,6 +122,9 @@ class RealityKitModel: Model {
     }
 
     func hitTest(at location: CGPoint, cube: Cube) -> Sticker? {
+#if os(visionOS)
+        return nil
+#else
         guard let result = arView.hitTest(location, query: .nearest).first else {
             return nil
         }
@@ -119,6 +134,7 @@ class RealityKitModel: Model {
         }
 
         return identifySticker(from: result.entity, cube: cube, color: component.color)
+#endif
     }
 
     private func identifySticker(from entity: Entity, cube: Cube, color: Color) -> Sticker? {
