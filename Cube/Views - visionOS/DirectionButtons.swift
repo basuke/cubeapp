@@ -12,7 +12,7 @@ import RealityKit
 
 extension RealityCubeView {
     func findStickerEntityIncludingParents(from entity: Entity) -> Entity? {
-        if let component = entity.components[StickerComponent.self] as StickerComponent? {
+        if entity.components[StickerComponent.self] != nil {
             return entity
         }
         if let parent = entity.parent {

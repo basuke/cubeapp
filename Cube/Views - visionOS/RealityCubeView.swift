@@ -42,6 +42,12 @@ struct RealityCubeView: View {
                 RealityView { content in
                     let entity = model.entity
 
+                    entity.transform = Transform(scale: [scale, scale, scale])
+                    model.pitch = .pi / 4 - (.pi / 10)
+                    model.yaw = -.pi / 8
+
+                    content.add(entity)
+
                     let material = SimpleMaterial(color: .blue, isMetallic: true)
                     let sphere = ModelEntity(mesh: MeshResource.generateSphere(radius: 1.5 * sqrtf(3.0)), materials: [material])
                     entity.addChild(sphere)
@@ -52,17 +58,6 @@ struct RealityCubeView: View {
                         sphere.components.set(OpacityComponent(opacity: 0))
                     }
                 } update: { content in
-                    if !play.inImmersiveSpace && !play.inWindow {
-                        let entity = model.entity
-
-                        entity.transform = Transform(scale: [scale, scale, scale])
-                        model.pitch = .pi / 4 - (.pi / 10)
-                        model.yaw = -.pi / 8
-
-                        content.add(entity)
-                        play.inWindow = true
-                    }
-
                     model.updateCamera(direction: lookDirection)
                 }
                 .simultaneousGesture(directionButtonsGeasture)

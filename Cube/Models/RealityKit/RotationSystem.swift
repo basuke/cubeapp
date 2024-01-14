@@ -41,7 +41,7 @@ class RotationSystem: System {
 
     func update(context: SceneUpdateContext) {
         context.scene.performQuery(Self.query).forEach { entity in
-            guard let component = entity.components[RotationComponent.self] as? RotationComponent else {
+            guard let component = entity.components[RotationComponent.self] else {
                 return
             }
 
@@ -84,7 +84,7 @@ extension Transform {
 
 extension Entity {
     func apply(move: Move, duration: Double) -> AnyPublisher<Void, Never> {
-        guard let component = components[RotationComponent.self] as? RotationComponent else {
+        guard let component = components[RotationComponent.self] else {
             fatalError("No RotationComponent assigned to the Entity")
         }
 

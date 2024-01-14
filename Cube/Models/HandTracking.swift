@@ -43,18 +43,18 @@ class HandTracking: ObservableObject {
     }
 
     func processEvent(in container: Entity, chirality: HandAnchor.Chirality, skeleton: HandSkeleton) {
-        func getEntity() -> Entity {
-            if let entity = hands[chirality] {
-                return entity
-            }
-
-            let entity = Entity()
-            hands[chirality] = entity
-            container.addChild(entity)
-            return entity
-        }
-
-        let entity = getEntity()
+//        func getEntity() -> Entity {
+//            if let entity = hands[chirality] {
+//                return entity
+//            }
+//
+//            let entity = Entity()
+//            hands[chirality] = entity
+//            container.addChild(entity)
+//            return entity
+//        }
+//
+//        let entity = getEntity()
         
     }
 
