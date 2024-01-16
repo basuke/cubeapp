@@ -30,16 +30,16 @@ extension Play {
     }
 
     func save() throws {
-        let data = SaveData(cube: cube, undoBuffer: moves, redoBuffer: undoneMoves)
-        UserDefaults.standard.setValue(try JSONEncoder().encode(data), forKey: SaveData.key)
+//        let data = SaveData(cube: cube, undoBuffer: moves, redoBuffer: undoneMoves)
+//        UserDefaults.standard.setValue(try JSONEncoder().encode(data), forKey: SaveData.key)
     }
 
     func load() throws {
         if let data = UserDefaults.standard.data(forKey: SaveData.key) {
-            let saveData = try JSONDecoder().decode(SaveData.self, from: data)
-            cube = saveData.cube
-            moves = saveData.undoBuffer
-            undoneMoves = saveData.redoBuffer
+//            let saveData = try JSONDecoder().decode(SaveData.self, from: data)
+//            cube = saveData.cube
+//            moves = saveData.undoBuffer
+//            undoneMoves = saveData.redoBuffer
         }
 
         rebuild()

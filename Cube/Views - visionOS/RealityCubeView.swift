@@ -30,8 +30,7 @@ struct RealityCubeView: View {
     var body: some View {
         HStack {
             VStack {
-                Rectangle()
-                    .fill(.blue)
+                CommandView()
             }
             .frame(width: 320)
             ZStack {
@@ -64,15 +63,15 @@ struct RealityCubeView: View {
             }
             .frame(width: 560, height: 560)
             VStack {
-                Rectangle()
-                    .fill(.yellow)
+                HistoryView()
+                    .padding()
             }
             .frame(width: 320)
         }
-        .ornament(attachmentAnchor: .scene(.bottom), contentAlignment: .center) {
-            OrnamentView()
-            .glassBackgroundEffect(in: .capsule(style: .continuous))
-        }
+//        .ornament(attachmentAnchor: .scene(.bottom), contentAlignment: .center) {
+//            OrnamentView()
+//            .glassBackgroundEffect(in: .capsule(style: .continuous))
+//        }
     }
 }
 

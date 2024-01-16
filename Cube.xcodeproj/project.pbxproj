@@ -14,6 +14,8 @@
 		EB3029542AC00D0E00D01AF7 /* PieceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3029532AC00D0E00D01AF7 /* PieceTests.swift */; };
 		EB3029602AC93BAD00D01AF7 /* SceneKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB30295F2AC93BAD00D01AF7 /* SceneKitModel.swift */; };
 		EB4037CB2ACBA38B00602707 /* RealityKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4037CA2ACBA38B00602707 /* RealityKitModel.swift */; };
+		EB41C0532B54297900B7EA66 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB41C0522B54297900B7EA66 /* HistoryView.swift */; };
+		EB41C0552B56D18200B7EA66 /* CommandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB41C0542B56D18200B7EA66 /* CommandView.swift */; };
 		EB42A13C2AD5289600F6F80A /* SceneKitViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB42A13B2AD5289600F6F80A /* SceneKitViewAdapter.swift */; };
 		EB42A1412ADD9FC100F6F80A /* HandTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB42A1402ADD9FC100F6F80A /* HandTracking.swift */; };
 		EB595E142A97C24A003000D6 /* SceneKitUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB595E132A97C24A003000D6 /* SceneKitUtils.swift */; };
@@ -58,6 +60,8 @@
 		EB3029532AC00D0E00D01AF7 /* PieceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieceTests.swift; sourceTree = "<group>"; };
 		EB30295F2AC93BAD00D01AF7 /* SceneKitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitModel.swift; sourceTree = "<group>"; };
 		EB4037CA2ACBA38B00602707 /* RealityKitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityKitModel.swift; sourceTree = "<group>"; };
+		EB41C0522B54297900B7EA66 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		EB41C0542B56D18200B7EA66 /* CommandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandView.swift; sourceTree = "<group>"; };
 		EB42A13B2AD5289600F6F80A /* SceneKitViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitViewAdapter.swift; sourceTree = "<group>"; };
 		EB42A13F2AD704CE00F6F80A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EB42A1402ADD9FC100F6F80A /* HandTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandTracking.swift; sourceTree = "<group>"; };
@@ -142,6 +146,8 @@
 				EB87309C2B17AE2C005822F1 /* DirectionButtons.swift */,
 				EB8730972B167781005822F1 /* ControllerView.swift */,
 				EB87309A2B17A836005822F1 /* OrnamentView.swift */,
+				EB41C0522B54297900B7EA66 /* HistoryView.swift */,
+				EB41C0542B56D18200B7EA66 /* CommandView.swift */,
 			);
 			path = "Views - visionOS";
 			sourceTree = "<group>";
@@ -337,6 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB27673A2A95160B00464B06 /* Cube3DView.swift in Sources */,
+				EB41C0532B54297900B7EA66 /* HistoryView.swift in Sources */,
 				EB87309D2B17AE2C005822F1 /* DirectionButtons.swift in Sources */,
 				EB9E151F2AD4D3DC0016152A /* RealityCubeView.swift in Sources */,
 				EB6C73922A899B6F008DD244 /* Persistence.swift in Sources */,
@@ -358,6 +365,7 @@
 				EBA6172A2AEB1EFA005C8AF8 /* ImmersiveCubeView.swift in Sources */,
 				EB3029602AC93BAD00D01AF7 /* SceneKitModel.swift in Sources */,
 				EB8730982B167781005822F1 /* ControllerView.swift in Sources */,
+				EB41C0552B56D18200B7EA66 /* CommandView.swift in Sources */,
 				EB27673C2A95592C00464B06 /* Dragging.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

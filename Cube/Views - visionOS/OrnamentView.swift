@@ -39,6 +39,12 @@ extension RealityCubeView {
                     print("Scramble")
                 }
                 .padding()
+
+                if play.isInteractive {
+                    Text("🟢")
+                } else {
+                    Text("🟥")
+                }
             }
         }
     }

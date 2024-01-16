@@ -332,7 +332,18 @@ extension Piece {
     }
 }
 
-class MovesBuffer {
-    var moves: [Move] = []
-    var index: Int = 0
+extension Move: CustomStringConvertible {
+    var description: String {
+        var str = String(move.rawValue)
+
+        if prime {
+            str += "'"
+        }
+
+        if twice {
+            str += "2"
+        }
+
+        return str
+    }
 }

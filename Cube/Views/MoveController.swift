@@ -66,7 +66,7 @@ struct MoveController: View {
             Button("Undo") {
                 play.undo()
             }
-            .disabled(play.moves.isEmpty)
+            .disabled(play.canUndo)
         }
     }
 

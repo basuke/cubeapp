@@ -13,37 +13,40 @@ let faceGap: CGFloat = 2
 
 struct Cube2DView: View {
     let cube: Cube2D
+    var scale: CGFloat = 1.0
 
     struct Cell: View {
         let color: Color
-        
+        let scale: CGFloat
+
         var body: some View {
             Rectangle()
                 .fill(SwiftUI.Color(uiColor: color.uiColor))
-                .frame(width: cellLength, height: cellLength)
+                .frame(width: cellLength * scale, height: cellLength * scale)
         }
     }
 
     struct FaceCell: View {
         let cube: Cube2D
         let face: Face
+        let scale: CGFloat
 
         var body: some View {
-            Grid(horizontalSpacing: cellGap, verticalSpacing: cellGap) {
+            Grid(horizontalSpacing: cellGap * scale, verticalSpacing: cellGap * scale) {
                 GridRow {
-                    Cell(color: color(0))
-                    Cell(color: color(1))
-                    Cell(color: color(2))
+                    Cell(color: color(0), scale: scale)
+                    Cell(color: color(1), scale: scale)
+                    Cell(color: color(2), scale: scale)
                 }
                 GridRow {
-                    Cell(color: color(3))
-                    Cell(color: color(4))
-                    Cell(color: color(5))
+                    Cell(color: color(3), scale: scale)
+                    Cell(color: color(4), scale: scale)
+                    Cell(color: color(5), scale: scale)
                 }
                 GridRow {
-                    Cell(color: color(6))
-                    Cell(color: color(7))
-                    Cell(color: color(8))
+                    Cell(color: color(6), scale: scale)
+                    Cell(color: color(7), scale: scale)
+                    Cell(color: color(8), scale: scale)
                 }
             }
         }
@@ -55,20 +58,20 @@ struct Cube2DView: View {
 
     var body: some View {
         VStack {
-            Grid(horizontalSpacing: faceGap, verticalSpacing: faceGap) {
+            Grid(horizontalSpacing: faceGap * scale, verticalSpacing: faceGap * scale) {
                 GridRow {
                     Text("")
-                    FaceCell(cube: cube, face: .up)
+                    FaceCell(cube: cube, face: .up, scale: scale)
                 }
                 GridRow {
-                    FaceCell(cube: cube, face: .left)
-                    FaceCell(cube: cube, face: .front)
-                    FaceCell(cube: cube, face: .right)
-                    FaceCell(cube: cube, face: .back)
+                    FaceCell(cube: cube, face: .left, scale: scale)
+                    FaceCell(cube: cube, face: .front, scale: scale)
+                    FaceCell(cube: cube, face: .right, scale: scale)
+                    FaceCell(cube: cube, face: .back, scale: scale)
                 }
                 GridRow {
                     Text("")
-                    FaceCell(cube: cube, face: .down)
+                    FaceCell(cube: cube, face: .down, scale: scale)
                 }
             }
         }
@@ -76,7 +79,7 @@ struct Cube2DView: View {
 }
 
 #Preview {
-    Cube2DView(cube: Cube_TestData.turnedCube.as2D())
+    Cube2DView(cube: Cube_TestData.turnedCube.as2D(), scale: 2.0)
         .padding()
         .background(.gray)
 }

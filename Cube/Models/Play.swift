@@ -15,7 +15,7 @@ enum TurnSpeed: TimeInterval, RawRepresentable {
     case quick = 0.1
 
     var duration: TimeInterval {
-        self.rawValue * (debug ? 10.0 : 1.0)
+        self.rawValue * (debug ? 5.0 : 1.0)
     }
 }
 
@@ -42,10 +42,15 @@ protocol ViewAdapter {
     var view: UIView { get }
 }
 
+struct HistoryItem: Identifiable {
+    let id = UUID()
+    let cube: Cube
+    let move: Move
+}
+
 class Play: ObservableObject {
     @Published var cube: Cube = Cube_TestData.turnedCube
-    @Published var moves: [Move] = []
-    @Published var undoneMoves: [Move] = []
+    @Published var history: [HistoryItem] = []
 #if os(visionOS)
     @Published var inWindow: Bool = false
     @Published var inImmersiveSpace: Bool = false
@@ -55,7 +60,10 @@ class Play: ObservableObject {
     private var viewAdapters: [ViewAdapterKind:ViewAdapter] = [:]
 
     var requests: [Move] = []
-    var running: AnyCancellable?
+    @Published var running: AnyCancellable?
+    var isInteractive: Bool {
+        running == nil
+    }
 
     func rebuild() {
         models.values.forEach { $0.rebuild(with: cube) }
@@ -67,18 +75,18 @@ class Play: ObservableObject {
             return
         }
 
-        moves.append(move)
+        history.append(HistoryItem(cube: cube, move: move))
         running = run(move: move, speed: speed)
     }
 
     func undo(speed: TurnSpeed = .quick) {
+        guard canUndo else {
+            return
+        }
+
         if requests.isEmpty {
-            if let move = moves.popLast()?.reversed {
-                if running != nil {
-                    requests.append(move)
-                } else {
-                    running = run(move: move, speed: speed)
-                }
+            if let item = history.popLast() {
+                running = run(move: item.move.reversed, speed: speed)
             }
         } else {
             _ = requests.popLast()
@@ -86,14 +94,18 @@ class Play: ObservableObject {
     }
 
     var canUndo: Bool {
-        !moves.isEmpty
+        !history.isEmpty && isInteractive
     }
 
     func redo(speed: TurnSpeed = .quick) {
+        guard canRedo else {
+            return
+        }
+
     }
 
     var canRedo: Bool {
-        false
+        false && isInteractive
     }
 
     private func run(move: Move, speed: TurnSpeed) -> AnyCancellable {
