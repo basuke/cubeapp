@@ -84,11 +84,13 @@ extension RealityKitModel {
 
             let headMesh = MeshResource.generateCone(height: 0.4, radius: 0.4)
             let head = createPartEntity(with: headMesh, direction: direction)
+            head.scale = [1, 1, 0.3]
             head.position = [0, 1.1, 0.5]
             container.addChild(head)
 
-            let poleMesh = MeshResource.generateCylinder(height: 0.4, radius: 0.3)
+            let poleMesh = MeshResource.generateCylinder(height: 0.4, radius: 0.25)
             let pole = createPartEntity(with: poleMesh, direction: direction)
+            pole.scale = [1, 1, 0.2]
             pole.position = [0, 0.7, 0.5]
             container.addChild(pole)
 
