@@ -36,8 +36,9 @@ struct CubeApp: App {
         WindowGroup {
             RealityCubeView()
                 .persistent(to: play)
+                .environmentObject(play)
         }
-        .environmentObject(play)
+        .windowResizability(.contentSize)
 
         ImmersiveSpace(id: "cube") {
             ImmersiveCubeView()
