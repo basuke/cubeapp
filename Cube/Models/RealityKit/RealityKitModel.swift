@@ -35,6 +35,10 @@ class RealityKitModel: Model {
         pitchEntity.addChild(cubeEntity)
     }
 
+    func reset() {
+        dismissDirections()
+    }
+
     func rebuild(with cube: Cube) {
         let mesh = MeshResource.generateBox(size: 1.0, cornerRadius: 0.1)
         let material = SimpleMaterial(color: .init(white: 0.1, alpha: 1.0), isMetallic: false)

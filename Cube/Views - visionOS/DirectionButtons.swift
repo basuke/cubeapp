@@ -108,6 +108,17 @@ extension RealityKitModel {
         let entities = stickerEntity.children.map { $0 }
         entities.forEach { $0.removeFromParent() }
     }
+
+    func dismissDirections() {
+        guard let scene = entity.scene else {
+            return
+        }
+
+        let query = EntityQuery(where: .has(StickerComponent.self))
+        scene.performQuery(query).forEach { stickerEntity in
+            dismissDirections(on: stickerEntity)
+        }
+    }
 }
 
 struct DirectionComponent: Component, Codable {

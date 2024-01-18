@@ -25,6 +25,9 @@ class SceneKitModel: Model {
         setupCamera()
     }
 
+    func reset() {
+    }
+
     func rebuild(with cube: Cube) {
         func createPiece(_ piece: Piece) -> SCNNode {
             let base = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0.1)

@@ -13,6 +13,7 @@ import Spatial
 enum TurnSpeed: TimeInterval, RawRepresentable {
     case normal = 0.3
     case quick = 0.1
+    case superQuick = 0.03
 
     var duration: TimeInterval {
         self.rawValue * (debug ? 5.0 : 1.0)
@@ -31,6 +32,7 @@ enum ViewAdapterKind {
 }
 
 protocol Model {
+    func reset()
     func rebuild(with: Cube)
     func run(move: Move, duration: Double) -> AnyPublisher<Void, Never>
     func setCameraYaw(ratio: Float)
@@ -52,6 +54,7 @@ class Play: ObservableObject {
     @Published var cube: Cube = Cube_TestData.turnedCube
     @Published var undoItems: [HistoryItem] = []
     @Published var redoItems: [HistoryItem] = []
+    @Published var scrambling: Bool = false
 #if os(visionOS)
     @Published var inWindow: Bool = false
     @Published var inImmersiveSpace: Bool = false
@@ -76,39 +79,12 @@ class Play: ObservableObject {
             return
         }
 
-        undoItems.append(HistoryItem(cube: cube, move: move))
-        redoItems = []
+        if !scrambling {
+            undoItems.append(HistoryItem(cube: cube, move: move))
+            redoItems = []
+        }
+
         running = run(move: move, speed: speed)
-    }
-
-    func undo(speed: TurnSpeed = .quick) {
-        guard canUndo else {
-            return
-        }
-
-        if let item = undoItems.popLast() {
-            redoItems.append(HistoryItem(cube:cube, move: item.move))
-            running = run(move: item.move.reversed, speed: speed)
-        }
-    }
-
-    var canUndo: Bool {
-        !undoItems.isEmpty && isInteractive
-    }
-
-    func redo(speed: TurnSpeed = .quick) {
-        guard canRedo else {
-            return
-        }
-
-        if let item = redoItems.popLast() {
-            undoItems.append(HistoryItem(cube: cube, move: item.move))
-            running = run(move: item.move, speed: speed)
-        }
-    }
-
-    var canRedo: Bool {
-        !redoItems.isEmpty && isInteractive
     }
 
     private func run(move: Move, speed: TurnSpeed) -> AnyCancellable {
@@ -121,13 +97,17 @@ class Play: ObservableObject {
     }
 
     private func afterAction() {
-        running = if requests.isEmpty {
-            nil
+        if requests.isEmpty {
+            print("finished")
+            scrambling = false
+            running = nil
         } else {
-            run(move: requests.removeFirst(), speed: .quick)
+            running = run(move: requests.removeFirst(), speed: .quick)
         }
     }
 }
+
+// Model kind
 
 extension ModelKind {
     func instantiate() -> Model {
@@ -155,6 +135,8 @@ extension Play {
     }
 }
 
+// View adapter kind
+
 extension ViewAdapterKind {
     func instantiate(play: Play) -> ViewAdapter {
         switch self {
@@ -177,6 +159,8 @@ extension Play {
         }
     }
 }
+
+// Extension to basic components
 
 extension Vector {
     var rounded: Self {
@@ -218,5 +202,39 @@ extension Move {
 extension Float {
     static func degree(_ value: Self) -> Self {
         .pi * value / 180.0
+    }
+}
+
+// Undo and redo
+
+extension Play {
+    func undo(speed: TurnSpeed = .quick) {
+        guard canUndo else {
+            return
+        }
+
+        if let item = undoItems.popLast() {
+            redoItems.append(HistoryItem(cube:cube, move: item.move))
+            running = run(move: item.move.reversed, speed: speed)
+        }
+    }
+
+    var canUndo: Bool {
+        !undoItems.isEmpty && isInteractive
+    }
+
+    func redo(speed: TurnSpeed = .quick) {
+        guard canRedo else {
+            return
+        }
+
+        if let item = redoItems.popLast() {
+            undoItems.append(HistoryItem(cube: cube, move: item.move))
+            running = run(move: item.move, speed: speed)
+        }
+    }
+
+    var canRedo: Bool {
+        !redoItems.isEmpty && isInteractive
     }
 }

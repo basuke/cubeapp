@@ -108,11 +108,23 @@ struct Move: Codable, Equatable {
     }
 
     static func from(string str: String) -> Move? {
-        return allMoves[str]
+        return allMovesIncludingAliases[str]
+    }
+
+    static func random(count: Int) -> [Move] {
+        let possibleMoves = allMoves.values
+
+        var moves: [Move] = []
+
+        for _ in 0..<count {
+            moves.append(possibleMoves.randomElement()!)
+        }
+
+        return moves
     }
 }
 
-let allMoves: [String:Move] = [
+let basicMoves: [String:Move] = [
     // face turn
 
     "U": Move(.U),
@@ -136,6 +148,20 @@ let allMoves: [String:Move] = [
     "R2": Move(.R, twice: true),
     "L2": Move(.L, twice: true),
 
+    // middle layer
+
+    "M": Move(.M),
+    "E": Move(.E),
+    "S": Move(.S),
+
+    "M'": Move(.M, prime: true),
+    "E'": Move(.E, prime: true),
+    "S'": Move(.S, prime: true),
+
+    "M2": Move(.M, twice: true),
+    "E2": Move(.E, twice: true),
+    "S2": Move(.S, twice: true),
+
     // wide moves
 
     "Uw": Move(.Uw),
@@ -158,7 +184,9 @@ let allMoves: [String:Move] = [
     "Bw2": Move(.Bw, twice: true),
     "Rw2": Move(.Rw, twice: true),
     "Lw2": Move(.Lw, twice: true),
+]
 
+let aliasMoves: [String:Move] = [
     // wide moves (alias, lowercase)
 
     "u": Move(.Uw),
@@ -181,7 +209,9 @@ let allMoves: [String:Move] = [
     "b2": Move(.Bw, twice: true),
     "r2": Move(.Rw, twice: true),
     "l2": Move(.Lw, twice: true),
+]
 
+let rotationMoves: [String:Move] = [
     // cube rotation
 
     "x": Move(.x),
@@ -195,21 +225,14 @@ let allMoves: [String:Move] = [
     "x2": Move(.x, twice: true),
     "y2": Move(.y, twice: true),
     "z2": Move(.z, twice: true),
-
-    // middle layer
-
-    "M": Move(.M),
-    "E": Move(.E),
-    "S": Move(.S),
-
-    "M'": Move(.M, prime: true),
-    "E'": Move(.E, prime: true),
-    "S'": Move(.S, prime: true),
-
-    "M2": Move(.M, twice: true),
-    "E2": Move(.E, twice: true),
-    "S2": Move(.S, twice: true),
 ]
+
+func merged<K, V>(_ a: Dictionary<K, V>, _ b: Dictionary<K, V>) -> Dictionary<K, V> {
+    a.merging(b) { (key, _) in key }
+}
+
+let allMoves: [String:Move] = merged(basicMoves, rotationMoves)
+let allMovesIncludingAliases: [String:Move] = merged(allMoves, aliasMoves)
 
 struct Rotation {
     enum Angle: Double, RawRepresentable {
