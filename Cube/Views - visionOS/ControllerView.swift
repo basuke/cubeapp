@@ -31,15 +31,38 @@ extension RealityCubeView {
         }
     }
 
+    struct TransparentButton: View {
+        let icon: String
+        let label: String
+
+        var body: some View {
+            ZStack {
+                Rectangle()
+                    .fill(.clear)
+                Label(label, systemImage: icon)
+                    .labelStyle(.iconOnly)
+                    .font(.largeTitle)
+                    .foregroundColor(.secondary)
+            }
+            .contentShape(.capsule)
+            .hoverEffect()
+        }
+    }
+
     struct LookButton: View {
         let direction: Direction
         @Binding var bindingDirection: Direction?
+        var action: (() -> Void)? = nil
 
         var holdGesture: some Gesture {
             DragGesture(minimumDistance: 0)
                 .onChanged { value in
                     if direction != bindingDirection {
                         bindingDirection = direction
+
+                        if let action {
+                            action()
+                        }
                     }
                 }
                 .onEnded { value in
@@ -61,46 +84,93 @@ extension RealityCubeView {
         }
 
         var body: some View {
-            ZStack {
-                Rectangle()
-                    .fill(.clear)
-                Label(label, systemImage: icon)
-                    .labelStyle(.iconOnly)
-                    .font(.largeTitle)
+            TransparentButton(icon: icon, label: label)
+                .gesture(holdGesture)
+        }
+    }
+
+    struct RotateButton: View {
+        @EnvironmentObject var play: Play
+        let move: String
+        var left: Bool = false
+
+        var icon: String {
+            switch move {
+            case "x": "arrow.turn.\(left ? "left" : "right").up"
+            case "x'": "arrow.turn.\(left ? "left" : "right").down"
+            case "y": "arrow.turn.down.left"
+            case "y'": "arrow.turn.down.right"
+            case "z": "arrow.turn.up.right"
+            case "z'": "arrow.turn.up.left"
+            default: ""
             }
-            .contentShape(.capsule)
-            .hoverEffect()
-            .gesture(holdGesture)
+        }
+
+        var label: String {
+            "Rotate cube to \(move)"
+        }
+
+        var body: some View {
+            TransparentButton(icon: icon, label: label)
+                .onTapGesture {
+                    if let move = Move.from(string: move) {
+                        play.apply(move: move)
+                    }
+                }
         }
     }
 
     struct ControllerView: View {
         @Binding var lookDirection: Direction?
+        @State private var opacity = 0.0
 
         var body: some View {
             HStack {
                 VStack {
                     Spacer()
                         .frame(height: width)
-                    LookButton(direction: .left, bindingDirection: $lookDirection)
-                        .frame(width: width)
+                    RotateButton(move: "z")
+                    LookButton(direction: .left, bindingDirection: $lookDirection) {
+                        withAnimation {
+                            opacity = 1.0
+                        }
+                    }
+                    RotateButton(move: "y'")
                     Spacer()
                         .frame(height: width)
                 }
                 .frame(width: width)
 
                 VStack {
-                    LookButton(direction: .up, bindingDirection: $lookDirection)
-                        .frame(height: width)
+                    HStack {
+                        RotateButton(move: "x'", left: true)
+                            .opacity(1.0 - opacity)
+                        LookButton(direction: .up, bindingDirection: $lookDirection)
+                        RotateButton(move: "x'", left: false)
+                            .opacity(opacity)
+                    }
+                    .frame(height: width)
                     Spacer()
-                    LookButton(direction: .down, bindingDirection: $lookDirection)
-                        .frame(height: width)
+                    HStack {
+                        RotateButton(move: "x", left: true)
+                            .opacity(1.0 - opacity)
+                        LookButton(direction: .down, bindingDirection: $lookDirection)
+                        RotateButton(move: "x", left: false)
+                            .opacity(opacity)
+                    }
+                    .frame(height: width)
                 }
 
                 VStack {
                     Spacer()
                         .frame(height: width)
-                    LookButton(direction: .right, bindingDirection: $lookDirection)
+                    RotateButton(move: "z'")
+                    LookButton(direction: .right, bindingDirection: $lookDirection) {
+                        withAnimation {
+                            opacity = 0.0
+                        }
+                    }
+                    RotateButton(move: "y")
                     Spacer()
                         .frame(height: width)
                 }
