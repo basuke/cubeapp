@@ -13,12 +13,14 @@ struct HistoryView: View {
     var body: some View {
         ScrollView {
             Cube2DView(cube: play.cube.as2D(), scale: 2.0)
+                .opacity(0.6)
 
             ForEach(play.history.reversed()) { item in
                 VStack {
                     Text(item.move.description)
                         .padding()
                     Cube2DView(cube: item.cube.as2D())
+                        .opacity(0.5)
                 }
             }
         }
