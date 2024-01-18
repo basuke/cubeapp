@@ -10,38 +10,61 @@ import SwiftUI
 struct HistoryView: View {
     @EnvironmentObject private var play: Play
 
-    var body: some View {
-        ScrollView {
-            Cube2DView(cube: play.cube.as2D(), scale: 2.0)
-                .opacity(0.6)
+    struct CubeView: View {
+        let cube: Cube
+        let selected: Bool
 
-            ForEach(play.history.reversed()) { item in
-                VStack {
-                    Text(item.move.description)
-                        .padding()
-                    Cube2DView(cube: item.cube.as2D())
-                        .opacity(0.5)
+        var body: some View {
+            let opacity = selected ? 0.7 : 0.5
+            let scale = selected ? 2.0 : 1.0
+
+            Cube2DView(cube: cube.as2D(), scale: scale)
+                .opacity(opacity)
+        }
+    }
+
+    var body: some View {
+        ScrollViewReader { reader in
+            ScrollView {
+                ForEach(play.redoItems) { item in
+                    VStack {
+                        CubeView(cube: item.cube, selected: false)
+                        Text(item.move.description)
+                            .padding()
+                    }
+                }
+
+                CubeView(cube: play.cube, selected: true).id("current")
+
+                ForEach(play.undoItems.reversed()) { item in
+                    VStack {
+                        Text(item.move.description)
+                            .padding()
+                        CubeView(cube: item.cube, selected: false)
+                    }
                 }
             }
-        }
-        HStack {
-            Button {
-                play.undo(speed: .normal)
-            } label: {
-                Label("Undo", systemImage: "arrow.uturn.backward")
-                    .labelStyle(.titleAndIcon)
-            }
-            .disabled(!play.canUndo)
+            HStack {
+                Button {
+                    play.undo(speed: .normal)
+                    reader.scrollTo("current", anchor: .bottom)
+                } label: {
+                    Label("Undo", systemImage: "arrow.uturn.backward")
+                        .labelStyle(.titleAndIcon)
+                }
+                .disabled(!play.canUndo)
 
-            Button {
-                play.redo(speed: .normal)
-            } label: {
-                Label("Redo", systemImage: "arrow.uturn.forward")
-                    .labelStyle(.titleAndIcon)
+                Button {
+                    play.redo(speed: .normal)
+                    reader.scrollTo("current", anchor: .top)
+                } label: {
+                    Label("Redo", systemImage: "arrow.uturn.forward")
+                        .labelStyle(.titleAndIcon)
+                }
+                .disabled(!play.canRedo)
             }
-            .disabled(!play.canRedo)
+            .padding(.bottom)
         }
-        .padding(.bottom)
     }
 }
 

@@ -50,7 +50,8 @@ struct HistoryItem: Identifiable {
 
 class Play: ObservableObject {
     @Published var cube: Cube = Cube_TestData.turnedCube
-    @Published var history: [HistoryItem] = []
+    @Published var undoItems: [HistoryItem] = []
+    @Published var redoItems: [HistoryItem] = []
 #if os(visionOS)
     @Published var inWindow: Bool = false
     @Published var inImmersiveSpace: Bool = false
@@ -62,7 +63,7 @@ class Play: ObservableObject {
     var requests: [Move] = []
     @Published var running: AnyCancellable?
     var isInteractive: Bool {
-        running == nil
+        running == nil && requests.isEmpty
     }
 
     func rebuild() {
@@ -75,7 +76,8 @@ class Play: ObservableObject {
             return
         }
 
-        history.append(HistoryItem(cube: cube, move: move))
+        undoItems.append(HistoryItem(cube: cube, move: move))
+        redoItems = []
         running = run(move: move, speed: speed)
     }
 
@@ -84,17 +86,14 @@ class Play: ObservableObject {
             return
         }
 
-        if requests.isEmpty {
-            if let item = history.popLast() {
-                running = run(move: item.move.reversed, speed: speed)
-            }
-        } else {
-            _ = requests.popLast()
+        if let item = undoItems.popLast() {
+            redoItems.append(HistoryItem(cube:cube, move: item.move))
+            running = run(move: item.move.reversed, speed: speed)
         }
     }
 
     var canUndo: Bool {
-        !history.isEmpty && isInteractive
+        !undoItems.isEmpty && isInteractive
     }
 
     func redo(speed: TurnSpeed = .quick) {
@@ -102,10 +101,14 @@ class Play: ObservableObject {
             return
         }
 
+        if let item = redoItems.popLast() {
+            undoItems.append(HistoryItem(cube: cube, move: item.move))
+            running = run(move: item.move, speed: speed)
+        }
     }
 
     var canRedo: Bool {
-        false && isInteractive
+        !redoItems.isEmpty && isInteractive
     }
 
     private func run(move: Move, speed: TurnSpeed) -> AnyCancellable {
