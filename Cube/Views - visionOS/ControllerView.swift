@@ -32,17 +32,31 @@ extension RealityCubeView {
     }
 
     struct TransparentButton: View {
-        let icon: String
         let label: String
+        let icon: String?
+        let image: String?
+
+        init(label: String, icon: String? = nil, image: String? = nil) {
+            self.label = label
+            self.icon = icon
+            self.image = image
+        }
 
         var body: some View {
             ZStack {
                 Rectangle()
                     .fill(.clear)
-                Label(label, systemImage: icon)
-                    .labelStyle(.iconOnly)
-                    .font(.largeTitle)
-                    .foregroundColor(.secondary)
+                if let icon {
+                    Label(label, systemImage: icon)
+                        .labelStyle(.iconOnly)
+                        .font(.largeTitle)
+                        .foregroundColor(.secondary)
+                } else if let image {
+                    Label(label, image: image)
+                        .labelStyle(.iconOnly)
+                        .font(.largeTitle)
+                        .foregroundColor(.secondary)
+                }
             }
             .contentShape(.capsule)
             .hoverEffect()
@@ -84,7 +98,7 @@ extension RealityCubeView {
         }
 
         var body: some View {
-            TransparentButton(icon: icon, label: label)
+            TransparentButton(label: label, icon: icon)
                 .gesture(holdGesture)
         }
     }
@@ -94,14 +108,15 @@ extension RealityCubeView {
         let move: String
         var left: Bool = false
 
-        var icon: String {
-            switch move {
-            case "x": "arrow.turn.\(left ? "left" : "right").up"
-            case "x'": "arrow.turn.\(left ? "left" : "right").down"
-            case "y": "arrow.turn.down.left"
-            case "y'": "arrow.turn.down.right"
-            case "z": "arrow.turn.up.right"
-            case "z'": "arrow.turn.up.left"
+        var image: String {
+            let dir = left ? "left" : "right"
+            return switch move {
+            case "x": "x-cw-\(dir)"
+            case "x'": "x-ccw-\(dir)"
+            case "y": "y-cw-\(dir)"
+            case "y'": "y-ccw-\(dir)"
+            case "z": "z-cw-\(dir)"
+            case "z'": "z-ccw-\(dir)"
             default: ""
             }
         }
@@ -111,7 +126,7 @@ extension RealityCubeView {
         }
 
         var body: some View {
-            TransparentButton(icon: icon, label: label)
+            TransparentButton(label: label, image: image)
                 .onTapGesture {
                     if let move = Move.from(string: move) {
                         play.apply(move: move)
@@ -125,52 +140,63 @@ extension RealityCubeView {
         @State private var opacity = 0.0
 
         var body: some View {
+            let left = opacity != 0.0
             HStack {
                 VStack {
                     Spacer()
                         .frame(height: width)
-                    RotateButton(move: "z")
+                    RotateButton(move: "z", left: left)
                     LookButton(direction: .left, bindingDirection: $lookDirection) {
                         withAnimation {
                             opacity = 1.0
                         }
                     }
-                    RotateButton(move: "y'")
+                    RotateButton(move: "y'", left: left)
                     Spacer()
                         .frame(height: width)
                 }
                 .frame(width: width)
 
+                Spacer()
+                    .frame(width: width / 2)
+
                 VStack {
                     HStack {
-                        RotateButton(move: "x'", left: true)
-                            .opacity(1.0 - opacity)
+                        if !left {
+                            RotateButton(move: "x'", left: false)
+                        }
                         LookButton(direction: .up, bindingDirection: $lookDirection)
-                        RotateButton(move: "x'", left: false)
-                            .opacity(opacity)
+                        if left {
+                            RotateButton(move: "x'", left: true)
+                        }
                     }
                     .frame(height: width)
                     Spacer()
                     HStack {
-                        RotateButton(move: "x", left: true)
-                            .opacity(1.0 - opacity)
+                        if !left {
+                            RotateButton(move: "x", left: false)
+                        }
                         LookButton(direction: .down, bindingDirection: $lookDirection)
-                        RotateButton(move: "x", left: false)
-                            .opacity(opacity)
+                        if left {
+                            RotateButton(move: "x", left: true)
+                        }
                     }
                     .frame(height: width)
                 }
 
+                Spacer()
+                    .frame(width: width / 2)
+
                 VStack {
                     Spacer()
                         .frame(height: width)
-                    RotateButton(move: "z'")
+                    RotateButton(move: "z'", left: left)
                     LookButton(direction: .right, bindingDirection: $lookDirection) {
                         withAnimation {
                             opacity = 0.0
                         }
                     }
-                    RotateButton(move: "y")
+                    RotateButton(move: "y", left: left)
                     Spacer()
                         .frame(height: width)
                 }
