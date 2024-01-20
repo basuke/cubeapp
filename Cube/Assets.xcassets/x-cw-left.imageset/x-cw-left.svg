@@ -1,7 +1,7 @@
 <svg width="58" height="58" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M4 29L54 29" stroke="#A60000" stroke-width="4"/>
-<circle cx="2" cy="2" r="2" transform="matrix(0 -1 -1 0 56 31)" fill="#A60000"/>
-<circle cx="2" cy="2" r="2" transform="matrix(0 -1 -1 0 6 31)" fill="#A60000"/>
+<path d="M4.06091 30.7441L53.9391 27.2563" stroke="#A60000" stroke-width="4"/>
+<circle cx="2" cy="2" r="2" transform="matrix(-0.0697565 -0.997564 -0.997564 0.0697565 56.0737 29.1118)" fill="#A60000"/>
+<circle cx="2" cy="2" r="2" transform="matrix(-0.0697565 -0.997564 -0.997564 0.0697565 6.19556 32.5996)" fill="#A60000"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M31.3323 32.2372C30.9028 35.5254 30.0065 38.3647 28.8636 40.4946C27.1531 43.6823 25.4638 44.3901 24.6101 44.3901C23.8767 44.3901 22.5268 43.8678 21.0765 41.7L17.5438 43.6016C19.4552 46.5903 21.9198 48.3901 24.6101 48.3901C29.8848 48.3901 34.2924 41.471 35.3623 32.2372H31.3323Z" fill="white"/>
 <circle cx="19.39" cy="42.79" r="2" transform="rotate(-90 19.39 42.79)" fill="white"/>
 <path d="M26.61 34.3901L33.5737 31.5205C33.7644 31.4419 33.9837 31.4885 34.1261 31.6378L39.61 37.3901" stroke="white" stroke-width="4" stroke-linejoin="round"/>
