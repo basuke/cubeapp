@@ -36,7 +36,7 @@ class RealityKitModel: Model {
     }
 
     func reset() {
-        dismissDirections()
+        removeDirectionButtonEntity()
     }
 
     func rebuild(with cube: Cube) {

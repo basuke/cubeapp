@@ -19,10 +19,8 @@ extension RealityCubeView {
     }
 
     func dismissDirections() {
-        if let stickerEntity = directionStickerEntity {
-            model.dismissDirections(on: stickerEntity)
-            directionStickerEntity = nil
-        }
+        model.removeDirectionButtonEntity()
+        directionStickerEntity = nil
     }
 
     private func canInteract(with face: Face) -> Bool {
@@ -78,10 +76,10 @@ extension RealityKitModel {
         }
 
         let materials: [Direction:SimpleMaterial] = [
-            .up: SimpleMaterial(color: .yellow, isMetallic: false),
-            .left: SimpleMaterial(color: .systemPink, isMetallic: false),
-            .down: SimpleMaterial(color: .systemGreen, isMetallic: false),
-            .right: SimpleMaterial(color: .red, isMetallic: false),
+            .up: SimpleMaterial(color: .lightGray, isMetallic: true),
+            .left: SimpleMaterial(color: .gray, isMetallic: true),
+            .down: SimpleMaterial(color: .lightGray, isMetallic: true),
+            .right: SimpleMaterial(color: .gray, isMetallic: true),
         ]
 
         func createPartEntity(with mesh: MeshResource, direction: Direction) -> Entity {
@@ -94,68 +92,50 @@ extension RealityKitModel {
             return entity
         }
 
-        func createDirectionEntity(_ direction: Direction, _ transform: simd_quatf) -> Entity {
+        func createDirectionEntity(_ direction: Direction) -> Entity {
             let container = Entity()
 
             let headMesh = MeshResource.generateCone(height: 0.4, radius: 0.4)
             let head = createPartEntity(with: headMesh, direction: direction)
-            head.scale = [1, 1, 0.3]
-            head.position = [0, 1.1, 0.5]
+            head.position = [0, 1.1, 0]
             container.addChild(head)
 
             let poleMesh = MeshResource.generateCylinder(height: 0.4, radius: 0.25)
             let pole = createPartEntity(with: poleMesh, direction: direction)
-            pole.scale = [1, 1, 0.2]
-            pole.position = [0, 0.7, 0.5]
+            pole.position = [0, 0.7, 0]
             container.addChild(pole)
 
-            container.transform.rotation = simd_mul(.init(angle: direction.angle, axis: Axis.z.vectorf), transform)
+            container.transform.rotation = .init(angle: direction.angle, axis: Axis.z.vectorf)
 
             return container
         }
 
-        func correctionTransform(upAxis: Axis, rotationAxis: Axis) -> simd_quatf {
-            let upAxisVector = upAxis.vectorf
-            let rotationAxisVector = rotationAxis.vectorf
-
-            let up = stickerEntity.convert(position: upAxisVector, from: cubeEntity)
-            let origin = stickerEntity.convert(position: .zero, from: cubeEntity)
-            let localUpVector = Vector(up - origin).rounded.vectorf
-
-            if localUpVector == upAxisVector {
-                return .init(angle: 0, axis: rotationAxisVector)
-            } else if localUpVector == (-upAxis).vectorf {
-                return .init(angle: .pi, axis: rotationAxisVector)
-            } else {
-                return simd_quatf(from: upAxisVector, to: localUpVector)
-            }
+        func stickerRotation(_ entity: Entity) -> simd_quatf {
+            let direction = entity.convert(normal: [0, 0, 1.0], to: cubeEntity)
+            return .init(from: [0, 0, 1.0], to: direction)
         }
 
-        let transform = if sticker.face == .up {
-//            simd_quatf.init(angle: 0, axis: Axis.y.vectorf)
-            correctionTransform(upAxis: -Axis.z, rotationAxis: Axis.z)
-        } else {
-            correctionTransform(upAxis: Axis.y, rotationAxis: Axis.z)
-        }
+        let container = Entity()
+        container.scale = [1, 1, 0.7]
+        container.position = stickerEntity.convert(position: [0, 0, 0.5], to: cubeEntity)
+        container.transform.rotation = stickerRotation(stickerEntity)
+        container.components.set(DirectionContainerComponent())
 
         for direction in Direction.allCases {
-            stickerEntity.addChild(createDirectionEntity(direction, transform))
+            container.addChild(createDirectionEntity(direction))
         }
+
+        cubeEntity.addChild(container)
     }
 
-    func dismissDirections(on stickerEntity: Entity) {
-        let entities = stickerEntity.children.map { $0 }
-        entities.forEach { $0.removeFromParent() }
-    }
-
-    func dismissDirections() {
+    func removeDirectionButtonEntity() {
         guard let scene = entity.scene else {
             return
         }
 
-        let query = EntityQuery(where: .has(StickerComponent.self))
-        scene.performQuery(query).forEach { stickerEntity in
-            dismissDirections(on: stickerEntity)
+        let query = EntityQuery(where: .has(DirectionContainerComponent.self))
+        scene.performQuery(query).forEach { container in
+            container.removeFromParent()
         }
     }
 }
@@ -166,6 +146,9 @@ struct DirectionComponent: Component, Codable {
     init(_ direction: Direction) {
         self.direction = direction
     }
+}
+
+struct DirectionContainerComponent: Component, Codable {
 }
 
 #endif

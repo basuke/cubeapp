@@ -18,7 +18,9 @@ struct CubeApp: App {
     init() {
         StickerComponent.registerComponent()
         RotationSystem.registerSystem()
-        
+        DirectionComponent.registerComponent()
+        DirectionContainerComponent.registerComponent()
+
         if debug {
 //            DebugHandComponent.registerComponent()
 //            DebugHandSystem.registerSystem()
