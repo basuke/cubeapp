@@ -164,12 +164,14 @@ extension RealityCubeView {
                     HStack {
                         if right {
                             RotateButton(move: "x'", right: true, cancelAction: cancelAction)
+                                .transition(.move(edge: .leading).combined(with: .opacity))
                         }
                         LookButton(direction: .up, bindingDirection: $lookDirection) {
                             cancelAction()
                         }
                         if !right {
                             RotateButton(move: "x'", right: false, cancelAction: cancelAction)
+                                .transition(.move(edge: .trailing).combined(with: .opacity))
                         }
                     }
                     .frame(height: width)
@@ -177,12 +179,14 @@ extension RealityCubeView {
                     HStack {
                         if right {
                             RotateButton(move: "x", right: true, cancelAction: cancelAction)
+                                .transition(.move(edge: .leading).combined(with: .opacity))
                         }
                         LookButton(direction: .down, bindingDirection: $lookDirection) {
                             cancelAction()
                         }
                         if !right {
                             RotateButton(move: "x", right: false, cancelAction: cancelAction)
+                                .transition(.move(edge: .trailing).combined(with: .opacity))
                         }
                     }
                     .frame(height: width)

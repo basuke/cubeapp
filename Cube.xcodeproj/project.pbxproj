@@ -17,6 +17,7 @@
 		EB41C0532B54297900B7EA66 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB41C0522B54297900B7EA66 /* HistoryView.swift */; };
 		EB41C0552B56D18200B7EA66 /* CommandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB41C0542B56D18200B7EA66 /* CommandView.swift */; };
 		EB41C0572B5961C800B7EA66 /* Scramble.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB41C0562B5961C800B7EA66 /* Scramble.swift */; };
+		EB41C0592B5C248700B7EA66 /* MovesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB41C0582B5C248700B7EA66 /* MovesView.swift */; };
 		EB42A13C2AD5289600F6F80A /* SceneKitViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB42A13B2AD5289600F6F80A /* SceneKitViewAdapter.swift */; };
 		EB42A1412ADD9FC100F6F80A /* HandTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB42A1402ADD9FC100F6F80A /* HandTracking.swift */; };
 		EB595E142A97C24A003000D6 /* SceneKitUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB595E132A97C24A003000D6 /* SceneKitUtils.swift */; };
@@ -64,6 +65,7 @@
 		EB41C0522B54297900B7EA66 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		EB41C0542B56D18200B7EA66 /* CommandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandView.swift; sourceTree = "<group>"; };
 		EB41C0562B5961C800B7EA66 /* Scramble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scramble.swift; sourceTree = "<group>"; };
+		EB41C0582B5C248700B7EA66 /* MovesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesView.swift; sourceTree = "<group>"; };
 		EB42A13B2AD5289600F6F80A /* SceneKitViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitViewAdapter.swift; sourceTree = "<group>"; };
 		EB42A13F2AD704CE00F6F80A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EB42A1402ADD9FC100F6F80A /* HandTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandTracking.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				EB87309A2B17A836005822F1 /* OrnamentView.swift */,
 				EB41C0522B54297900B7EA66 /* HistoryView.swift */,
 				EB41C0542B56D18200B7EA66 /* CommandView.swift */,
+				EB41C0582B5C248700B7EA66 /* MovesView.swift */,
 			);
 			path = "Views - visionOS";
 			sourceTree = "<group>";
@@ -356,6 +359,7 @@
 				EB96D4DE2A81BA1D00CF0ED0 /* Cube.swift in Sources */,
 				EB96D4CC2A80BC6100CF0ED0 /* CubeApp.swift in Sources */,
 				EBED01F62A8AFD86006FBF1B /* Play.swift in Sources */,
+				EB41C0592B5C248700B7EA66 /* MovesView.swift in Sources */,
 				EB1D004E2AE3AA74000E3920 /* RotationSystem.swift in Sources */,
 				EB87309B2B17A836005822F1 /* OrnamentView.swift in Sources */,
 				EB42A13C2AD5289600F6F80A /* SceneKitViewAdapter.swift in Sources */,

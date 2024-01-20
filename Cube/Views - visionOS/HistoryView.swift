@@ -25,25 +25,6 @@ struct HistoryView: View {
 
     var body: some View {
         ScrollViewReader { reader in
-            ScrollView {
-                ForEach(play.redoItems) { item in
-                    VStack {
-                        CubeView(cube: item.cube, selected: false)
-                        Text(item.move.description)
-                            .padding()
-                    }
-                }
-
-                CubeView(cube: play.cube, selected: true).id("current")
-
-                ForEach(play.undoItems.reversed()) { item in
-                    VStack {
-                        Text(item.move.description)
-                            .padding()
-                        CubeView(cube: item.cube, selected: false)
-                    }
-                }
-            }
             HStack {
                 Button {
                     play.undo(speed: .normal)
@@ -63,7 +44,27 @@ struct HistoryView: View {
                 }
                 .disabled(!play.canRedo)
             }
-            .padding(.bottom)
+            .padding(.vertical)
+
+            ScrollView {
+                ForEach(play.redoItems) { item in
+                    VStack {
+                        CubeView(cube: item.cube, selected: false)
+                        Text(item.move.description)
+                            .padding()
+                    }
+                }
+
+                CubeView(cube: play.cube, selected: true).id("current")
+
+                ForEach(play.undoItems.reversed()) { item in
+                    VStack {
+                        Text(item.move.description)
+                            .padding()
+                        CubeView(cube: item.cube, selected: false)
+                    }
+                }
+            }
         }
     }
 }

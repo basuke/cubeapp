@@ -72,6 +72,8 @@ struct RealityCubeView: View {
             VStack {
                 HistoryView()
                     .padding()
+                MovesView()
+                    .padding(.bottom)
             }
             .frame(width: 320)
         }
