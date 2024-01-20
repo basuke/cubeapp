@@ -161,17 +161,25 @@ extension RealityCubeView {
                     .frame(width: width / 2)
 
                 VStack {
+                    let rightTransition : AnyTransition = .move(edge: .leading)
+                        .combined(with: .scale)
+                        .combined(with: .opacity)
+
+                    let leftTransition : AnyTransition = .move(edge: .trailing)
+                        .combined(with: .scale)
+                        .combined(with: .opacity)
+
                     HStack {
                         if right {
                             RotateButton(move: "x'", right: true, cancelAction: cancelAction)
-                                .transition(.move(edge: .leading).combined(with: .opacity))
+                                .transition(rightTransition)
                         }
                         LookButton(direction: .up, bindingDirection: $lookDirection) {
                             cancelAction()
                         }
                         if !right {
                             RotateButton(move: "x'", right: false, cancelAction: cancelAction)
-                                .transition(.move(edge: .trailing).combined(with: .opacity))
+                                .transition(leftTransition)
                         }
                     }
                     .frame(height: width)
@@ -179,14 +187,14 @@ extension RealityCubeView {
                     HStack {
                         if right {
                             RotateButton(move: "x", right: true, cancelAction: cancelAction)
-                                .transition(.move(edge: .leading).combined(with: .opacity))
+                                .transition(rightTransition)
                         }
                         LookButton(direction: .down, bindingDirection: $lookDirection) {
                             cancelAction()
                         }
                         if !right {
                             RotateButton(move: "x", right: false, cancelAction: cancelAction)
-                                .transition(.move(edge: .trailing).combined(with: .opacity))
+                                .transition(leftTransition)
                         }
                     }
                     .frame(height: width)
