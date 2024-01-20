@@ -11,27 +11,31 @@ import RealityKit
 #if os(visionOS)
 
 extension RealityCubeView {
-    func findStickerEntityIncludingParents(from entity: Entity) -> Entity? {
-        if entity.components[StickerComponent.self] != nil {
-            return entity
-        }
-        if let parent = entity.parent {
-            return self.findStickerEntityIncludingParents(from: parent)
-        }
-        return nil
-    }
-
     func identifySticker(from entity: Entity) -> Sticker? {
-        guard let stickerEntity = findStickerEntityIncludingParents(from: entity),
-              let color = entity.color else {
+        guard let color = entity.color else {
             return nil
         }
-        return model.identifySticker(from: stickerEntity, cube: play.cube, color: color)
+        return model.identifySticker(from: entity, cube: play.cube, color: color)
     }
 
     func dismissDirections() {
         if let stickerEntity = directionStickerEntity {
             model.dismissDirections(on: stickerEntity)
+            directionStickerEntity = nil
+        }
+    }
+
+    private func canInteract(with face: Face) -> Bool {
+        if face == .up || face == .front {
+            return true
+        }
+        if face == .back || face == .down {
+            return false
+        }
+        return if right {
+            face == .right
+        } else {
+            face == .left
         }
     }
 
@@ -41,7 +45,7 @@ extension RealityCubeView {
             .onEnded { value in
                 let entity = value.entity
                 if let component = entity.components[DirectionComponent.self] {
-                    guard let stickerEntity = findStickerEntityIncludingParents(from: entity),
+                    guard let stickerEntity = directionStickerEntity,
                           let sticker = identifySticker(from: stickerEntity),
                           let moveStr = sticker.identifyMove(for: component.direction),
                           let move = Move.from(string: moveStr) else {
@@ -53,15 +57,26 @@ extension RealityCubeView {
                     play.apply(move: move)
                 } else {
                     dismissDirections();
-                    model.showDirections(on: entity)
-                    directionStickerEntity = entity
+
+                    guard let sticker = identifySticker(from: entity) else {
+                        return
+                    }
+
+                    if canInteract(with: sticker.face) {
+                        directionStickerEntity = entity
+                        model.showDirections(on: entity, sticker: sticker)
+                    }
                 }
             }
     }
 }
 
 extension RealityKitModel {
-    func showDirections(on stickerEntity: Entity) {
+    func showDirections(on stickerEntity: Entity, sticker: Sticker) {
+        guard stickerEntity.components.has(StickerComponent.self) else {
+            fatalError("You can only pass entity for Sticker")
+        }
+
         let materials: [Direction:SimpleMaterial] = [
             .up: SimpleMaterial(color: .yellow, isMetallic: false),
             .left: SimpleMaterial(color: .systemPink, isMetallic: false),
@@ -79,7 +94,7 @@ extension RealityKitModel {
             return entity
         }
 
-        func createDirectionEntity(_ direction: Direction) -> Entity {
+        func createDirectionEntity(_ direction: Direction, _ transform: simd_quatf) -> Entity {
             let container = Entity()
 
             let headMesh = MeshResource.generateCone(height: 0.4, radius: 0.4)
@@ -94,13 +109,37 @@ extension RealityKitModel {
             pole.position = [0, 0.7, 0.5]
             container.addChild(pole)
 
-            container.transform.rotation = .init(angle: direction.angle, axis: Axis.z.vectorf)
+            container.transform.rotation = simd_mul(.init(angle: direction.angle, axis: Axis.z.vectorf), transform)
 
             return container
         }
 
+        func correctionTransform(upAxis: Axis, rotationAxis: Axis) -> simd_quatf {
+            let upAxisVector = upAxis.vectorf
+            let rotationAxisVector = rotationAxis.vectorf
+
+            let up = stickerEntity.convert(position: upAxisVector, from: cubeEntity)
+            let origin = stickerEntity.convert(position: .zero, from: cubeEntity)
+            let localUpVector = Vector(up - origin).rounded.vectorf
+
+            if localUpVector == upAxisVector {
+                return .init(angle: 0, axis: rotationAxisVector)
+            } else if localUpVector == (-upAxis).vectorf {
+                return .init(angle: .pi, axis: rotationAxisVector)
+            } else {
+                return simd_quatf(from: upAxisVector, to: localUpVector)
+            }
+        }
+
+        let transform = if sticker.face == .up {
+//            simd_quatf.init(angle: 0, axis: Axis.y.vectorf)
+            correctionTransform(upAxis: -Axis.z, rotationAxis: Axis.z)
+        } else {
+            correctionTransform(upAxis: Axis.y, rotationAxis: Axis.z)
+        }
+
         for direction in Direction.allCases {
-            stickerEntity.addChild(createDirectionEntity(direction))
+            stickerEntity.addChild(createDirectionEntity(direction, transform))
         }
     }
 

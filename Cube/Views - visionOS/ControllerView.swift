@@ -66,17 +66,14 @@ extension RealityCubeView {
     struct LookButton: View {
         let direction: Direction
         @Binding var bindingDirection: Direction?
-        var action: (() -> Void)? = nil
+        let action: () -> Void
 
         var holdGesture: some Gesture {
             DragGesture(minimumDistance: 0)
                 .onChanged { value in
                     if direction != bindingDirection {
+                        action()
                         bindingDirection = direction
-
-                        if let action {
-                            action()
-                        }
                     }
                 }
                 .onEnded { value in
@@ -106,10 +103,11 @@ extension RealityCubeView {
     struct RotateButton: View {
         @EnvironmentObject var play: Play
         let move: String
-        var left: Bool = false
+        let right: Bool
+        let cancelAction: () -> Void
 
         var image: String {
-            let dir = left ? "left" : "right"
+            let dir = right ? "right" : "left"
             return switch move {
             case "x": "x-cw-\(dir)"
             case "x'": "x-ccw-\(dir)"
@@ -128,6 +126,7 @@ extension RealityCubeView {
         var body: some View {
             TransparentButton(label: label, image: image)
                 .onTapGesture {
+                    cancelAction()
                     if let move = Move.from(string: move) {
                         play.apply(move: move)
                     }
@@ -137,21 +136,22 @@ extension RealityCubeView {
 
     struct ControllerView: View {
         @Binding var lookDirection: Direction?
-        @State private var opacity = 0.0
+        @Binding var right: Bool
+        let cancelAction: () -> Void
 
         var body: some View {
-            let left = opacity != 0.0
             HStack {
                 VStack {
                     Spacer()
                         .frame(height: width)
-                    RotateButton(move: "z", left: left)
+                    RotateButton(move: "z", right: right, cancelAction: cancelAction)
                     LookButton(direction: .left, bindingDirection: $lookDirection) {
+                        cancelAction()
                         withAnimation {
-                            opacity = 1.0
+                            right = false
                         }
                     }
-                    RotateButton(move: "y'", left: left)
+                    RotateButton(move: "y'", right: right, cancelAction: cancelAction)
                     Spacer()
                         .frame(height: width)
                 }
@@ -162,23 +162,27 @@ extension RealityCubeView {
 
                 VStack {
                     HStack {
-                        if !left {
-                            RotateButton(move: "x'", left: false)
+                        if right {
+                            RotateButton(move: "x'", right: true, cancelAction: cancelAction)
                         }
-                        LookButton(direction: .up, bindingDirection: $lookDirection)
-                        if left {
-                            RotateButton(move: "x'", left: true)
+                        LookButton(direction: .up, bindingDirection: $lookDirection) {
+                            cancelAction()
+                        }
+                        if !right {
+                            RotateButton(move: "x'", right: false, cancelAction: cancelAction)
                         }
                     }
                     .frame(height: width)
                     Spacer()
                     HStack {
-                        if !left {
-                            RotateButton(move: "x", left: false)
+                        if right {
+                            RotateButton(move: "x", right: true, cancelAction: cancelAction)
                         }
-                        LookButton(direction: .down, bindingDirection: $lookDirection)
-                        if left {
-                            RotateButton(move: "x", left: true)
+                        LookButton(direction: .down, bindingDirection: $lookDirection) {
+                            cancelAction()
+                        }
+                        if !right {
+                            RotateButton(move: "x", right: false, cancelAction: cancelAction)
                         }
                     }
                     .frame(height: width)
@@ -190,13 +194,14 @@ extension RealityCubeView {
                 VStack {
                     Spacer()
                         .frame(height: width)
-                    RotateButton(move: "z'", left: left)
+                    RotateButton(move: "z'", right: right, cancelAction: cancelAction)
                     LookButton(direction: .right, bindingDirection: $lookDirection) {
+                        cancelAction()
                         withAnimation {
-                            opacity = 0.0
+                            right = true
                         }
                     }
-                    RotateButton(move: "y", left: left)
+                    RotateButton(move: "y", right: right, cancelAction: cancelAction)
                     Spacer()
                         .frame(height: width)
                 }

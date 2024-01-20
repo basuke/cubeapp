@@ -18,7 +18,8 @@ struct RealityCubeView: View {
     let scale: Float = 0.05
 #endif
     @State var directionStickerEntity: Entity?
-    @State var lookDirection: Direction?
+    @State var right: Bool = true
+    @State private var lookDirection: Direction?
 
     var model: RealityKitModel {
         guard let model = play.model(for: .realityKit) as? RealityKitModel else {
@@ -33,11 +34,16 @@ struct RealityCubeView: View {
                 CommandView()
             }
             .frame(width: 320)
+
             ZStack {
                 CancelView {
                     dismissDirections()
                 }
-                ControllerView(lookDirection: $lookDirection)
+
+                ControllerView(lookDirection: $lookDirection, right: $right) {
+                    dismissDirections()
+                }
+
                 RealityView { content in
                     let entity = model.entity
 
@@ -62,16 +68,13 @@ struct RealityCubeView: View {
                 .simultaneousGesture(directionButtonsGeasture)
             }
             .frame(width: 560, height: 560)
+
             VStack {
                 HistoryView()
                     .padding()
             }
             .frame(width: 320)
         }
-//        .ornament(attachmentAnchor: .scene(.bottom), contentAlignment: .center) {
-//            OrnamentView()
-//            .glassBackgroundEffect(in: .capsule(style: .continuous))
-//        }
     }
 }
 

@@ -1,10 +1,10 @@
 <svg width="58" height="58" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M28 21.0544C34.2789 22.3405 38 26.7482 38 30.7294C38 32.8442 36.9501 35.0792 35.0247 36.9029L37.1603 40.3648C40.1609 37.8498 42 34.4594 42 30.7294C42 23.9941 36.0031 18.3661 28 17L28 21.0544Z" fill="white"/>
-<circle cx="34" cy="40" r="2" transform="rotate(180 34 40)" fill="white"/>
-<path d="M43 50L14 10" stroke="#0000A6" stroke-width="4"/>
-<circle cx="2" cy="2" r="2" transform="matrix(-1 0 0 1 16 8)" fill="#0000A6"/>
-<circle cx="2" cy="2" r="2" transform="matrix(-1 0 0 1 45 48)" fill="#0000A6"/>
-<path d="M30 26L27.1304 19.0363C27.0518 18.8456 27.0983 18.6262 27.2476 18.4839L33 13" stroke="white" stroke-width="4" stroke-linejoin="round"/>
-<circle cx="30" cy="26" r="2" transform="rotate(180 30 26)" fill="white"/>
-<circle cx="33" cy="13" r="2" transform="rotate(180 33 13)" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M28.0001 21.0544C34.279 22.3405 38.0001 26.7482 38.0001 30.7294C38.0001 32.8442 36.9502 35.0792 35.0247 36.9029L37.1604 40.3648C40.1609 37.8498 42.0001 34.4594 42.0001 30.7294C42.0001 23.9941 36.0032 18.3661 28.0001 17L28.0001 21.0544Z" fill="white"/>
+<circle cx="34.0001" cy="40" r="2" transform="rotate(180 34.0001 40)" fill="white"/>
+<path d="M45.6424 48.7874L11.3577 13.2127" stroke="#0000A6" stroke-width="4"/>
+<circle cx="2" cy="2" r="2" transform="matrix(-0.990268 0.139173 0.139173 0.990268 13.0599 10.9539)" fill="#0000A6"/>
+<circle cx="2" cy="2" r="2" transform="matrix(-0.990268 0.139173 0.139173 0.990268 47.3445 46.5286)" fill="#0000A6"/>
+<path d="M30.0001 26L27.1304 19.0363C27.0518 18.8456 27.0984 18.6262 27.2477 18.4839L33.0001 13" stroke="white" stroke-width="4" stroke-linejoin="round"/>
+<circle cx="30.0001" cy="26" r="2" transform="rotate(180 30.0001 26)" fill="white"/>
+<circle cx="33.0001" cy="13" r="2" transform="rotate(180 33.0001 13)" fill="white"/>
 </svg>

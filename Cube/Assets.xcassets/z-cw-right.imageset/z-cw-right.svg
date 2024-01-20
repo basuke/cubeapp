@@ -1,9 +1,9 @@
 <svg width="58" height="58" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M29 21.0544C22.7211 22.3405 19 26.7482 19 30.7294C19 32.8442 20.0499 35.0792 21.9753 36.9029L19.8397 40.3647C16.8391 37.8497 15 34.4594 15 30.7294C15 23.9941 20.9969 18.366 29 17L29 21.0544Z" fill="white"/>
 <circle cx="2" cy="2" r="2" transform="matrix(1 0 0 -1 21 42)" fill="white"/>
-<path d="M14 50L43 10" stroke="#0000A6" stroke-width="4"/>
-<circle cx="43" cy="10" r="2" fill="#0000A6"/>
-<circle cx="14" cy="50" r="2" fill="#0000A6"/>
+<path d="M11.3577 48.7896L45.6424 13.2148" stroke="#0000A6" stroke-width="4"/>
+<circle cx="45.6424" cy="13.2149" r="2" transform="rotate(8 45.6424 13.2149)" fill="#0000A6"/>
+<circle cx="11.3577" cy="48.7896" r="2" transform="rotate(8 11.3577 48.7896)" fill="#0000A6"/>
 <path d="M27 26L29.8696 19.0363C29.9482 18.8456 29.9017 18.6262 29.7524 18.4839L24 13" stroke="white" stroke-width="4" stroke-linejoin="round"/>
 <circle cx="2" cy="2" r="2" transform="matrix(1 0 0 -1 25 28)" fill="white"/>
 <circle cx="2" cy="2" r="2" transform="matrix(1 0 0 -1 22 15)" fill="white"/>
