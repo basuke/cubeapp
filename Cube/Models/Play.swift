@@ -119,6 +119,11 @@ class Play: ObservableObject {
             withAnimation {
                 scrambling = false
                 running = nil
+
+                if cube.solved {
+                    playing = false
+                    solved = true
+                }
             }
         } else {
             running = run(move: requests.removeFirst(), speed: .quick)

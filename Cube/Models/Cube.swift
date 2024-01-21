@@ -80,6 +80,10 @@ struct Piece: Codable {
         colors[face]
     }
 
+    func on(_ face: Face) -> Bool {
+        self[face] != nil
+    }
+
     func sticker(on face: Face) -> Sticker? {
         guard let _ = self[face] else {
             return nil
@@ -125,6 +129,28 @@ struct Cube: Codable {
 
     func piece(at position: Vector) -> Piece? {
         pieces.first { $0.position == position }
+    }
+
+    func pieces(on face: Face) -> [Piece] {
+        pieces.filter { $0.on(face) }
+    }
+
+    func colors(on face: Face) -> [Color] {
+        pieces.compactMap { $0[face] }
+    }
+
+    func stickers(on face: Face) -> [Sticker] {
+        pieces(on: face).compactMap { $0.sticker(on: face) }
+    }
+
+    var solved: Bool {
+        for face in Face.allCases {
+            let colors = Set(colors(on: face))
+            if colors.count > 1 {
+                return false
+            }
+        }
+        return true
     }
 
     static func defaultColors(at x: Int, _ y: Int, _ z: Int) -> [Face:Color] {
