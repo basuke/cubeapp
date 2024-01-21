@@ -9,16 +9,17 @@ import SwiftUI
 
 extension Play {
     func scramble() {
-        forEachModel { $0.reset() }
+        reset()
 
-        scrambling = true
+        withAnimation {
+            scrambling = true
+            playing = true
+        }
+
         undoItems = []
         redoItems = []
 
-        print("scrable")
-
-        for move in Move.random(count: 20) {
-            print(move)
+        for move in Move.random(count: 1, rotation: false) {
             apply(move: move, speed: .quick)
         }
     }

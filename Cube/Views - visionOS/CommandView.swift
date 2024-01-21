@@ -19,7 +19,11 @@ struct CommandView: View {
                 .font(.largeTitle)
 
             Button("Scramble") {
-                scrambleConfirmation = true
+                if play.playing {
+                    scrambleConfirmation = true
+                } else {
+                    play.scramble()
+                }
             }
             .padding()
             .popover(isPresented: $scrambleConfirmation, arrowEdge: .bottom) {

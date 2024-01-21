@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import Combine
 import Spatial
+import SwiftUI
 
 enum TurnSpeed: TimeInterval, RawRepresentable {
     case normal = 0.3
@@ -54,7 +55,13 @@ class Play: ObservableObject {
     @Published var cube: Cube = Cube()
     @Published var undoItems: [HistoryItem] = []
     @Published var redoItems: [HistoryItem] = []
+
+    @Published var playing: Bool = false
+    @Published var rotating: Bool = false
     @Published var scrambling: Bool = false
+    @Published var solved: Bool = false
+    @Published var celebrated: Bool = false
+
 #if os(visionOS)
     @Published var inWindow: Bool = false
     @Published var inImmersiveSpace: Bool = false
@@ -65,12 +72,23 @@ class Play: ObservableObject {
 
     var requests: [Move] = []
     @Published var running: AnyCancellable?
+
+    // decide which UI element should be active/disabled.
     var isInteractive: Bool {
-        running == nil && requests.isEmpty
+        canPlay && running == nil && requests.isEmpty
+    }
+
+    // decide which UI element should be displayed.
+    var canPlay: Bool {
+        playing && !scrambling
+    }
+
+    func reset() {
+        forEachModel { $0.reset() }
     }
 
     func rebuild() {
-        models.values.forEach { $0.rebuild(with: cube) }
+        forEachModel { $0.rebuild(with: cube) }
     }
 
     func apply(move: Move, speed: TurnSpeed = .normal) {
@@ -98,9 +116,10 @@ class Play: ObservableObject {
 
     private func afterAction() {
         if requests.isEmpty {
-            print("finished")
-            scrambling = false
-            running = nil
+            withAnimation {
+                scrambling = false
+                running = nil
+            }
         } else {
             running = run(move: requests.removeFirst(), speed: .quick)
         }

@@ -111,8 +111,8 @@ struct Move: Codable, Equatable {
         return allMovesIncludingAliases[str]
     }
 
-    static func random(count: Int) -> [Move] {
-        let possibleMoves = allMoves.values
+    static func random(count: Int, rotation: Bool = true) -> [Move] {
+        let possibleMoves = (rotation ? allMoves : basicMoves).values
 
         var moves: [Move] = []
 

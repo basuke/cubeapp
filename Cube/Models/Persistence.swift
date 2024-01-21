@@ -10,18 +10,43 @@ import SwiftUI
 
 extension Play {
     struct SaveData: Codable {
-        static let version = 3
+        static let version = 4
 
         let version: Int
         let cube: Cube
         let undoMoves: [Move]
         let redoMoves: [Move]
+        let playing: Bool
 
-        init(cube: Cube, undoMoves: [Move], redoMoves: [Move]) {
+        init(play: Play) {
+            let undoMoves = play.undoItems.map { $0.move }
+            let redoMoves = play.redoItems.map { $0.move }
+
             self.version = Self.version
-            self.cube = cube
+            self.cube = play.cube
             self.undoMoves = undoMoves
             self.redoMoves = redoMoves
+            self.playing = play.playing
+        }
+
+        func load(play: Play) {
+            play.cube = cube
+            play.undoItems = loadItems(moves: undoMoves, reverse: true)
+            play.redoItems = loadItems(moves: redoMoves, reverse: false)
+            play.playing = playing
+        }
+
+        private func loadItems(moves: [Move], reverse: Bool) -> [HistoryItem] {
+            var cube = cube
+            let items: [HistoryItem] = moves.reversed().reduce([]) { result, move in
+                cube = cube.apply(move: reverse ? move.reversed : move)
+
+                var newResult = result
+                newResult.append(HistoryItem(cube: cube, move: move))
+                return newResult
+            }
+
+            return items.reversed()
         }
 
         static var key: String {
@@ -30,36 +55,14 @@ extension Play {
     }
 
     func save() throws {
-        let undoMoves = undoItems.map { $0.move }
-        let redoMoves = redoItems.map { $0.move }
-        let data = SaveData(cube: cube, undoMoves: undoMoves, redoMoves: redoMoves)
+        let data = SaveData(play: self)
         UserDefaults.standard.setValue(try JSONEncoder().encode(data), forKey: SaveData.key)
     }
 
     func load() throws {
         if let data = UserDefaults.standard.data(forKey: SaveData.key) {
             let saveData = try JSONDecoder().decode(SaveData.self, from: data)
-            cube = saveData.cube
-
-            var undoCube = cube
-            undoItems = saveData.undoMoves.reversed().reduce([]) { result, move in
-                undoCube = undoCube.apply(move: move.reversed)
-                var result = result
-                result.append(HistoryItem(cube: undoCube, move: move))
-                return result
-            }
-
-            undoItems.reverse()
-
-            var redoCube = cube
-            redoItems = saveData.redoMoves.reversed().reduce([]) { result, move in
-                redoCube = redoCube.apply(move: move)
-                var result = result
-                result.append(HistoryItem(cube: redoCube, move: move))
-                return result
-            }
-
-            redoItems.reverse()
+            saveData.load(play: self)
         }
 
         rebuild()

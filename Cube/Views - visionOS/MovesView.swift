@@ -35,6 +35,8 @@ struct MovesView: View {
                 guard let move = Move.from(string: label) else {
                     fatalError("Invalid move \(label)")
                 }
+
+                play.reset()
                 play.apply(move: move)
             }
             .keyboardShortcut(shortcutKey, modifiers: modifiers)

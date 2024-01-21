@@ -36,12 +36,14 @@ struct RealityCubeView: View {
             .frame(width: 320)
 
             ZStack {
-                CancelView {
-                    dismissDirections()
-                }
+                if play.canPlay {
+                    CancelView {
+                        dismissDirections()
+                    }
 
-                ControllerView(lookDirection: $lookDirection, right: $right) {
-                    dismissDirections()
+                    ControllerView(lookDirection: $lookDirection, right: $right) {
+                        dismissDirections()
+                    }
                 }
 
                 RealityView { content in
@@ -72,8 +74,10 @@ struct RealityCubeView: View {
             VStack {
                 HistoryView()
                     .padding()
-                MovesView()
-                    .padding(.bottom)
+                if play.canPlay {
+                    MovesView()
+                        .padding(.bottom)
+                }
             }
             .frame(width: 320)
         }

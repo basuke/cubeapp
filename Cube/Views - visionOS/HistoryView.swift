@@ -25,26 +25,28 @@ struct HistoryView: View {
 
     var body: some View {
         ScrollViewReader { reader in
-            HStack {
-                Button {
-                    play.undo(speed: .normal)
-                    reader.scrollTo("current", anchor: .bottom)
-                } label: {
-                    Label("Undo", systemImage: "arrow.uturn.backward")
-                        .labelStyle(.titleAndIcon)
-                }
-                .disabled(!play.canUndo)
+            if play.canPlay {
+                HStack {
+                    Button {
+                        play.undo(speed: .normal)
+                        reader.scrollTo("current", anchor: .bottom)
+                    } label: {
+                        Label("Undo", systemImage: "arrow.uturn.backward")
+                            .labelStyle(.titleAndIcon)
+                    }
+                    .disabled(!play.canUndo)
 
-                Button {
-                    play.redo(speed: .normal)
-                    reader.scrollTo("current", anchor: .top)
-                } label: {
-                    Label("Redo", systemImage: "arrow.uturn.forward")
-                        .labelStyle(.titleAndIcon)
+                    Button {
+                        play.redo(speed: .normal)
+                        reader.scrollTo("current", anchor: .top)
+                    } label: {
+                        Label("Redo", systemImage: "arrow.uturn.forward")
+                            .labelStyle(.titleAndIcon)
+                    }
+                    .disabled(!play.canRedo)
                 }
-                .disabled(!play.canRedo)
+                .padding(.vertical)
             }
-            .padding(.vertical)
 
             ScrollView {
                 ForEach(play.redoItems) { item in

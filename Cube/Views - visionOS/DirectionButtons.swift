@@ -41,6 +41,10 @@ extension RealityCubeView {
         SpatialEventGesture()
             .targetedToAnyEntity()
             .onEnded { value in
+                guard play.playing else {
+                    return
+                }
+
                 let entity = value.entity
                 if let component = entity.components[DirectionComponent.self] {
                     guard let stickerEntity = directionStickerEntity,
