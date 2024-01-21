@@ -24,6 +24,8 @@
 		EB5B6EC22AE3A16900E74981 /* StickerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5B6EC12AE3A16900E74981 /* StickerComponent.swift */; };
 		EB6C73902A88B493008DD244 /* MoveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6C738F2A88B493008DD244 /* MoveController.swift */; };
 		EB6C73922A899B6F008DD244 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6C73912A899B6F008DD244 /* Persistence.swift */; };
+		EB7CCCCA2B5D9ED6009A49F4 /* how-to-play.md in Resources */ = {isa = PBXBuildFile; fileRef = EB7CCCC92B5D9ED6009A49F4 /* how-to-play.md */; };
+		EB7CCCCC2B5DA59E009A49F4 /* credit.md in Resources */ = {isa = PBXBuildFile; fileRef = EB7CCCCB2B5DA59E009A49F4 /* credit.md */; };
 		EB8730982B167781005822F1 /* ControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8730972B167781005822F1 /* ControllerView.swift */; };
 		EB87309B2B17A836005822F1 /* OrnamentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB87309A2B17A836005822F1 /* OrnamentView.swift */; };
 		EB87309D2B17AE2C005822F1 /* DirectionButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB87309C2B17AE2C005822F1 /* DirectionButtons.swift */; };
@@ -74,6 +76,8 @@
 		EB5B6EC12AE3A16900E74981 /* StickerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerComponent.swift; sourceTree = "<group>"; };
 		EB6C738F2A88B493008DD244 /* MoveController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveController.swift; sourceTree = "<group>"; };
 		EB6C73912A899B6F008DD244 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		EB7CCCC92B5D9ED6009A49F4 /* how-to-play.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "how-to-play.md"; sourceTree = "<group>"; };
+		EB7CCCCB2B5DA59E009A49F4 /* credit.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = credit.md; sourceTree = "<group>"; };
 		EB8730972B167781005822F1 /* ControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerView.swift; sourceTree = "<group>"; };
 		EB87309A2B17A836005822F1 /* OrnamentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrnamentView.swift; sourceTree = "<group>"; };
 		EB87309C2B17AE2C005822F1 /* DirectionButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionButtons.swift; sourceTree = "<group>"; };
@@ -186,6 +190,8 @@
 				EBED01F42A8AFB68006FBF1B /* Views */,
 				EB8730992B17A77A005822F1 /* Views - visionOS */,
 				EB96D4CF2A80BC6400CF0ED0 /* Assets.xcassets */,
+				EB7CCCC92B5D9ED6009A49F4 /* how-to-play.md */,
+				EB7CCCCB2B5DA59E009A49F4 /* credit.md */,
 				EB96D4D12A80BC6400CF0ED0 /* Preview Content */,
 			);
 			path = Cube;
@@ -326,6 +332,8 @@
 			files = (
 				EB96D4D32A80BC6400CF0ED0 /* Preview Assets.xcassets in Resources */,
 				EB89FEF82AF998CF00CED037 /* CubeModels in Resources */,
+				EB7CCCCA2B5D9ED6009A49F4 /* how-to-play.md in Resources */,
+				EB7CCCCC2B5DA59E009A49F4 /* credit.md in Resources */,
 				EB96D4D02A80BC6400CF0ED0 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

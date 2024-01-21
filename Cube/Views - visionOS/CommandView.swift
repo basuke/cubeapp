@@ -12,9 +12,28 @@ struct CommandView: View {
     @State private var scrambleConfirmation = false
     @State private var tabSelection = 0
 
+    var howToPlay: LocalizedStringKey {
+        load("how-to-play")
+    }
+
+    var credit: LocalizedStringKey {
+        load("credit")
+    }
+
+    func load(_ name: String) -> LocalizedStringKey {
+        if let filepath = Bundle.main.path(forResource: name, ofType: "md") {
+            do {
+                let contents = try String(contentsOfFile: filepath)
+                return LocalizedStringKey(contents)
+            } catch {
+            }
+        }
+        return "**Error:** Cannot read \(name).md from main bundle."
+    }
+
     var body: some View {
         VStack {
-            Text("Cube")
+            Text("Cube Real")
                 .padding()
                 .font(.largeTitle)
 
@@ -46,7 +65,17 @@ struct CommandView: View {
             }
             .pickerStyle(.segmented)
             .padding()
-            Text("Value: \(tabSelection)")
+
+            ScrollView {
+                if tabSelection == 0 {
+                    Text(howToPlay)
+                } else {
+                    Text(credit)
+                }
+            }
+            .frame(alignment: .leading)
+            .padding(.horizontal)
+
             Spacer()
         }
     }
