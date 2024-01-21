@@ -10,18 +10,18 @@ import SwiftUI
 
 extension Play {
     struct SaveData: Codable {
-        static let version = 2
+        static let version = 3
 
         let version: Int
         let cube: Cube
-        let undoBuffer: [Move]
-        let redoBuffer: [Move]
+        let undoMoves: [Move]
+        let redoMoves: [Move]
 
-        init(cube: Cube, undoBuffer: [Move], redoBuffer: [Move]) {
+        init(cube: Cube, undoMoves: [Move], redoMoves: [Move]) {
             self.version = Self.version
             self.cube = cube
-            self.undoBuffer = undoBuffer
-            self.redoBuffer = redoBuffer
+            self.undoMoves = undoMoves
+            self.redoMoves = redoMoves
         }
 
         static var key: String {
@@ -30,16 +30,36 @@ extension Play {
     }
 
     func save() throws {
-//        let data = SaveData(cube: cube, undoBuffer: moves, redoBuffer: undoneMoves)
-//        UserDefaults.standard.setValue(try JSONEncoder().encode(data), forKey: SaveData.key)
+        let undoMoves = undoItems.map { $0.move }
+        let redoMoves = redoItems.map { $0.move }
+        let data = SaveData(cube: cube, undoMoves: undoMoves, redoMoves: redoMoves)
+        UserDefaults.standard.setValue(try JSONEncoder().encode(data), forKey: SaveData.key)
     }
 
     func load() throws {
         if let data = UserDefaults.standard.data(forKey: SaveData.key) {
-//            let saveData = try JSONDecoder().decode(SaveData.self, from: data)
-//            cube = saveData.cube
-//            moves = saveData.undoBuffer
-//            undoneMoves = saveData.redoBuffer
+            let saveData = try JSONDecoder().decode(SaveData.self, from: data)
+            cube = saveData.cube
+
+            var undoCube = cube
+            undoItems = saveData.undoMoves.reversed().reduce([]) { result, move in
+                undoCube = undoCube.apply(move: move.reversed)
+                var result = result
+                result.append(HistoryItem(cube: undoCube, move: move))
+                return result
+            }
+
+            undoItems.reverse()
+
+            var redoCube = cube
+            redoItems = saveData.redoMoves.reversed().reduce([]) { result, move in
+                redoCube = redoCube.apply(move: move)
+                var result = result
+                result.append(HistoryItem(cube: redoCube, move: move))
+                return result
+            }
+
+            redoItems.reverse()
         }
 
         rebuild()

@@ -159,6 +159,10 @@ struct Cube_TestData {
         Cube()
     }
 
+    static var easyCube: Cube {
+        cube.apply(moves: "R'")
+    }
+
     static var turnedCube: Cube {
         cube.apply(moves: "U x R y' F' D2 z2 L B")
     }

@@ -45,13 +45,13 @@ protocol ViewAdapter {
 }
 
 struct HistoryItem: Identifiable {
-    let id = UUID()
+    private(set) var id = UUID()
     let cube: Cube
     let move: Move
 }
 
 class Play: ObservableObject {
-    @Published var cube: Cube = Cube_TestData.turnedCube
+    @Published var cube: Cube = Cube()
     @Published var undoItems: [HistoryItem] = []
     @Published var redoItems: [HistoryItem] = []
     @Published var scrambling: Bool = false
