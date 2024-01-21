@@ -36,7 +36,7 @@ struct MovesView: View {
                     fatalError("Invalid move \(label)")
                 }
 
-                play.reset()
+                play.cancel()
                 play.apply(move: move)
             }
             .keyboardShortcut(shortcutKey, modifiers: modifiers)

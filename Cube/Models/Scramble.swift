@@ -9,11 +9,13 @@ import SwiftUI
 
 extension Play {
     func scramble() {
-        reset()
+        cancel()
 
         withAnimation {
             scrambling = true
             playing = true
+            cube = Cube()
+            rebuild()
         }
 
         undoItems = []

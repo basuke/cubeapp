@@ -83,7 +83,7 @@ class Play: ObservableObject {
         playing && !scrambling
     }
 
-    func reset() {
+    func cancel() {
         forEachModel { $0.reset() }
     }
 
