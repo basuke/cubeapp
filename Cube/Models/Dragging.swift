@@ -190,7 +190,7 @@ extension ViewAdapter {
 }
 
 extension Sticker {
-    func identifyMove(for direction: Direction) -> String? {
+    func identifyMove(for direction: Direction, centerToRotate: Bool = false) -> String? {
         let (x, y, z) = piece.position.values
 
         func centerMove() -> String? {
@@ -255,7 +255,7 @@ extension Sticker {
         }
 
         func identify() -> String? {
-            return if piece.kind == .center {
+            return if piece.kind == .center && centerToRotate {
                 centerMove()
             } else if direction.horizontal {
                 horizontalMove()
