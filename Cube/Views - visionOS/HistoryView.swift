@@ -21,6 +21,7 @@ struct HistoryView: View {
 
             Cube2DView(cube: cube.as2D(), scale: scale)
                 .opacity(opacity)
+                .drawingGroup()
         }
     }
 

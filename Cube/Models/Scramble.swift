@@ -22,7 +22,7 @@ extension Play {
         undoItems = []
         redoItems = []
 
-        for move in Move.random(count: 1, rotation: false) {
+        for move in Move.random(count: 20, rotation: true) {
             apply(move: move, speed: .quick)
         }
 

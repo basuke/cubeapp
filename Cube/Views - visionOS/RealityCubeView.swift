@@ -32,6 +32,7 @@ struct RealityCubeView: View {
         HStack {
             VStack {
                 CommandView()
+                    .padding()
             }
             .frame(width: 320)
 

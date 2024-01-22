@@ -34,7 +34,7 @@ struct CommandView: View {
     var body: some View {
         VStack {
             Text("Cube Real")
-                .padding()
+                .padding(.bottom)
                 .font(.largeTitle)
 
             Button("Scramble") {
@@ -64,7 +64,7 @@ struct CommandView: View {
                 Text("About").tag(1)
             }
             .pickerStyle(.segmented)
-            .padding()
+            .padding(.vertical)
 
             ScrollView {
                 if tabSelection == 0 {
@@ -74,7 +74,7 @@ struct CommandView: View {
                 }
             }
             .frame(alignment: .leading)
-            .padding(.horizontal)
+            .padding(.bottom)
 
             Spacer()
         }
