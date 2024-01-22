@@ -10,7 +10,7 @@ import SwiftUI
 
 extension Play {
     struct SaveData: Codable {
-        static let version = 4
+        static let version = 5
 
         let version: Int
         let cube: Cube

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HistoryView: View {
     @EnvironmentObject private var play: Play
+    let cancelAction: () -> Void
 
     struct CubeView: View {
         let cube: Cube
@@ -28,6 +29,7 @@ struct HistoryView: View {
             if play.canPlay {
                 HStack {
                     Button {
+                        cancelAction()
                         play.undo(speed: .normal)
                         reader.scrollTo("current", anchor: .bottom)
                     } label: {
@@ -37,6 +39,7 @@ struct HistoryView: View {
                     .disabled(!play.canUndo)
 
                     Button {
+                        cancelAction()
                         play.redo(speed: .normal)
                         reader.scrollTo("current", anchor: .top)
                     } label: {
@@ -72,5 +75,7 @@ struct HistoryView: View {
 }
 
 #Preview {
-    HistoryView()
+    HistoryView() {
+        
+    }
 }

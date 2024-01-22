@@ -114,6 +114,12 @@ class SceneKitModel: Model {
 
         return piece.sticker(facing: normal)
     }
+
+    func startSpinning() {
+    }
+
+    func stopSpinning() {
+    }
 }
 
 let initialPitch = Float.degree(45)

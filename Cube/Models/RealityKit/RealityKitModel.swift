@@ -25,6 +25,7 @@ class RealityKitModel: Model {
     var lookingRight: Bool = true
 
     init() {
+        entity.components[SpinningComponent.self] = SpinningComponent()
         rotationEntity.components[RotationComponent.self] = RotationComponent()
 
         cubeEntity.addChild(rotationEntity)
@@ -138,6 +139,14 @@ class RealityKitModel: Model {
         }
 
         return piece.sticker(with: color)
+    }
+
+    func startSpinning() {
+        entity.startSpin()
+    }
+
+    func stopSpinning() {
+        entity.stopSpin()
     }
 }
 

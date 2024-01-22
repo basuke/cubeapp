@@ -10,6 +10,7 @@ import SwiftUI
 extension Play {
     func scramble() {
         cancel()
+        stopSpinning()
 
         withAnimation {
             scrambling = true
@@ -24,5 +25,8 @@ extension Play {
         for move in Move.random(count: 1, rotation: false) {
             apply(move: move, speed: .quick)
         }
+
+        solved = false
+        celebrated = false
     }
 }

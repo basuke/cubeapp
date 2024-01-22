@@ -60,7 +60,7 @@ struct CommandView: View {
             }
 
             Picker("Section", selection: $tabSelection) {
-                Text("How to Play").tag(0)
+                Text("Help").tag(0)
                 Text("About").tag(1)
             }
             .pickerStyle(.segmented)

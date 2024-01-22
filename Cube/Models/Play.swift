@@ -10,6 +10,7 @@ import UIKit
 import Combine
 import Spatial
 import SwiftUI
+import AVKit
 
 enum TurnSpeed: TimeInterval, RawRepresentable {
     case normal = 0.3
@@ -35,6 +36,8 @@ enum ViewAdapterKind {
 protocol Model {
     func reset()
     func rebuild(with: Cube)
+    func startSpinning()
+    func stopSpinning()
     func run(move: Move, duration: Double) -> AnyPublisher<Void, Never>
     func setCameraYaw(ratio: Float)
 }
@@ -57,10 +60,10 @@ class Play: ObservableObject {
     @Published var redoItems: [HistoryItem] = []
 
     @Published var playing: Bool = false
-    @Published var rotating: Bool = false
     @Published var scrambling: Bool = false
     @Published var solved: Bool = false
     @Published var celebrated: Bool = false
+    @Published var spinning: Bool = false
 
 #if os(visionOS)
     @Published var inWindow: Bool = false
@@ -73,6 +76,37 @@ class Play: ObservableObject {
     var requests: [Move] = []
     @Published var running: AnyCancellable?
 
+    var fanfarePlayer = try! AVAudioPlayer(contentsOf: Bundle.main.url(forResource: "fanfare", withExtension: "mp3")!)
+
+    func celebrate() {
+        fanfarePlayer.numberOfLoops = 0
+        fanfarePlayer.volume = 0.6
+        fanfarePlayer.currentTime = 0
+        fanfarePlayer.play()
+
+        startSpinning()
+
+        celebrated = true
+    }
+
+    func startSpinning() {
+        guard !spinning else {
+            return
+        }
+
+        forEachModel { $0.startSpinning() }
+        spinning = true
+    }
+
+    func stopSpinning() {
+        guard spinning else {
+            return
+        }
+
+        forEachModel { $0.stopSpinning() }
+        spinning = false
+    }
+
     // decide which UI element should be active/disabled.
     var isInteractive: Bool {
         canPlay && running == nil && requests.isEmpty
@@ -84,6 +118,7 @@ class Play: ObservableObject {
     }
 
     func cancel() {
+        stopSpinning()
         forEachModel { $0.reset() }
     }
 
@@ -123,6 +158,8 @@ class Play: ObservableObject {
                 if cube.solved {
                     playing = false
                     solved = true
+
+                    celebrate()
                 }
             }
         } else {

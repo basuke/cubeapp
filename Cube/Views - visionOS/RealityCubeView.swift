@@ -55,6 +55,10 @@ struct RealityCubeView: View {
 
                     content.add(entity)
 
+                    if !play.playing {
+                        play.startSpinning()
+                    }
+
                     let material = SimpleMaterial(color: .blue, isMetallic: true)
                     let sphere = ModelEntity(mesh: MeshResource.generateSphere(radius: 1.5 * sqrtf(3.0)), materials: [material])
                     entity.addChild(sphere)
@@ -72,8 +76,11 @@ struct RealityCubeView: View {
             .frame(width: 560, height: 560)
 
             VStack {
-                HistoryView()
-                    .padding()
+                HistoryView() {
+                    dismissDirections()
+                }
+                .padding()
+                
                 if play.canPlay {
                     MovesView()
                         .padding(.bottom)

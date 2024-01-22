@@ -1,9 +1,10 @@
-**Cube Real**
+**Cube Real 1.0.0**
 
 Developed by
 **Basuke Suzuki**
 
-Special Thanks to My following YouTube Members
+Thanks to my following
+YouTube Members
 
 yuu tam
 Makoto
