@@ -37,12 +37,16 @@ struct CommandView: View {
                 .padding(.bottom)
                 .font(.largeTitle)
 
-            Button("Scramble") {
+            Button {
                 if play.playing {
                     scrambleConfirmation = true
                 } else {
                     play.scramble()
+                    tabSelection = 1
                 }
+            } label: {
+                Label("Scramble", systemImage: "shuffle")
+                    .labelStyle(.titleAndIcon)
             }
             .padding()
             .popover(isPresented: $scrambleConfirmation, arrowEdge: .bottom) {
@@ -55,26 +59,36 @@ struct CommandView: View {
                 Button("Do Scramble") {
                     scrambleConfirmation = false
                     play.scramble()
+                    tabSelection = 1
                 }
                 .padding()
             }
 
             Picker("Section", selection: $tabSelection) {
-                Text("Help").tag(0)
-                Text("About").tag(1)
+                Label("Help", systemImage: "questionmark.circle").tag(0)
+                Label("Keys", systemImage: "keyboard").tag(1)
+                Label("About", systemImage: "info.bubble").tag(2)
             }
+            .labelStyle(.iconOnly)
+            .font(.largeTitle)
             .pickerStyle(.segmented)
             .padding(.vertical)
 
-            ScrollView {
-                if tabSelection == 0 {
-                    Text(howToPlay)
-                } else {
-                    Text(credit)
+            if tabSelection == 1 {
+                MovesView()
+                    .disabled(!play.isInteractive)
+                    .padding(.bottom)
+            } else {
+                ScrollView {
+                    if tabSelection == 0 {
+                        Text(howToPlay)
+                    } else {
+                        Text(credit)
+                    }
                 }
+                .frame(alignment: .leading)
+                .padding(.bottom)
             }
-            .frame(alignment: .leading)
-            .padding(.bottom)
 
             Spacer()
         }

@@ -12,20 +12,6 @@ struct MovesView: View {
         case vertical, horizontal
     }
 
-    enum Mode {
-        case hide, minimum, full
-
-        func next() -> Self {
-            switch self {
-            case .hide: .minimum
-            case .minimum: .full
-            case .full: .hide
-            }
-        }
-    }
-
-    @State private var mode: Mode = .hide
-
     struct MoveButton: View {
         let label: String
         @EnvironmentObject private var play: Play
@@ -103,32 +89,11 @@ struct MovesView: View {
         }
     }
 
-    struct ToggleButton: View {
-        @Binding var mode: Mode
-
-        var body: some View {
-            Button("\(Image(systemName: "keyboard"))") {
-                withAnimation {
-                    mode = mode.next()
-                }
-            }
-        }
-    }
-
     var body: some View {
         VStack {
-            if mode == .minimum || mode == .full {
-                TurnButtons()
-//                    .transition(.push(from: .bottom))
-            }
-
-            if mode == .full {
-                Divider().frame(width:80)
-                ExtraTurnButtons()
-//                    .transition(.push(from: .bottom))
-            }
-
-            ToggleButton(mode: $mode)
+            TurnButtons()
+            Divider().frame(width:80)
+            ExtraTurnButtons()
         }
     }
 }

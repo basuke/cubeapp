@@ -1,4 +1,4 @@
-**Cube Real 1.0.0**
+**Cube Real 1.1**
 
 Developed by
 **Basuke Suzuki**

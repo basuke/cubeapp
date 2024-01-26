@@ -12,38 +12,33 @@ import SwiftUI
 extension RealityCubeView {
     struct OrnamentView: View {
         @EnvironmentObject private var play: Play
+        @State private var scrambleConfirmation = false
 
         var body: some View {
             HStack {
                 Button {
-                    play.undo(speed: .normal)
+                    if play.playing {
+                        scrambleConfirmation = true
+                    } else {
+                        play.scramble()
+                    }
                 } label: {
-                    Label("Undo", systemImage: "arrow.uturn.backward")
+                    Label("Scramble", systemImage: "shuffle")
                         .labelStyle(.titleAndIcon)
                 }
-                .disabled(!play.canUndo)
                 .padding()
-
-                Button {
-                    play.redo(speed: .normal)
-                } label: {
-                    Label("Redo", systemImage: "arrow.uturn.forward")
-                        .labelStyle(.titleAndIcon)
-                }
-                .disabled(!play.canRedo)
-                .padding()
-
-                Cube2DView(cube: play.cube.as2D())
-
-                Button("Scramble") {
-                    print("Scramble")
-                }
-                .padding()
-
-                if play.isInteractive {
-                    Text("🟢")
-                } else {
-                    Text("🟥")
+                .popover(isPresented: $scrambleConfirmation, arrowEdge: .bottom) {
+                    Text("Are you sure?")
+                        .padding()
+                        .font(.title)
+                    Text("Current playing cube will be destroyed.")
+                        .padding()
+                        .font(.subheadline)
+                    Button("Do Scramble") {
+                        scrambleConfirmation = false
+                        play.scramble()
+                    }
+                    .padding()
                 }
             }
         }

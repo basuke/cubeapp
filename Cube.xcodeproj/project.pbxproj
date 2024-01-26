@@ -7,57 +7,49 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EB1D004E2AE3AA74000E3920 /* RotationSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1D004D2AE3AA74000E3920 /* RotationSystem.swift */; };
-		EB27673A2A95160B00464B06 /* Cube3DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2767392A95160B00464B06 /* Cube3DView.swift */; };
-		EB27673C2A95592C00464B06 /* Dragging.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB27673B2A95592C00464B06 /* Dragging.swift */; };
+		EB0EF37C2B631E62000E05B9 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = EB0EF37B2B631E62000E05B9 /* RealityKitContent */; };
+		EB0EF38C2B631F45000E05B9 /* CubeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4CB2A80BC6100CF0ED0 /* CubeApp.swift */; };
+		EB0EF38D2B631F52000E05B9 /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */; };
+		EB0EF38E2B631F52000E05B9 /* Scramble.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB41C0562B5961C800B7EA66 /* Scramble.swift */; };
+		EB0EF38F2B631F52000E05B9 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4E12A82C18700CF0ED0 /* Move.swift */; };
+		EB0EF3902B631F52000E05B9 /* Play.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBED01F52A8AFD86006FBF1B /* Play.swift */; };
+		EB0EF3912B631F52000E05B9 /* Dragging.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB27673B2A95592C00464B06 /* Dragging.swift */; };
+		EB0EF3922B631F52000E05B9 /* HandTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB42A1402ADD9FC100F6F80A /* HandTracking.swift */; };
+		EB0EF3932B631F52000E05B9 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6C73912A899B6F008DD244 /* Persistence.swift */; };
+		EB0EF3942B631F5B000E05B9 /* SceneKitViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB42A13B2AD5289600F6F80A /* SceneKitViewAdapter.swift */; };
+		EB0EF3952B631F5B000E05B9 /* RotationSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1D004D2AE3AA74000E3920 /* RotationSystem.swift */; };
+		EB0EF3962B631F5B000E05B9 /* RealityKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4037CA2ACBA38B00602707 /* RealityKitModel.swift */; };
+		EB0EF3972B631F5B000E05B9 /* StickerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5B6EC12AE3A16900E74981 /* StickerComponent.swift */; };
+		EB0EF3982B631F5B000E05B9 /* SpinningSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7CCCCF2B5EAEC8009A49F4 /* SpinningSystem.swift */; };
+		EB0EF3992B631F5B000E05B9 /* SceneKitUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB595E132A97C24A003000D6 /* SceneKitUtils.swift */; };
+		EB0EF39A2B631F5B000E05B9 /* SceneKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB30295F2AC93BAD00D01AF7 /* SceneKitModel.swift */; };
+		EB0EF39B2B631F5E000E05B9 /* ARKitViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E15212AD4F7930016152A /* ARKitViewAdapter.swift */; };
+		EB0EF39C2B631F62000E05B9 /* MoveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6C738F2A88B493008DD244 /* MoveController.swift */; };
+		EB0EF39D2B631F62000E05B9 /* Cube3DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2767392A95160B00464B06 /* Cube3DView.swift */; };
+		EB0EF39E2B631F62000E05B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4CD2A80BC6100CF0ED0 /* ContentView.swift */; };
+		EB0EF39F2B631F62000E05B9 /* Cube2DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4DB2A817BF500CF0ED0 /* Cube2DView.swift */; };
+		EB0EF3A02B631F62000E05B9 /* ImmersiveCubeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA617292AEB1EFA005C8AF8 /* ImmersiveCubeView.swift */; };
+		EB0EF3A12B631F67000E05B9 /* ControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8730972B167781005822F1 /* ControllerView.swift */; };
+		EB0EF3A22B631F67000E05B9 /* RealityCubeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E151E2AD4D3DC0016152A /* RealityCubeView.swift */; };
+		EB0EF3A32B631F67000E05B9 /* MovesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB41C0582B5C248700B7EA66 /* MovesView.swift */; };
+		EB0EF3A42B631F67000E05B9 /* CommandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB41C0542B56D18200B7EA66 /* CommandView.swift */; };
+		EB0EF3A52B631F67000E05B9 /* OrnamentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB87309A2B17A836005822F1 /* OrnamentView.swift */; };
+		EB0EF3A62B631F67000E05B9 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB41C0522B54297900B7EA66 /* HistoryView.swift */; };
+		EB0EF3A72B631F67000E05B9 /* DirectionButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB87309C2B17AE2C005822F1 /* DirectionButtons.swift */; };
+		EB0EF3A82B631F6C000E05B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB96D4CF2A80BC6400CF0ED0 /* Assets.xcassets */; };
+		EB0EF3A92B631F73000E05B9 /* credit.md in Resources */ = {isa = PBXBuildFile; fileRef = EB7CCCCB2B5DA59E009A49F4 /* credit.md */; };
+		EB0EF3AA2B631F73000E05B9 /* fanfare.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EB7CCCCD2B5DC96E009A49F4 /* fanfare.mp3 */; };
+		EB0EF3AB2B631F73000E05B9 /* how-to-play.md in Resources */ = {isa = PBXBuildFile; fileRef = EB7CCCC92B5D9ED6009A49F4 /* how-to-play.md */; };
+		EB0EF3AC2B631F7B000E05B9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB96D4D22A80BC6400CF0ED0 /* Preview Assets.xcassets */; };
 		EB30294C2ABF4C7500D01AF7 /* StickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB30294B2ABF4C7500D01AF7 /* StickerTests.swift */; };
 		EB3029542AC00D0E00D01AF7 /* PieceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3029532AC00D0E00D01AF7 /* PieceTests.swift */; };
-		EB3029602AC93BAD00D01AF7 /* SceneKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB30295F2AC93BAD00D01AF7 /* SceneKitModel.swift */; };
-		EB4037CB2ACBA38B00602707 /* RealityKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4037CA2ACBA38B00602707 /* RealityKitModel.swift */; };
-		EB41C0532B54297900B7EA66 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB41C0522B54297900B7EA66 /* HistoryView.swift */; };
-		EB41C0552B56D18200B7EA66 /* CommandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB41C0542B56D18200B7EA66 /* CommandView.swift */; };
-		EB41C0572B5961C800B7EA66 /* Scramble.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB41C0562B5961C800B7EA66 /* Scramble.swift */; };
-		EB41C0592B5C248700B7EA66 /* MovesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB41C0582B5C248700B7EA66 /* MovesView.swift */; };
-		EB42A13C2AD5289600F6F80A /* SceneKitViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB42A13B2AD5289600F6F80A /* SceneKitViewAdapter.swift */; };
-		EB42A1412ADD9FC100F6F80A /* HandTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB42A1402ADD9FC100F6F80A /* HandTracking.swift */; };
-		EB595E142A97C24A003000D6 /* SceneKitUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB595E132A97C24A003000D6 /* SceneKitUtils.swift */; };
-		EB5B6EC22AE3A16900E74981 /* StickerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5B6EC12AE3A16900E74981 /* StickerComponent.swift */; };
-		EB6C73902A88B493008DD244 /* MoveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6C738F2A88B493008DD244 /* MoveController.swift */; };
-		EB6C73922A899B6F008DD244 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6C73912A899B6F008DD244 /* Persistence.swift */; };
-		EB7CCCCA2B5D9ED6009A49F4 /* how-to-play.md in Resources */ = {isa = PBXBuildFile; fileRef = EB7CCCC92B5D9ED6009A49F4 /* how-to-play.md */; };
-		EB7CCCCC2B5DA59E009A49F4 /* credit.md in Resources */ = {isa = PBXBuildFile; fileRef = EB7CCCCB2B5DA59E009A49F4 /* credit.md */; };
-		EB7CCCCE2B5DC96E009A49F4 /* fanfare.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EB7CCCCD2B5DC96E009A49F4 /* fanfare.mp3 */; };
-		EB7CCCD02B5EAEC8009A49F4 /* SpinningSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7CCCCF2B5EAEC8009A49F4 /* SpinningSystem.swift */; };
-		EB8730982B167781005822F1 /* ControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8730972B167781005822F1 /* ControllerView.swift */; };
-		EB87309B2B17A836005822F1 /* OrnamentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB87309A2B17A836005822F1 /* OrnamentView.swift */; };
-		EB87309D2B17AE2C005822F1 /* DirectionButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB87309C2B17AE2C005822F1 /* DirectionButtons.swift */; };
-		EB89FEF82AF998CF00CED037 /* CubeModels in Resources */ = {isa = PBXBuildFile; fileRef = EB89FEF72AF998CF00CED037 /* CubeModels */; };
-		EB96D4CC2A80BC6100CF0ED0 /* CubeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4CB2A80BC6100CF0ED0 /* CubeApp.swift */; };
-		EB96D4CE2A80BC6100CF0ED0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4CD2A80BC6100CF0ED0 /* ContentView.swift */; };
-		EB96D4D02A80BC6400CF0ED0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB96D4CF2A80BC6400CF0ED0 /* Assets.xcassets */; };
-		EB96D4D32A80BC6400CF0ED0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB96D4D22A80BC6400CF0ED0 /* Preview Assets.xcassets */; };
-		EB96D4DC2A817BF500CF0ED0 /* Cube2DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4DB2A817BF500CF0ED0 /* Cube2DView.swift */; };
-		EB96D4DE2A81BA1D00CF0ED0 /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4DD2A81BA1D00CF0ED0 /* Cube.swift */; };
-		EB96D4E22A82C18700CF0ED0 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96D4E12A82C18700CF0ED0 /* Move.swift */; };
-		EB9E151F2AD4D3DC0016152A /* RealityCubeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E151E2AD4D3DC0016152A /* RealityCubeView.swift */; };
-		EB9E15222AD4F7930016152A /* ARKitViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E15212AD4F7930016152A /* ARKitViewAdapter.swift */; };
-		EBA6172A2AEB1EFA005C8AF8 /* ImmersiveCubeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA617292AEB1EFA005C8AF8 /* ImmersiveCubeView.swift */; };
-		EBED01F62A8AFD86006FBF1B /* Play.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBED01F52A8AFD86006FBF1B /* Play.swift */; };
 		EBFFEFE22AC693EC0032A2AE /* VectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFFEFE12AC693EC0032A2AE /* VectorTests.swift */; };
 		EBFFEFE42AC8E8290032A2AE /* FaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFFEFE32AC8E8290032A2AE /* FaceTests.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		EB30294D2ABF4C7500D01AF7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EB96D4C02A80BC6100CF0ED0 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EB96D4C72A80BC6100CF0ED0;
-			remoteInfo = Cube;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
+		EB0EF3632B631A90000E05B9 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
+		EB0EF3792B631E62000E05B9 /* Cube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB1D004D2AE3AA74000E3920 /* RotationSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotationSystem.swift; sourceTree = "<group>"; };
 		EB2767392A95160B00464B06 /* Cube3DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube3DView.swift; sourceTree = "<group>"; };
 		EB27673B2A95592C00464B06 /* Dragging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dragging.swift; sourceTree = "<group>"; };
@@ -86,7 +78,6 @@
 		EB87309A2B17A836005822F1 /* OrnamentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrnamentView.swift; sourceTree = "<group>"; };
 		EB87309C2B17AE2C005822F1 /* DirectionButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionButtons.swift; sourceTree = "<group>"; };
 		EB89FEF72AF998CF00CED037 /* CubeModels */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper; path = CubeModels; sourceTree = SOURCE_ROOT; };
-		EB96D4C82A80BC6100CF0ED0 /* Cube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB96D4CB2A80BC6100CF0ED0 /* CubeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubeApp.swift; sourceTree = "<group>"; };
 		EB96D4CD2A80BC6100CF0ED0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		EB96D4CF2A80BC6400CF0ED0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -103,14 +94,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		EB3029462ABF4C7500D01AF7 /* Frameworks */ = {
+		EB0EF3762B631E62000E05B9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB0EF37C2B631E62000E05B9 /* RealityKitContent in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EB96D4C52A80BC6100CF0ED0 /* Frameworks */ = {
+		EB3029462ABF4C7500D01AF7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -120,6 +112,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EB0EF3622B631A90000E05B9 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				EB0EF3632B631A90000E05B9 /* RealityKitContent */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
 		EB30294A2ABF4C7500D01AF7 /* CubeTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +172,7 @@
 				EB96D4CA2A80BC6100CF0ED0 /* Cube */,
 				EB89FEF72AF998CF00CED037 /* CubeModels */,
 				EB30294A2ABF4C7500D01AF7 /* CubeTests */,
+				EB0EF3622B631A90000E05B9 /* Packages */,
 				EB96D4C92A80BC6100CF0ED0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -179,8 +180,8 @@
 		EB96D4C92A80BC6100CF0ED0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EB96D4C82A80BC6100CF0ED0 /* Cube.app */,
 				EB3029492ABF4C7500D01AF7 /* CubeTests.xctest */,
+				EB0EF3792B631E62000E05B9 /* Cube.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -251,6 +252,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		EB0EF3782B631E62000E05B9 /* Cube */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EB0EF3892B631E63000E05B9 /* Build configuration list for PBXNativeTarget "Cube" */;
+			buildPhases = (
+				EB0EF3752B631E62000E05B9 /* Sources */,
+				EB0EF3762B631E62000E05B9 /* Frameworks */,
+				EB0EF3772B631E62000E05B9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Cube;
+			packageProductDependencies = (
+				EB0EF37B2B631E62000E05B9 /* RealityKitContent */,
+			);
+			productName = Cube;
+			productReference = EB0EF3792B631E62000E05B9 /* Cube.app */;
+			productType = "com.apple.product-type.application";
+		};
 		EB3029482ABF4C7500D01AF7 /* CubeTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EB3029512ABF4C7500D01AF7 /* Build configuration list for PBXNativeTarget "CubeTests" */;
@@ -262,29 +283,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				EB30294E2ABF4C7500D01AF7 /* PBXTargetDependency */,
 			);
 			name = CubeTests;
 			productName = CubeTests;
 			productReference = EB3029492ABF4C7500D01AF7 /* CubeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		EB96D4C72A80BC6100CF0ED0 /* Cube */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = EB96D4D62A80BC6400CF0ED0 /* Build configuration list for PBXNativeTarget "Cube" */;
-			buildPhases = (
-				EB96D4C42A80BC6100CF0ED0 /* Sources */,
-				EB96D4C52A80BC6100CF0ED0 /* Frameworks */,
-				EB96D4C62A80BC6100CF0ED0 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Cube;
-			productName = Cube;
-			productReference = EB96D4C82A80BC6100CF0ED0 /* Cube.app */;
-			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -293,15 +296,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1500;
+				LastSwiftUpdateCheck = 1520;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					EB0EF3782B631E62000E05B9 = {
+						CreatedOnToolsVersion = 15.2;
+					};
 					EB3029482ABF4C7500D01AF7 = {
 						CreatedOnToolsVersion = 15.0;
 						TestTargetID = EB96D4C72A80BC6100CF0ED0;
-					};
-					EB96D4C72A80BC6100CF0ED0 = {
-						CreatedOnToolsVersion = 15.0;
 					};
 				};
 			};
@@ -318,13 +321,25 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EB96D4C72A80BC6100CF0ED0 /* Cube */,
+				EB0EF3782B631E62000E05B9 /* Cube */,
 				EB3029482ABF4C7500D01AF7 /* CubeTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		EB0EF3772B631E62000E05B9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB0EF3A82B631F6C000E05B9 /* Assets.xcassets in Resources */,
+				EB0EF3AA2B631F73000E05B9 /* fanfare.mp3 in Resources */,
+				EB0EF3AC2B631F7B000E05B9 /* Preview Assets.xcassets in Resources */,
+				EB0EF3AB2B631F73000E05B9 /* how-to-play.md in Resources */,
+				EB0EF3A92B631F73000E05B9 /* credit.md in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EB3029472ABF4C7500D01AF7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -332,22 +347,44 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EB96D4C62A80BC6100CF0ED0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EB96D4D32A80BC6400CF0ED0 /* Preview Assets.xcassets in Resources */,
-				EB89FEF82AF998CF00CED037 /* CubeModels in Resources */,
-				EB7CCCCA2B5D9ED6009A49F4 /* how-to-play.md in Resources */,
-				EB7CCCCC2B5DA59E009A49F4 /* credit.md in Resources */,
-				EB7CCCCE2B5DC96E009A49F4 /* fanfare.mp3 in Resources */,
-				EB96D4D02A80BC6400CF0ED0 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		EB0EF3752B631E62000E05B9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB0EF39D2B631F62000E05B9 /* Cube3DView.swift in Sources */,
+				EB0EF3982B631F5B000E05B9 /* SpinningSystem.swift in Sources */,
+				EB0EF3912B631F52000E05B9 /* Dragging.swift in Sources */,
+				EB0EF3932B631F52000E05B9 /* Persistence.swift in Sources */,
+				EB0EF3A02B631F62000E05B9 /* ImmersiveCubeView.swift in Sources */,
+				EB0EF3A72B631F67000E05B9 /* DirectionButtons.swift in Sources */,
+				EB0EF38F2B631F52000E05B9 /* Move.swift in Sources */,
+				EB0EF38D2B631F52000E05B9 /* Cube.swift in Sources */,
+				EB0EF3A62B631F67000E05B9 /* HistoryView.swift in Sources */,
+				EB0EF3992B631F5B000E05B9 /* SceneKitUtils.swift in Sources */,
+				EB0EF3952B631F5B000E05B9 /* RotationSystem.swift in Sources */,
+				EB0EF39E2B631F62000E05B9 /* ContentView.swift in Sources */,
+				EB0EF3972B631F5B000E05B9 /* StickerComponent.swift in Sources */,
+				EB0EF39B2B631F5E000E05B9 /* ARKitViewAdapter.swift in Sources */,
+				EB0EF39F2B631F62000E05B9 /* Cube2DView.swift in Sources */,
+				EB0EF3962B631F5B000E05B9 /* RealityKitModel.swift in Sources */,
+				EB0EF38E2B631F52000E05B9 /* Scramble.swift in Sources */,
+				EB0EF39A2B631F5B000E05B9 /* SceneKitModel.swift in Sources */,
+				EB0EF39C2B631F62000E05B9 /* MoveController.swift in Sources */,
+				EB0EF3A22B631F67000E05B9 /* RealityCubeView.swift in Sources */,
+				EB0EF38C2B631F45000E05B9 /* CubeApp.swift in Sources */,
+				EB0EF3902B631F52000E05B9 /* Play.swift in Sources */,
+				EB0EF3922B631F52000E05B9 /* HandTracking.swift in Sources */,
+				EB0EF3A12B631F67000E05B9 /* ControllerView.swift in Sources */,
+				EB0EF3A52B631F67000E05B9 /* OrnamentView.swift in Sources */,
+				EB0EF3942B631F5B000E05B9 /* SceneKitViewAdapter.swift in Sources */,
+				EB0EF3A42B631F67000E05B9 /* CommandView.swift in Sources */,
+				EB0EF3A32B631F67000E05B9 /* MovesView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EB3029452ABF4C7500D01AF7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -359,52 +396,69 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EB96D4C42A80BC6100CF0ED0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EB41C0572B5961C800B7EA66 /* Scramble.swift in Sources */,
-				EB27673A2A95160B00464B06 /* Cube3DView.swift in Sources */,
-				EB7CCCD02B5EAEC8009A49F4 /* SpinningSystem.swift in Sources */,
-				EB41C0532B54297900B7EA66 /* HistoryView.swift in Sources */,
-				EB87309D2B17AE2C005822F1 /* DirectionButtons.swift in Sources */,
-				EB9E151F2AD4D3DC0016152A /* RealityCubeView.swift in Sources */,
-				EB6C73922A899B6F008DD244 /* Persistence.swift in Sources */,
-				EB6C73902A88B493008DD244 /* MoveController.swift in Sources */,
-				EB96D4CE2A80BC6100CF0ED0 /* ContentView.swift in Sources */,
-				EB96D4DE2A81BA1D00CF0ED0 /* Cube.swift in Sources */,
-				EB96D4CC2A80BC6100CF0ED0 /* CubeApp.swift in Sources */,
-				EBED01F62A8AFD86006FBF1B /* Play.swift in Sources */,
-				EB41C0592B5C248700B7EA66 /* MovesView.swift in Sources */,
-				EB1D004E2AE3AA74000E3920 /* RotationSystem.swift in Sources */,
-				EB87309B2B17A836005822F1 /* OrnamentView.swift in Sources */,
-				EB42A13C2AD5289600F6F80A /* SceneKitViewAdapter.swift in Sources */,
-				EB96D4E22A82C18700CF0ED0 /* Move.swift in Sources */,
-				EB42A1412ADD9FC100F6F80A /* HandTracking.swift in Sources */,
-				EB96D4DC2A817BF500CF0ED0 /* Cube2DView.swift in Sources */,
-				EB9E15222AD4F7930016152A /* ARKitViewAdapter.swift in Sources */,
-				EB595E142A97C24A003000D6 /* SceneKitUtils.swift in Sources */,
-				EB5B6EC22AE3A16900E74981 /* StickerComponent.swift in Sources */,
-				EB4037CB2ACBA38B00602707 /* RealityKitModel.swift in Sources */,
-				EBA6172A2AEB1EFA005C8AF8 /* ImmersiveCubeView.swift in Sources */,
-				EB3029602AC93BAD00D01AF7 /* SceneKitModel.swift in Sources */,
-				EB8730982B167781005822F1 /* ControllerView.swift in Sources */,
-				EB41C0552B56D18200B7EA66 /* CommandView.swift in Sources */,
-				EB27673C2A95592C00464B06 /* Dragging.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		EB30294E2ABF4C7500D01AF7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EB96D4C72A80BC6100CF0ED0 /* Cube */;
-			targetProxy = EB30294D2ABF4C7500D01AF7 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
+		EB0EF38A2B631E63000E05B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Cube/Preview Content\"";
+				DEVELOPMENT_TEAM = W79BP686ET;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Cube Real";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.puzzle-games";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.co.siesta.CubeReal;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 1.0;
+			};
+			name = Debug;
+		};
+		EB0EF38B2B631E63000E05B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Cube/Preview Content\"";
+				DEVELOPMENT_TEAM = W79BP686ET;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Cube Real";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.puzzle-games";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.co.siesta.CubeReal;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 1.0;
+			};
+			name = Release;
+		};
 		EB30294F2ABF4C7500D01AF7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -560,81 +614,18 @@
 			};
 			name = Release;
 		};
-		EB96D4D72A80BC6400CF0ED0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Cube/Cube.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Cube/Preview Content\"";
-				DEVELOPMENT_TEAM = W79BP686ET;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Cube/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Cube Real";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.puzzle-games";
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.basuke.cube.Cube;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "xros xrsimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 7;
-			};
-			name = Debug;
-		};
-		EB96D4D82A80BC6400CF0ED0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Cube/Cube.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Cube/Preview Content\"";
-				DEVELOPMENT_TEAM = W79BP686ET;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Cube/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Cube Real";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.puzzle-games";
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.basuke.cube.Cube;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "xros xrsimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 7;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		EB0EF3892B631E63000E05B9 /* Build configuration list for PBXNativeTarget "Cube" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EB0EF38A2B631E63000E05B9 /* Debug */,
+				EB0EF38B2B631E63000E05B9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		EB3029512ABF4C7500D01AF7 /* Build configuration list for PBXNativeTarget "CubeTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -653,16 +644,14 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EB96D4D62A80BC6400CF0ED0 /* Build configuration list for PBXNativeTarget "Cube" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				EB96D4D72A80BC6400CF0ED0 /* Debug */,
-				EB96D4D82A80BC6400CF0ED0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EB0EF37B2B631E62000E05B9 /* RealityKitContent */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RealityKitContent;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = EB96D4C02A80BC6100CF0ED0 /* Project object */;
 }

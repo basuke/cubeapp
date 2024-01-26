@@ -81,11 +81,6 @@ struct RealityCubeView: View {
                     dismissDirections()
                 }
                 .padding()
-                
-                if play.canPlay {
-                    MovesView()
-                        .padding(.bottom)
-                }
             }
             .frame(width: 320)
         }

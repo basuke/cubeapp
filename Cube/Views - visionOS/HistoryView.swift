@@ -53,21 +53,23 @@ struct HistoryView: View {
             }
 
             ScrollView {
-                ForEach(play.redoItems) { item in
-                    VStack {
-                        CubeView(cube: item.cube, selected: false)
-                        Text(item.move.description)
-                            .padding()
+                LazyVStack {
+                    ForEach(play.redoItems) { item in
+                        VStack {
+                            CubeView(cube: item.cube, selected: false)
+                            Text(item.move.description)
+                                .padding()
+                        }
                     }
-                }
-
-                CubeView(cube: play.cube, selected: true).id("current")
-
-                ForEach(play.undoItems.reversed()) { item in
-                    VStack {
-                        Text(item.move.description)
-                            .padding()
-                        CubeView(cube: item.cube, selected: false)
+                    
+                    CubeView(cube: play.cube, selected: true).id("current")
+                    
+                    ForEach(play.undoItems.reversed()) { item in
+                        VStack {
+                            Text(item.move.description)
+                                .padding()
+                            CubeView(cube: item.cube, selected: false)
+                        }
                     }
                 }
             }
