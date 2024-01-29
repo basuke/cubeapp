@@ -25,6 +25,8 @@ struct HistoryView: View {
         }
     }
 
+    @Namespace var current
+
     var body: some View {
         ScrollViewReader { reader in
             if play.canPlay {
@@ -32,7 +34,7 @@ struct HistoryView: View {
                     Button {
                         cancelAction()
                         play.undo(speed: .normal)
-                        reader.scrollTo("current", anchor: .bottom)
+                        reader.scrollTo(current, anchor: .bottom)
                     } label: {
                         Label("Undo", systemImage: "arrow.uturn.backward")
                             .labelStyle(.titleAndIcon)
@@ -42,7 +44,7 @@ struct HistoryView: View {
                     Button {
                         cancelAction()
                         play.redo(speed: .normal)
-                        reader.scrollTo("current", anchor: .top)
+                        reader.scrollTo(current, anchor: .top)
                     } label: {
                         Label("Redo", systemImage: "arrow.uturn.forward")
                             .labelStyle(.titleAndIcon)
@@ -62,7 +64,7 @@ struct HistoryView: View {
                         }
                     }
                     
-                    CubeView(cube: play.cube, selected: true).id("current")
+                    CubeView(cube: play.cube, selected: true).id(current)
                     
                     ForEach(play.undoItems.reversed()) { item in
                         VStack {
