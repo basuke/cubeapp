@@ -36,6 +36,7 @@ struct RealityCubeView: View {
                     Spacer()
                     Button {
                         play.undo(speed: .normal)
+                        model.removeDirectionButtonEntity()
                     } label: {
                         Label("Undo", systemImage: "arrow.uturn.backward")
                             .labelStyle(.titleAndIcon)
@@ -44,6 +45,7 @@ struct RealityCubeView: View {
 
                     Button {
                         play.redo(speed: .normal)
+                        model.removeDirectionButtonEntity()
                     } label: {
                         Label("Redo", systemImage: "arrow.uturn.forward")
                             .labelStyle(.titleAndIcon)

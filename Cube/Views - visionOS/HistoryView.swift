@@ -53,7 +53,6 @@ struct HistoryView: View {
             }
             .scrollTargetBehavior(.viewAligned)
             .safeAreaPadding(.vertical)
-            .onChange(of: <#T##Equatable#>, <#T##action: (Equatable, Equatable) -> Void##(Equatable, Equatable) -> Void##(_ oldValue: Equatable, _ newValue: Equatable) -> Void#>)
         }
     }
 }
