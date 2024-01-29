@@ -47,6 +47,10 @@ enum PrimitiveMove: Character, CaseIterable, Codable {
         }
     }
 
+    var isWholeMove: Bool {
+        self == .x || self == .y || self == .z
+    }
+
     var filter: (Vector) -> Bool {
         switch self {
         case .R: return { $0.x > 0 }
@@ -96,6 +100,10 @@ struct Move: Codable, Equatable {
 
     var face: Face {
         move.face
+    }
+
+    var isWholeMove: Bool {
+        move.isWholeMove
     }
 
     static func parse(_ movesStr: String) throws -> [Move] {

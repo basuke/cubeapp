@@ -41,6 +41,13 @@
 		EB0EF3AA2B631F73000E05B9 /* fanfare.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EB7CCCCD2B5DC96E009A49F4 /* fanfare.mp3 */; };
 		EB0EF3AB2B631F73000E05B9 /* how-to-play.md in Resources */ = {isa = PBXBuildFile; fileRef = EB7CCCC92B5D9ED6009A49F4 /* how-to-play.md */; };
 		EB0EF3AC2B631F7B000E05B9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB96D4D22A80BC6400CF0ED0 /* Preview Assets.xcassets */; };
+		EB2301CA2B670B8200602C02 /* move-5.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EB2301C32B670B8200602C02 /* move-5.aiff */; };
+		EB2301CB2B670B8200602C02 /* move-3.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EB2301C42B670B8200602C02 /* move-3.aiff */; };
+		EB2301CC2B670B8200602C02 /* move-6.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EB2301C52B670B8200602C02 /* move-6.aiff */; };
+		EB2301CD2B670B8200602C02 /* move-7.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EB2301C62B670B8200602C02 /* move-7.aiff */; };
+		EB2301CE2B670B8200602C02 /* move-2.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EB2301C72B670B8200602C02 /* move-2.aiff */; };
+		EB2301CF2B670B8200602C02 /* move-1.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EB2301C82B670B8200602C02 /* move-1.aiff */; };
+		EB2301D02B670B8200602C02 /* move-4.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EB2301C92B670B8200602C02 /* move-4.aiff */; };
 		EB30294C2ABF4C7500D01AF7 /* StickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB30294B2ABF4C7500D01AF7 /* StickerTests.swift */; };
 		EB3029542AC00D0E00D01AF7 /* PieceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3029532AC00D0E00D01AF7 /* PieceTests.swift */; };
 		EBFFEFE22AC693EC0032A2AE /* VectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFFEFE12AC693EC0032A2AE /* VectorTests.swift */; };
@@ -51,6 +58,13 @@
 		EB0EF3632B631A90000E05B9 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
 		EB0EF3792B631E62000E05B9 /* Cube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB1D004D2AE3AA74000E3920 /* RotationSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotationSystem.swift; sourceTree = "<group>"; };
+		EB2301C32B670B8200602C02 /* move-5.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "move-5.aiff"; sourceTree = "<group>"; };
+		EB2301C42B670B8200602C02 /* move-3.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "move-3.aiff"; sourceTree = "<group>"; };
+		EB2301C52B670B8200602C02 /* move-6.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "move-6.aiff"; sourceTree = "<group>"; };
+		EB2301C62B670B8200602C02 /* move-7.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "move-7.aiff"; sourceTree = "<group>"; };
+		EB2301C72B670B8200602C02 /* move-2.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "move-2.aiff"; sourceTree = "<group>"; };
+		EB2301C82B670B8200602C02 /* move-1.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "move-1.aiff"; sourceTree = "<group>"; };
+		EB2301C92B670B8200602C02 /* move-4.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "move-4.aiff"; sourceTree = "<group>"; };
 		EB2767392A95160B00464B06 /* Cube3DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube3DView.swift; sourceTree = "<group>"; };
 		EB27673B2A95592C00464B06 /* Dragging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dragging.swift; sourceTree = "<group>"; };
 		EB3029492ABF4C7500D01AF7 /* CubeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CubeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,6 +132,21 @@
 				EB0EF3632B631A90000E05B9 /* RealityKitContent */,
 			);
 			path = Packages;
+			sourceTree = "<group>";
+		};
+		EB2301C22B670B4B00602C02 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				EB7CCCCD2B5DC96E009A49F4 /* fanfare.mp3 */,
+				EB2301C82B670B8200602C02 /* move-1.aiff */,
+				EB2301C72B670B8200602C02 /* move-2.aiff */,
+				EB2301C42B670B8200602C02 /* move-3.aiff */,
+				EB2301C92B670B8200602C02 /* move-4.aiff */,
+				EB2301C32B670B8200602C02 /* move-5.aiff */,
+				EB2301C52B670B8200602C02 /* move-6.aiff */,
+				EB2301C62B670B8200602C02 /* move-7.aiff */,
+			);
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 		EB30294A2ABF4C7500D01AF7 /* CubeTests */ = {
@@ -198,7 +227,7 @@
 				EB96D4CF2A80BC6400CF0ED0 /* Assets.xcassets */,
 				EB7CCCC92B5D9ED6009A49F4 /* how-to-play.md */,
 				EB7CCCCB2B5DA59E009A49F4 /* credit.md */,
-				EB7CCCCD2B5DC96E009A49F4 /* fanfare.mp3 */,
+				EB2301C22B670B4B00602C02 /* Sounds */,
 				EB96D4D12A80BC6400CF0ED0 /* Preview Content */,
 			);
 			path = Cube;
@@ -333,10 +362,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB0EF3A82B631F6C000E05B9 /* Assets.xcassets in Resources */,
+				EB2301CE2B670B8200602C02 /* move-2.aiff in Resources */,
+				EB2301CC2B670B8200602C02 /* move-6.aiff in Resources */,
 				EB0EF3AA2B631F73000E05B9 /* fanfare.mp3 in Resources */,
+				EB2301CA2B670B8200602C02 /* move-5.aiff in Resources */,
+				EB2301CF2B670B8200602C02 /* move-1.aiff in Resources */,
+				EB2301CB2B670B8200602C02 /* move-3.aiff in Resources */,
+				EB2301CD2B670B8200602C02 /* move-7.aiff in Resources */,
 				EB0EF3AC2B631F7B000E05B9 /* Preview Assets.xcassets in Resources */,
 				EB0EF3AB2B631F73000E05B9 /* how-to-play.md in Resources */,
 				EB0EF3A92B631F73000E05B9 /* credit.md in Resources */,
+				EB2301D02B670B8200602C02 /* move-4.aiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,7 +441,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Cube/Preview Content\"";
 				DEVELOPMENT_TEAM = W79BP686ET;
 				ENABLE_PREVIEWS = YES;
@@ -435,7 +471,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Cube/Preview Content\"";
 				DEVELOPMENT_TEAM = W79BP686ET;
 				ENABLE_PREVIEWS = YES;

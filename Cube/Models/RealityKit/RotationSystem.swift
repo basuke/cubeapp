@@ -8,6 +8,7 @@
 import Foundation
 import RealityKit
 import Combine
+import AVKit
 
 fileprivate struct RotationRequest {
     let move: Move
@@ -32,11 +33,20 @@ class RotationComponent: Component {
     }
 }
 
-class RotationSystem: System {
+class RotationSystem: NSObject, System, AVAudioPlayerDelegate {
     static let query = EntityQuery(where: .has(RotationComponent.self))
     var animationCompletion: Cancellable? = nil
+    var allPlayers: Set<AVAudioPlayer> = []
+    var availablePlayers: Set<AVAudioPlayer> = []
 
     required init(scene: Scene) {
+        super.init()
+
+        for i in 1...7 {
+            let player = try! AVAudioPlayer(contentsOf: Bundle.main.url(forResource: "move-\(i)", withExtension: "aiff")!)
+            allPlayers.insert(player)
+            availablePlayers.insert(player)
+        }
     }
 
     func update(context: SceneUpdateContext) {
@@ -66,6 +76,26 @@ class RotationSystem: System {
 
                 request.afterAction()
             }
+
+        playMoveSound(for: request.move)
+    }
+
+    private func playMoveSound(for move: Move) {
+        guard !move.isWholeMove,
+              let player = availablePlayers.randomElement() else {
+            return
+        }
+
+        availablePlayers.remove(player)
+
+        player.delegate = self
+        player.currentTime = 0
+        player.play()
+    }
+
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        print("\(player) did finish playing: successfully: \(flag))")
+        availablePlayers.insert(player)
     }
 }
 
