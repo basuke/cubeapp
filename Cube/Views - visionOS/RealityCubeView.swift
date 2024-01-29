@@ -29,13 +29,51 @@ struct RealityCubeView: View {
     }
 
     var body: some View {
-        HStack {
+        ZStack {
             VStack {
-                CommandView()
-                    .padding()
-            }
-            .frame(width: 320)
+                HStack {
+                    OrnamentView()
+                    Spacer()
+                    Button {
+                        play.undo(speed: .normal)
+                    } label: {
+                        Label("Undo", systemImage: "arrow.uturn.backward")
+                            .labelStyle(.titleAndIcon)
+                    }
+                    .disabled(!play.canUndo)
 
+                    Button {
+                        play.redo(speed: .normal)
+                    } label: {
+                        Label("Redo", systemImage: "arrow.uturn.forward")
+                            .labelStyle(.titleAndIcon)
+                    }
+                    .disabled(!play.canRedo)
+                }
+                .frame(maxWidth: 320 + 560 + 320)
+                .padding()
+
+                HStack {
+                    VStack {
+                        CommandView()
+                            .padding()
+                    }
+                    .frame(width: 320)
+
+                    Rectangle()
+                        .fill(.clear)
+                        .frame(width: 560)
+
+
+                    VStack {
+                        HistoryView() {
+                            dismissDirections()
+                        }
+                        .padding()
+                    }
+                    .frame(width: 320)
+                }
+            }
             ZStack {
                 if play.canPlay {
                     CancelView {
@@ -73,22 +111,14 @@ struct RealityCubeView: View {
                     model.updateCamera(direction: lookDirection)
                 }
                 .simultaneousGesture(directionButtonsGeasture)
-                .opacity(play.transparent ? 0.2 : 1.0)
+                .opacity(play.transparent ? 0.0 : 1.0)
             }
             .frame(width: 560, height: 560)
-
-            VStack {
-                HistoryView() {
-                    dismissDirections()
-                }
-                .padding()
-            }
-            .frame(width: 320)
         }
-        .ornament(attachmentAnchor: .scene(.bottom), contentAlignment: .center) {
-            OrnamentView()
-            .glassBackgroundEffect(in: .capsule(style: .continuous))
-        }
+//        .ornament(attachmentAnchor: .scene(.bottom), contentAlignment: .center) {
+//            OrnamentView()
+//            .glassBackgroundEffect(in: .capsule(style: .continuous))
+//        }
     }
 }
 

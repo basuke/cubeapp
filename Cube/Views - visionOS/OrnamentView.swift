@@ -18,8 +18,8 @@ extension RealityCubeView {
             HStack {
                 Label("Cube Real", systemImage: "info")
                     .labelStyle(.titleOnly)
-                    .padding(.trailing)
-//                    .font(.title)
+                    .padding(.horizontal)
+                    .font(.title)
 
                 Button {
                     if play.playing {
@@ -34,21 +34,21 @@ extension RealityCubeView {
                     Label("Scramble", systemImage: "shuffle")
                         .labelStyle(.titleAndIcon)
                 }
-                .popover(isPresented: $scrambleConfirmation, arrowEdge: .bottom) {
-                    Text("Are you sure?")
-                        .padding()
-                        .font(.title)
+                .alert("Are you sure to scramble the cube?", isPresented: $scrambleConfirmation) {
+                    Button("Cancel", role: .cancel) {
+                    }
+
+                    Button("Do Scramble", role: .destructive) {
+                        Task {
+                            play.scramble()
+                        }
+                    }
+                } message: {
                     Text("Current playing cube will be destroyed.")
                         .padding()
                         .font(.subheadline)
-                    Button("Do Scramble") {
-                        scrambleConfirmation = false
-                        play.scramble()
-                    }
-                    .padding()
                 }
             }
-            .padding()
             .onChange(of: scrambleConfirmation) { _, flag in
                 if play.transparent && !flag {
                     withAnimation {

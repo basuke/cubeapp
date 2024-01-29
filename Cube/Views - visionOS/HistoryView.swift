@@ -29,31 +29,6 @@ struct HistoryView: View {
 
     var body: some View {
         ScrollViewReader { reader in
-            if play.canPlay {
-                HStack {
-                    Button {
-                        cancelAction()
-                        play.undo(speed: .normal)
-                        reader.scrollTo(current, anchor: .bottom)
-                    } label: {
-                        Label("Undo", systemImage: "arrow.uturn.backward")
-                            .labelStyle(.titleAndIcon)
-                    }
-                    .disabled(!play.canUndo)
-
-                    Button {
-                        cancelAction()
-                        play.redo(speed: .normal)
-                        reader.scrollTo(current, anchor: .top)
-                    } label: {
-                        Label("Redo", systemImage: "arrow.uturn.forward")
-                            .labelStyle(.titleAndIcon)
-                    }
-                    .disabled(!play.canRedo)
-                }
-                .padding(.vertical)
-            }
-
             ScrollView {
                 LazyVStack {
                     ForEach(play.redoItems) { item in
@@ -74,7 +49,11 @@ struct HistoryView: View {
                         }
                     }
                 }
+                .scrollTargetLayout()
             }
+            .scrollTargetBehavior(.viewAligned)
+            .safeAreaPadding(.vertical)
+            .onChange(of: <#T##Equatable#>, <#T##action: (Equatable, Equatable) -> Void##(Equatable, Equatable) -> Void##(_ oldValue: Equatable, _ newValue: Equatable) -> Void#>)
         }
     }
 }
