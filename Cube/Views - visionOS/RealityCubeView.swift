@@ -73,6 +73,7 @@ struct RealityCubeView: View {
                     model.updateCamera(direction: lookDirection)
                 }
                 .simultaneousGesture(directionButtonsGeasture)
+                .opacity(play.transparent ? 0.2 : 1.0)
             }
             .frame(width: 560, height: 560)
 

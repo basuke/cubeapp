@@ -23,6 +23,9 @@ extension RealityCubeView {
 
                 Button {
                     if play.playing {
+                        withAnimation {
+                            play.transparent = true
+                        }
                         scrambleConfirmation = true
                     } else {
                         play.scramble()
@@ -46,6 +49,13 @@ extension RealityCubeView {
                 }
             }
             .padding()
+            .onChange(of: scrambleConfirmation) { _, flag in
+                if play.transparent && !flag {
+                    withAnimation {
+                        play.transparent = false
+                    }
+                }
+            }
         }
     }
 }

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CommandView: View {
     @EnvironmentObject private var play: Play
-    @State private var scrambleConfirmation = false
 
     var howToPlay: LocalizedStringKey {
         load("how-to-play")

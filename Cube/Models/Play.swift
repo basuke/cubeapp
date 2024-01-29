@@ -71,6 +71,7 @@ class Play: ObservableObject {
 #endif
 
     @Published var tabSelection = 0
+    @Published var transparent: Bool = false
 
     private var models: [ModelKind:Model] = [:]
     private var viewAdapters: [ViewAdapterKind:ViewAdapter] = [:]
@@ -111,7 +112,7 @@ class Play: ObservableObject {
 
     // decide which UI element should be active/disabled.
     var isInteractive: Bool {
-        canPlay && running == nil && requests.isEmpty
+        canPlay && running == nil && requests.isEmpty && !transparent
     }
 
     // decide which UI element should be displayed.
