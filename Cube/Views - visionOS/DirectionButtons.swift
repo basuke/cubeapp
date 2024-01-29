@@ -80,10 +80,10 @@ extension RealityKitModel {
         }
 
         let materials: [Direction:SimpleMaterial] = [
-            .up: SimpleMaterial(color: .lightGray, isMetallic: true),
-            .left: SimpleMaterial(color: .gray, isMetallic: true),
-            .down: SimpleMaterial(color: .lightGray, isMetallic: true),
-            .right: SimpleMaterial(color: .gray, isMetallic: true),
+            .up: SimpleMaterial(color: .magenta, isMetallic: false),
+            .left: SimpleMaterial(color: .magenta, isMetallic: false),
+            .down: SimpleMaterial(color: .magenta, isMetallic: false),
+            .right: SimpleMaterial(color: .magenta, isMetallic: false),
         ]
 
         func createPartEntity(with mesh: MeshResource, direction: Direction) -> Entity {
