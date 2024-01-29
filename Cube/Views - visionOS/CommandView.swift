@@ -10,7 +10,6 @@ import SwiftUI
 struct CommandView: View {
     @EnvironmentObject private var play: Play
     @State private var scrambleConfirmation = false
-    @State private var tabSelection = 0
 
     var howToPlay: LocalizedStringKey {
         load("how-to-play")
@@ -32,66 +31,31 @@ struct CommandView: View {
     }
 
     var body: some View {
-        VStack {
-            Text("Cube Real")
-                .padding(.bottom)
-                .font(.largeTitle)
+        TabView(selection: $play.tabSelection) {
+            ScrollView {
+                Text(howToPlay)
+            }
+            .tabItem {
+                Label("Help", systemImage: "book.fill")
+            }
+            .tag(0)
 
-            Button {
-                if play.playing {
-                    scrambleConfirmation = true
-                } else {
-                    play.scramble()
-                    tabSelection = 1
+            MovesView()
+                .disabled(!play.isInteractive)
+                .tabItem {
+                    Label("Keys", systemImage: "keyboard")
                 }
-            } label: {
-                Label("Scramble", systemImage: "shuffle")
-                    .labelStyle(.titleAndIcon)
-            }
-            .padding()
-            .popover(isPresented: $scrambleConfirmation, arrowEdge: .bottom) {
-                Text("Are you sure?")
-                    .padding()
-                    .font(.title)
-                Text("Current playing cube will be destroyed.")
-                    .padding()
-                    .font(.subheadline)
-                Button("Do Scramble") {
-                    scrambleConfirmation = false
-                    play.scramble()
-                    tabSelection = 1
-                }
-                .padding()
-            }
+                .tag(1)
 
-            Picker("Section", selection: $tabSelection) {
-                Label("Help", systemImage: "questionmark.circle").tag(0)
-                Label("Keys", systemImage: "keyboard").tag(1)
-                Label("About", systemImage: "info.bubble").tag(2)
+            ScrollView {
+                Text(credit)
             }
-            .labelStyle(.iconOnly)
-            .font(.largeTitle)
-            .pickerStyle(.segmented)
-            .padding(.vertical)
-
-            if tabSelection == 1 {
-                MovesView()
-                    .disabled(!play.isInteractive)
-                    .padding(.bottom)
-            } else {
-                ScrollView {
-                    if tabSelection == 0 {
-                        Text(howToPlay)
-                    } else {
-                        Text(credit)
-                    }
-                }
-                .frame(alignment: .leading)
-                .padding(.bottom)
+            .tabItem {
+                Label("About", systemImage: "info.circle")
             }
-
-            Spacer()
+            .tag(2)
         }
+        .padding(.vertical)
     }
 }
 

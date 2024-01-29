@@ -84,6 +84,10 @@ struct RealityCubeView: View {
             }
             .frame(width: 320)
         }
+        .ornament(attachmentAnchor: .scene(.bottom), contentAlignment: .center) {
+            OrnamentView()
+            .glassBackgroundEffect(in: .capsule(style: .continuous))
+        }
     }
 }
 

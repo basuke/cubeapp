@@ -16,6 +16,11 @@ extension RealityCubeView {
 
         var body: some View {
             HStack {
+                Label("Cube Real", systemImage: "info")
+                    .labelStyle(.titleOnly)
+                    .padding(.trailing)
+//                    .font(.title)
+
                 Button {
                     if play.playing {
                         scrambleConfirmation = true
@@ -26,7 +31,6 @@ extension RealityCubeView {
                     Label("Scramble", systemImage: "shuffle")
                         .labelStyle(.titleAndIcon)
                 }
-                .padding()
                 .popover(isPresented: $scrambleConfirmation, arrowEdge: .bottom) {
                     Text("Are you sure?")
                         .padding()
@@ -41,6 +45,7 @@ extension RealityCubeView {
                     .padding()
                 }
             }
+            .padding()
         }
     }
 }

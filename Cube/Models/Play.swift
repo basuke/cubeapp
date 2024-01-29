@@ -70,6 +70,8 @@ class Play: ObservableObject {
     @Published var inImmersiveSpace: Bool = false
 #endif
 
+    @Published var tabSelection = 0
+
     private var models: [ModelKind:Model] = [:]
     private var viewAdapters: [ViewAdapterKind:ViewAdapter] = [:]
 

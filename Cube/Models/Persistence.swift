@@ -10,13 +10,14 @@ import SwiftUI
 
 extension Play {
     struct SaveData: Codable {
-        static let version = 5
+        static let version = 6
 
         let version: Int
         let cube: Cube
         let undoMoves: [Move]
         let redoMoves: [Move]
         let playing: Bool
+        let tab: Int
 
         init(play: Play) {
             let undoMoves = play.undoItems.map { $0.move }
@@ -27,6 +28,7 @@ extension Play {
             self.undoMoves = undoMoves
             self.redoMoves = redoMoves
             self.playing = play.playing
+            self.tab = play.tabSelection
         }
 
         func load(play: Play) {
@@ -34,6 +36,7 @@ extension Play {
             play.undoItems = loadItems(moves: undoMoves, reverse: true)
             play.redoItems = loadItems(moves: redoMoves, reverse: false)
             play.playing = playing
+            play.tabSelection = tab
         }
 
         private func loadItems(moves: [Move], reverse: Bool) -> [HistoryItem] {
