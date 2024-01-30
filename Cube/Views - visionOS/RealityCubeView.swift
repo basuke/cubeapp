@@ -28,55 +28,75 @@ struct RealityCubeView: View {
         return model
     }
 
+    var mainPanelLength: CGFloat = 560
+    let sidePanelWidth: CGFloat = 320
+    let sidePanelCornerRadius: CGFloat = 30
+    let toolbarHeight: CGFloat = 80
+
     var body: some View {
         ZStack {
+            // Base layer. Command pane | space | History view
             VStack {
+                // Toolbar
                 HStack {
-                    OrnamentView()
-                    Spacer()
-                    Button {
-                        play.undo(speed: .normal)
-                        model.removeDirectionButtonEntity()
-                    } label: {
-                        Label("Undo", systemImage: "arrow.uturn.backward")
-                            .labelStyle(.titleAndIcon)
+                    HStack {
+                        OrnamentView()
+                            .padding(.leading)
+                        Spacer()
                     }
-                    .disabled(!play.canUndo)
+                    .frame(width: mainPanelLength + sidePanelWidth)
 
-                    Button {
-                        play.redo(speed: .normal)
-                        model.removeDirectionButtonEntity()
-                    } label: {
-                        Label("Redo", systemImage: "arrow.uturn.forward")
-                            .labelStyle(.titleAndIcon)
+                    // Undo / Redo
+                    HStack(alignment: .center) {
+                        Button {
+                            play.undo(speed: .normal)
+                            model.removeDirectionButtonEntity()
+                        } label: {
+                            Label("Undo", systemImage: "arrow.uturn.backward")
+                                .labelStyle(.titleAndIcon)
+                        }
+                        .disabled(!play.canUndo)
+
+                        Button {
+                            play.redo(speed: .normal)
+                            model.removeDirectionButtonEntity()
+                        } label: {
+                            Label("Redo", systemImage: "arrow.uturn.forward")
+                                .labelStyle(.titleAndIcon)
+                        }
+                        .disabled(!play.canRedo)
                     }
-                    .disabled(!play.canRedo)
+                    .frame(width: sidePanelWidth)
                 }
-                .frame(maxWidth: 320 + 560 + 320)
-                .padding()
+                .frame(width: mainPanelLength + sidePanelWidth * 2, height: toolbarHeight)
 
+                // Supplemental area. Command pane | space | History pane
                 HStack {
                     VStack {
                         CommandView()
-                            .padding()
+                            .background()
+                            .clipShape(RoundedRectangle(cornerRadius: sidePanelCornerRadius))
+                            .clipped()
+                            .padding([.horizontal, .bottom])
                     }
-                    .frame(width: 320)
+                    .frame(width: sidePanelWidth)
 
                     Rectangle()
                         .fill(.clear)
-                        .frame(width: 560)
-
+                        .frame(width: mainPanelLength)
 
                     VStack {
                         HistoryView()
                             .background()
-                            .clipShape(RoundedRectangle(cornerRadius: 30))
+                            .clipShape(RoundedRectangle(cornerRadius: sidePanelCornerRadius))
                             .clipped()
-                            .padding()
+                            .padding([.horizontal, .bottom])
                     }
-                    .frame(width: 320)
+                    .frame(width: sidePanelWidth)
                 }
             }
+
+            // Main layer. Control buttons | 3D content
             ZStack {
                 if play.canPlay {
                     CancelView {
@@ -116,12 +136,8 @@ struct RealityCubeView: View {
                 .simultaneousGesture(directionButtonsGeasture)
                 .opacity(play.transparent ? 0.0 : 1.0)
             }
-            .frame(width: 560, height: 560)
+            .frame(width: mainPanelLength, height: mainPanelLength)
         }
-//        .ornament(attachmentAnchor: .scene(.bottom), contentAlignment: .center) {
-//            OrnamentView()
-//            .glassBackgroundEffect(in: .capsule(style: .continuous))
-//        }
     }
 }
 

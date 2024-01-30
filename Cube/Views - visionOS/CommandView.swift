@@ -33,6 +33,7 @@ struct CommandView: View {
         TabView(selection: $play.tabSelection) {
             ScrollView {
                 Text(howToPlay)
+                    .padding()
             }
             .tabItem {
                 Label("Help", systemImage: "book.fill")
@@ -48,13 +49,13 @@ struct CommandView: View {
 
             ScrollView {
                 Text(credit)
+                    .padding()
             }
             .tabItem {
                 Label("About", systemImage: "info.circle")
             }
             .tag(2)
         }
-        .padding(.vertical)
     }
 }
 
