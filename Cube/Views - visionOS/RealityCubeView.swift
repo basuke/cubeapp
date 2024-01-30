@@ -121,15 +121,12 @@ struct RealityCubeView: View {
                         play.startSpinning()
                     }
 
+                    // sphere to make reservation for rotation cube volume.
+
                     let material = SimpleMaterial(color: .blue, isMetallic: true)
                     let sphere = ModelEntity(mesh: MeshResource.generateSphere(radius: 1.5 * sqrtf(3.0)), materials: [material])
+                    sphere.components.set(OpacityComponent(opacity: 0))
                     entity.addChild(sphere)
-
-                    if debug {
-                        sphere.components.set(OpacityComponent(opacity: 0.2))
-                    } else {
-                        sphere.components.set(OpacityComponent(opacity: 0))
-                    }
                 } update: { content in
                     model.updateCamera(direction: lookDirection)
                 }

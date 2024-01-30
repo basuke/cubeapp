@@ -306,13 +306,22 @@ extension Play {
     }
 
     private func appendUndoMove(cube: Cube, move: Move) {
-        if let lastMove = redoItems.last {
-            if move == lastMove.move {
-                redoItems.removeLast()
-            } else {
-                redoItems = []
-            }
+        if let item = redoItems.last, move == item.move {
+            redoItems.removeLast()
+            undoItems.append(item)
+            return
         }
+
+        redoItems = []
+
+        if let item = undoItems.last, move.canMerge(with: item.move) {
+            undoItems.removeLast()
+            if let move = move.merge(with: item.move) {
+                undoItems.append(HistoryItem(cube: item.cube, move: move))
+            }
+            return
+        }
+
         undoItems.append(HistoryItem(cube: cube, move: move))
     }
 }

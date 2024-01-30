@@ -106,6 +106,28 @@ struct Move: Codable, Equatable {
         move.isWholeMove
     }
 
+    func canMerge(with other: Move) -> Bool {
+        self.move == other.move
+    }
+
+    func merge(with other: Move) -> Self? {
+        assert(canMerge(with: other))
+        
+        if self.twice && other.twice {
+            return nil
+        } else if self.twice {
+            return Self(move, prime: !other.prime)
+        } else if other.twice {
+            return Self(move, prime: !prime)
+        }
+
+        if self.prime == other.prime {
+            return Self(move, prime: prime, twice: true)
+        }
+
+        return nil
+    }
+
     static func parse(_ movesStr: String) throws -> [Move] {
         try movesStr.components(separatedBy: " ").map { str in
             guard let move = self.from(string: str) else {
@@ -119,13 +141,23 @@ struct Move: Codable, Equatable {
         return allMovesIncludingAliases[str]
     }
 
-    static func random(count: Int, rotation: Bool = true) -> [Move] {
-        let possibleMoves = (rotation ? allMoves : basicMoves).values
+    static func random(count: Int, rotation: Int) -> [Move] {
+        precondition(count > 0 && rotation >= 0)
 
         var moves: [Move] = []
+        var rotation = rotation
+        var total = count + rotation
+        while total > 0 {
+            total -= 1
 
-        for _ in 0..<count {
-            moves.append(possibleMoves.randomElement()!)
+            let chance = Int(arc4random_uniform(UInt32(total)))
+
+            if chance < rotation {
+                moves.append(rotationMoves.values.randomElement()!)
+                rotation -= 1
+            } else {
+                moves.append(basicMoves.values.randomElement()!)
+            }
         }
 
         return moves

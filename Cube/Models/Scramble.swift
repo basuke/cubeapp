@@ -8,21 +8,36 @@
 import SwiftUI
 
 extension Play {
-    func scramble() {
+    struct ScrambleConfiguration {
+        let count: Int
+        let rotation: Int
+        let reset: Bool
+
+        static let standard = Self(count: 15, rotation: 5, reset: false)
+        static let debug = Self(count: 1, rotation: 0, reset: true)
+
+    }
+
+    func scramble(configuration: ScrambleConfiguration? = nil) {
+        let configuration = configuration ?? (debug ? .debug : .standard)
+
         cancel()
         stopSpinning()
 
         withAnimation {
             scrambling = true
             playing = true
-            cube = Cube()
-            rebuild()
+
+            if configuration.reset {
+                cube = Cube()
+                rebuild()
+            }
         }
 
         undoItems = []
         redoItems = []
 
-        for move in Move.random(count: 20, rotation: true) {
+        for move in Move.random(count: configuration.count, rotation: configuration.rotation) {
             apply(move: move, speed: .quick)
         }
 
