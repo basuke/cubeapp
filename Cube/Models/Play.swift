@@ -306,7 +306,13 @@ extension Play {
     }
 
     private func appendUndoMove(cube: Cube, move: Move) {
+        if let lastMove = redoItems.last {
+            if move == lastMove.move {
+                redoItems.removeLast()
+            } else {
+                redoItems = []
+            }
+        }
         undoItems.append(HistoryItem(cube: cube, move: move))
-        redoItems = []
     }
 }
