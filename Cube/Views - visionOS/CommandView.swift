@@ -41,7 +41,7 @@ struct CommandView: View {
             .tag(0)
 
             MovesView()
-                .disabled(!play.isInteractive)
+                .disabled(!play.canPlay)
                 .tabItem {
                     Label("Keys", systemImage: "keyboard")
                 }

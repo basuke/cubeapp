@@ -135,12 +135,7 @@ class Play: ObservableObject {
             return
         }
 
-        if !scrambling {
-            undoItems.append(HistoryItem(cube: cube, move: move))
-            redoItems = []
-        }
-
-        running = run(move: move, speed: speed)
+        pushUndoAndRun(move: move, speed: speed)
     }
 
     private func run(move: Move, speed: TurnSpeed) -> AnyCancellable {
@@ -166,7 +161,7 @@ class Play: ObservableObject {
                 }
             }
         } else {
-            running = run(move: requests.removeFirst(), speed: .quick)
+            pushUndoAndRun(move: requests.removeFirst(), speed: .quick)
         }
     }
 }
@@ -300,5 +295,18 @@ extension Play {
 
     var canRedo: Bool {
         !redoItems.isEmpty && isInteractive
+    }
+
+    private func pushUndoAndRun(move: Move, speed: TurnSpeed) {
+        if !scrambling {
+            appendUndoMove(cube: cube, move: move)
+        }
+
+        running = run(move: move, speed: speed)
+    }
+
+    private func appendUndoMove(cube: Cube, move: Move) {
+        undoItems.append(HistoryItem(cube: cube, move: move))
+        redoItems = []
     }
 }
