@@ -1,58 +1,60 @@
-**Cube Real 1.1**
+**Cube Real 1.2**
+https://siesta.co.jp/cube-real
 
-Developed by
-**Basuke Suzuki**
+Engineer: **Basuke Suzuki**
+Copyright 2024 SiestaWare, Inc.
 
-Thanks to my following
-YouTube Members
+Special Thanks to my following YouTube Members
 
-yuu tam
-Makoto
-さとみ0806
-Katsuhiro Masaki
-shibata
-d-mania
-金山トシノリ
-d. uezu
-若林隆仁
-柳家三之助
-Ryota Watanabe
-rossi
-LUCIFER
-カネコ
-zil3
-HIRO HIRO
-ばんぶぅ
-Takenoko
-dai
-ずいめも
-Mayumi Suzuki
-n46
-高橋究
-りとる
-Kazuaki Hamano
-tochi
-Hideaki Sonehara
-tak mat
-えいじ
-bogey1040
-Kanta Oikawa
-fermion
-高濃度炭酸水
-tatudai
-The Game Gallery Channel
-Hiroyuki Maki
-mono kenta
-Matheus Silveira Venturini
-Labee
-T O
-むっしゅ
-Yukio Murakami
-Takeshi FURUSATO
-Max & Accel
-Toru Negishi
-散財ギタリスト たなかしげつぐ
-S Y
-うどおの賃貸DIYライフ
-kaoru orikawa
-Yoshi
+[yuu tam](https://www.youtube.com/channel/UCczgzKpnMZVLPr1g3hlUDbg)
+[Makoto](https://www.youtube.com/channel/UCy6P2kAfkvlriLLQIPoykdQ)
+[さとみ0806](https://www.youtube.com/channel/UCS5DPdR3KGzLTvIAAv7vnfQ)
+[Katsuhiro Masaki](https://www.youtube.com/channel/UC85Cge1O0krFhBNefHQncYg)
+[shibata](https://www.youtube.com/channel/UClkopyFvFbeqHzgqDNZbMXQ)
+[d-mania](https://www.youtube.com/channel/UCEeNY0KRhKoCE3TsBvVx75Q)
+[金山トシノリ](https://www.youtube.com/channel/UCGnv4Ej_iVyibUarWysLbZw)
+[d. uezu](https://www.youtube.com/channel/UCw-pM5FM1s2ISL9SIAkfmNw)
+[若林隆仁](https://www.youtube.com/channel/UCneR7mmGlRwg01gt8ht6G1Q)
+[柳家三之助](https://www.youtube.com/channel/UCu96SMSpxSlWU7mwsIiKEJQ)
+[Ryota Watanabe](https://www.youtube.com/channel/UCD3mgzGz__gl1S5k_soCJwg)
+[rossi](https://www.youtube.com/channel/UCHrX2QQ_j6QNdC0q7oQn83g)
+[LUCIFER](https://www.youtube.com/channel/UClHvaVCLCZPB9VUQ9rQ5VwA)
+[カネコ](https://www.youtube.com/channel/UC3ZOKL5OiYkTqHGspXGNUCg)
+[zil3](https://www.youtube.com/channel/UC0IDZAUQFJ-EhxAN96LoVNw)
+[HIRO HIRO](https://www.youtube.com/channel/UCFWJxEjzb0i7UejoM-cTagA)
+[ばんぶぅ](https://www.youtube.com/channel/UCwCKFOBip3WTNPH-vvdietw)
+[Takenoko](https://www.youtube.com/channel/UCt3jD6o_pArQuwESwqG5N1g)
+[dai](https://www.youtube.com/channel/UCa7nkgJiS55x7M5F_-ikflA)
+[ずいめも](https://www.youtube.com/channel/UCfmybJUh3oDpGaLKAqBTb1w)
+[Mayumi Suzuki](https://www.youtube.com/channel/UCSsRTDYqmG4knMD3IUggjKA)
+[n46](https://www.youtube.com/channel/UC_mMvPeYE6hZzYY86YxL0pQ)
+[高橋究](https://www.youtube.com/channel/UCR7qQESG7RkMwPagoMdVjZg)
+[りとる](https://www.youtube.com/channel/UCSQo9WcXXp0q0shoIAKIHWg)
+[Kazuaki Hamano](https://www.youtube.com/channel/UCrwkbe8kjjWOBxeEDJ78Asg)
+[tochi](https://www.youtube.com/channel/UCXbiN0sMdav6elRUUF40KrQ)
+[Hideaki Sonehara](https://www.youtube.com/channel/UC0UkpwmjaN8IA3WtygyS4jw)
+[tak mat](https://www.youtube.com/channel/UC8Ve49hfRr9gkR0FfHpn0Aw)
+[えいじ](https://www.youtube.com/channel/UC54UD_SFtYTDw_099hid0_w)
+[bogey1040](https://www.youtube.com/channel/UCCubcYh7zbmE1JDSK9-u-Iw)
+[Kanta Oikawa // オイカワカンタ](https://www.youtube.com/channel/UCYVj4on7ohPANuRNcmcfA6g)
+[fermion](https://www.youtube.com/channel/UCcuT8IY-h4LGYx4bRoP9IMQ)
+[高濃度炭酸水](https://www.youtube.com/channel/UCF29EkumENK8SroQNexaVJA)
+[tatudai](https://www.youtube.com/channel/UC9P3VKnwmCZkbZaIupkR80g)
+[The Game Gallery Channel](https://www.youtube.com/channel/UCMsVMsWcs-mwQGC1F3LFLng)
+[Hiroyuki Maki](https://www.youtube.com/channel/UCHQhB6ZrKtyl27p2qcCmanQ)
+[mono kenta](https://www.youtube.com/channel/UCCvy4K98vfv7DAncVEyH7fQ)
+[Matheus Silveira Venturini](https://www.youtube.com/channel/UCEEWF-lbz4wGdEIxW6Uqe1Q)
+[Labee](https://www.youtube.com/channel/UCUO5hi1RfW9AQgJ0LoKtuEw)
+[T O](https://www.youtube.com/channel/UCIjj7rGCrW9X_0Ry-CRvBsw)
+[むっしゅ](https://www.youtube.com/channel/UCeUDHOtLblq5uKlxX9tCDVg)
+[Yukio Murakami](https://www.youtube.com/channel/UCV2msYOnSSG2qWF69AAvxNQ)
+[Takeshi FURUSATO](https://www.youtube.com/channel/UCv3XCEy-ZawsRP3eV8_3oBQ)
+[- Max ＆ Accel -](https://www.youtube.com/channel/UCukznWZUVmwDDdOg4L4Sjjw)
+[Toru Negishi](https://www.youtube.com/channel/UCEKotUdHGLOb5RqZVANwrEg)
+[散財ギタリスト　たなかしげつぐ](https://www.youtube.com/channel/UCJTvowm2dDsjw71aEHeHjGg)
+[S Y](https://www.youtube.com/channel/UCOAUo7nrEFRlbZgaxK6IMhw)
+[うどおの賃貸DIYライフ](https://www.youtube.com/channel/UCwmws1z_CtzZ6fiSK58H74w)
+[kaoru orikawa](https://www.youtube.com/channel/UCsBT1b-jv8FoV_fOXRvrdHw)
+[Yoshi](https://www.youtube.com/channel/UCzRsUIdH-LAdOkNsQ62JLgQ)
+[nnjyami](https://www.youtube.com/channel/UCvTH_qnFEHuWfOYx-kfyyTg)
+[Shoichi](https://www.youtube.com/channel/UCs1lY3awfzcGWbMqCyX-WkA)
