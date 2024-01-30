@@ -68,10 +68,11 @@ struct RealityCubeView: View {
 
 
                     VStack {
-                        HistoryView() {
-                            dismissDirections()
-                        }
-                        .padding()
+                        HistoryView()
+                            .background()
+                            .clipShape(RoundedRectangle(cornerRadius: 30))
+                            .clipped()
+                            .padding()
                     }
                     .frame(width: 320)
                 }

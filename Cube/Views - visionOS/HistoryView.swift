@@ -9,7 +9,6 @@ import SwiftUI
 
 struct HistoryView: View {
     @EnvironmentObject private var play: Play
-    let cancelAction: () -> Void
 
     struct CubeView: View {
         let cube: Cube
@@ -58,7 +57,5 @@ struct HistoryView: View {
 }
 
 #Preview {
-    HistoryView() {
-        
-    }
+    HistoryView()
 }
